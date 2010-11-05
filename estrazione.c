@@ -30,30 +30,44 @@ void *croupier(void *arg) {
 
 	while (1) {
 		//Blocco il mutex per il croupier che fa l'estrazione
-		pthread_mutex_lock(&sem); //TODO inserire gestione errori
-
+		status = pthread_mutex_lock(&sem);
+		if (status != 0) {
+			err_abort(status, "Lock sul mutex nel croupier");
+		}
 		//estrazione del numero 
 		estratto = rand() % 37;
 
 		printf("CROUPIER estratto=%d\n", estratto);
 		/*risveglio i giocatori*/
-		pthread_cond_broadcast(&cond); /*TODO inserire gestione errori*/
+		status = pthread_cond_broadcast(&cond);
+		if (status != 0) {
+			err_abort(status, "Broadcast condition in croupier");
+		}
 
 		now = time(NULL);
 		cond_time.tv_sec = now + intervallo;
 		cond_time.tv_nsec = 0;
 		//Attende che la condizione sia true in un tempo specificato da cond_time
-		status = pthread_cond_timedwait(&croupier_cond, &sem, &cond_time); //TODO inserire gestione errori
-		//Se status == ETIMEDOUT, significa che è scaduto il tempo senza la verifica della condizione
-		if (status == ETIMEDOUT) {
-			//Il croupier chiude le puntate
-			printf("CROUPIER tempo scaduto!!! chiudo le puntate\n");
-			estratto = -1;
+		
+		while (estratto > 0) {
+			status = pthread_cond_timedwait(&croupier_cond, &sem, &cond_time); //TODO inserire gestione errori
+			//Se status == ETIMEDOUT, significa che è scaduto il tempo senza la verifica della condizione
+			if (status == ETIMEDOUT) {
+				//Il croupier chiude le puntate
+				printf("CROUPIER tempo scaduto!!! chiudo le puntate\n");
+				estratto = -1;
+			}
+			if (status != 0) {
+				err_abort(status, "Timedwait croupier");
+			}
 		}
 		//gestione della puntata
 		printf("CROUPIER Gestisco la puntata\n");
 		//TODO funzione che gestisce le puntate ovvero controlla i vincitori
-		pthread_mutex_unlock(&sem); //TODO inserire gestione errori
+		status = pthread_mutex_unlock(&sem);
+		if (status != 0) {
+			err_abort(status, "Unlock sul mutex nel player");
+		}
 	}
 	pthread_exit(NULL);
 }
@@ -70,8 +84,8 @@ void *player(void *arg) {
 	while (1) {
 		//Il player prende il possesso del mutex
 		status = pthread_mutex_lock(&sem);
-		if( status != 0 ) {
-			err_abort(status, "Lock sul mutex nel player")
+		if (status != 0) {
+			err_abort(status, "Lock sul mutex nel player");
 		}
 
 		/* in realtà la condizione (estratto < 0) va intesa come
@@ -93,7 +107,10 @@ void *player(void *arg) {
 		//leggo il numero estratto
 		letto = 1;
 		sleep(3);
-		pthread_mutex_unlock(&sem); //TODO inserire gestione errori
+		status = pthread_mutex_unlock(&sem);
+		if (status != 0) {
+			err_abort(status, "Unlock sul mutex nel player");
+		}
 	}
 	pthread_exit(NULL);
 }
