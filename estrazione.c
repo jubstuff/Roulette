@@ -4,12 +4,12 @@
  *
  * TODO inserire descrizione file
  */
-
+#define DEBUG 1
 #include "common_header.h"
 
 //TODO inserire descrizioni e nomi significativi per le variabili globali
-pthread_mutex_t sem = PTHREAD_MUTEX_INITIALIZER;
-pthread_cond_t cond = PTHREAD_COND_INITIALIZER;
+pthread_mutex_t puntate_mutex = PTHREAD_MUTEX_INITIALIZER;
+pthread_cond_t puntate_cond = PTHREAD_COND_INITIALIZER;
 pthread_cond_t croupier_cond = PTHREAD_COND_INITIALIZER;
 int estratto = -1;
 
@@ -30,7 +30,7 @@ void *croupier(void *arg) {
 
 	while (1) {
 		//Blocco il mutex per il croupier che fa l'estrazione
-		status = pthread_mutex_lock(&sem);
+		status = pthread_mutex_lock(&puntate_mutex);
 		if (status != 0) {
 			err_abort(status, "Lock sul mutex nel croupier");
 		}
@@ -39,7 +39,7 @@ void *croupier(void *arg) {
 
 		printf("CROUPIER estratto=%d\n", estratto);
 		/*risveglio i giocatori*/
-		status = pthread_cond_broadcast(&cond);
+		status = pthread_cond_broadcast(&puntate_cond);
 		if (status != 0) {
 			err_abort(status, "Broadcast condition in croupier");
 		}
@@ -48,14 +48,13 @@ void *croupier(void *arg) {
 		cond_time.tv_sec = now + intervallo;
 		cond_time.tv_nsec = 0;
 		//Attende che la condizione sia true in un tempo specificato da cond_time
-		
 		while (estratto > 0) {
-			status = pthread_cond_timedwait(&croupier_cond, &sem, &cond_time); //TODO inserire gestione errori
+			status = pthread_cond_timedwait(&croupier_cond, &puntate_mutex, &cond_time); //TODO inserire gestione errori
 			//Se status == ETIMEDOUT, significa che è scaduto il tempo senza la verifica della condizione
 			if (status == ETIMEDOUT) {
-				//Il croupier chiude le puntate
 				printf("CROUPIER tempo scaduto!!! chiudo le puntate\n");
-				estratto = -1;
+				estratto = -1; //Il croupier chiude le puntate
+				break;
 			}
 			if (status != 0) {
 				err_abort(status, "Timedwait croupier");
@@ -64,7 +63,7 @@ void *croupier(void *arg) {
 		//gestione della puntata
 		printf("CROUPIER Gestisco la puntata\n");
 		//TODO funzione che gestisce le puntate ovvero controlla i vincitori
-		status = pthread_mutex_unlock(&sem);
+		status = pthread_mutex_unlock(&puntate_mutex);
 		if (status != 0) {
 			err_abort(status, "Unlock sul mutex nel player");
 		}
@@ -81,19 +80,22 @@ void *player(void *arg) {
 	int num = (int) arg;
 	int letto = 0;
 	int status;
+	int num_richieste = rand() % 10; //simulazione numero di puntate tra 1 e 10
+	int i;
+
 	while (1) {
 		//Il player prende il possesso del mutex
-		status = pthread_mutex_lock(&sem);
+		status = pthread_mutex_lock(&puntate_mutex);
 		if (status != 0) {
 			err_abort(status, "Lock sul mutex nel player");
 		}
 
 		/* in realtà la condizione (estratto < 0) va intesa come
 		 * (puntate_aperte == 1) */
-		while ((estratto < 0) || (letto == 1)) {/*se le puntate sono aperte*/
+		while (estratto < 0) {/*se le puntate sono aperte*/
 			printf("GIOCATORE %d CONDIZIONE FALSA\n", num);
 			letto = 0;
-			pthread_cond_wait(&cond, &sem); //TODO inserire gestione errori
+			pthread_cond_wait(&puntate_cond, &puntate_mutex); //TODO inserire gestione errori
 		}
 		//Gestire il caso del rilascio del mutex alla puntata 
 		/* arrivati a questo punto le puntate sono aperte, quindi i 
@@ -103,11 +105,14 @@ void *player(void *arg) {
 		//il player deve fermarsi
 		//}
 		//il player accetta puntate dal client
+/*
 		printf("GIOCATORE %d leggo il numero estratto=%d\n", num, estratto);
 		//leggo il numero estratto
 		letto = 1;
 		sleep(3);
-		status = pthread_mutex_unlock(&sem);
+*/
+
+		status = pthread_mutex_unlock(&puntate_mutex);
 		if (status != 0) {
 			err_abort(status, "Unlock sul mutex nel player");
 		}
@@ -135,8 +140,10 @@ int main(int argc, char **argv) {
 	/* converto i parametri passati a interi */
 	server_port = atoi(argv[1]);
 	game_interval = atoi(argv[2]);
-	printf("La giocata durerà %d secondi\n", game_interval);
 
+#ifdef DEBUG
+	printf("La giocata durerà %d secondi\n", game_interval);
+#endif
 	/* creo il thread CROUPIER */
 	status = pthread_create(&croupier_tid, NULL, croupier, (void *) game_interval);
 	if (status != 0) {

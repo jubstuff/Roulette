@@ -40,6 +40,19 @@ typedef struct counter_tag {
 	pthread_mutex_t counter_mutex;
 } counter_t;
 
+/* ===PROVA LISTA RICHIESTE=== */
+struct request {
+    int number; //numero della richiesta
+    struct request *next; //puntatore alla successiva richiesta
+};
+
+void add_request(int request_num, pthread_mutex_t *mutex, pthread_cond_t *cond);
+struct request *get_request(pthread_mutex_t *mutex);
+void handle_request(struct request* a_request, pthread_t thread_id);
+
+
+/* ===FINE PROVA LISTA RICHIESTE=== */
+
 /**
  * Stampa sullo standard error un messaggio contenente l'errore, il file che l'ha
  * causato, la riga e la spiegazione.
