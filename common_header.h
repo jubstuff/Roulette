@@ -46,7 +46,7 @@ struct request {
     struct request *next; //puntatore alla successiva richiesta
 };
 
-void add_request(int request_num, pthread_mutex_t *mutex, pthread_cond_t *cond);
+void add_request(int request_num);
 struct request *get_request(pthread_mutex_t *mutex);
 void handle_request(struct request* a_request, pthread_t thread_id);
 

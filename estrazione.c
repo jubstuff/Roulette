@@ -1,5 +1,5 @@
 /*estrazione.c
- * =COMPILAZIONE= FIXME
+ * =COMPILAZIONE=
  * gcc -Wall -l pthread -o server-roulette estrazione.c common_header.h common_header.c
  *
  * TODO inserire descrizione file
@@ -11,6 +11,9 @@
 pthread_mutex_t puntate_mutex = PTHREAD_MUTEX_INITIALIZER;
 pthread_cond_t puntate_cond = PTHREAD_COND_INITIALIZER;
 pthread_cond_t croupier_cond = PTHREAD_COND_INITIALIZER;
+
+/* Quando estratto è -1 vuol dire che le puntate sono chiuse, quando è un
+ * numero positivo le puntate sono aperte */
 int estratto = -1;
 
 //TODO inserire descrizione funzione
@@ -38,7 +41,7 @@ void *croupier(void *arg) {
 		estratto = rand() % 37;
 
 		printf("CROUPIER estratto=%d\n", estratto);
-		/*risveglio i giocatori*/
+		/* wake up players */
 		status = pthread_cond_broadcast(&puntate_cond);
 		if (status != 0) {
 			err_abort(status, "Broadcast condition in croupier");
@@ -53,15 +56,17 @@ void *croupier(void *arg) {
 			//Se status == ETIMEDOUT, significa che è scaduto il tempo senza la verifica della condizione
 			if (status == ETIMEDOUT) {
 				printf("CROUPIER tempo scaduto!!! chiudo le puntate\n");
-				estratto = -1; //Il croupier chiude le puntate
+				estratto = -1; //bets closed
 				break;
 			}
 			if (status != 0) {
 				err_abort(status, "Timedwait croupier");
 			}
 		}
+		
 		//gestione della puntata
 		printf("CROUPIER Gestisco la puntata\n");
+		sleep(5);
 		//TODO funzione che gestisce le puntate ovvero controlla i vincitori
 		status = pthread_mutex_unlock(&puntate_mutex);
 		if (status != 0) {
@@ -80,8 +85,6 @@ void *player(void *arg) {
 	int num = (int) arg;
 	int letto = 0;
 	int status;
-	int num_richieste = rand() % 10; //simulazione numero di puntate tra 1 e 10
-	int i;
 
 	while (1) {
 		//Il player prende il possesso del mutex
@@ -92,26 +95,19 @@ void *player(void *arg) {
 
 		/* in realtà la condizione (estratto < 0) va intesa come
 		 * (puntate_aperte == 1) */
-		while (estratto < 0) {/*se le puntate sono aperte*/
+		while (estratto < 0) {/* if bets are opened */
 			printf("GIOCATORE %d CONDIZIONE FALSA\n", num);
 			letto = 0;
 			pthread_cond_wait(&puntate_cond, &puntate_mutex); //TODO inserire gestione errori
 		}
-		//Gestire il caso del rilascio del mutex alla puntata 
-		/* arrivati a questo punto le puntate sono aperte, quindi i 
-		 * player possono accettare le puntate da parte dei client*/
-		//io scriverei così
-		//if((puntate_aperte == 0)){
-		//il player deve fermarsi
-		//}
-		//il player accetta puntate dal client
-/*
-		printf("GIOCATORE %d leggo il numero estratto=%d\n", num, estratto);
-		//leggo il numero estratto
-		letto = 1;
-		sleep(3);
-*/
 
+		//here player can bet
+		/*
+		 * read bet on socket
+		 * insert bet in list
+		 * */
+		add_request(rand() % 100); 
+		printf("GIOCATORE %d ho inserito un numero\n", num);
 		status = pthread_mutex_unlock(&puntate_mutex);
 		if (status != 0) {
 			err_abort(status, "Unlock sul mutex nel player");
@@ -126,7 +122,7 @@ int main(int argc, char **argv) {
 		printf("Utilizzo: %s <numero porta> <intervallo secondi>\n", argv[0]);
 		exit(1);
 	} //TODO controllo errori più robusto
-
+	int j=0;
 	int sockfd, clientfd; /* socket e client descriptor */
 	short int server_port; /* porta del server */
 	int game_interval; /* durata possibilità puntate */
@@ -172,6 +168,13 @@ int main(int argc, char **argv) {
 	status = listen(sockfd, 5);
 	if (status != 0) {
 		err_abort(errno, "Error in listening to socket");
+	}
+	
+	for(j=0; j<10; j++) {
+		status = pthread_create(&thread, NULL, player, (void *) j);
+		if (status != 0) {
+			err_abort(status, "Creazione thread");
+		}
 	}
 
 	while (1) {
