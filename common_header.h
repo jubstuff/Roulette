@@ -22,8 +22,6 @@
 
 #include <errno.h>
 
-extern struct request *first_request; //testa della lista
-extern struct request *last_request; //ultimo elemento della lista
 extern int num_requests;
 extern int estratto;
 
@@ -56,7 +54,7 @@ typedef struct counter_tag {
 void err_abort(int code, char *text);
 
 
-
+int open_socket(struct sockaddr_in self, short int server_port);
 
 #endif  /* _COMMON_HEADER_H */
 

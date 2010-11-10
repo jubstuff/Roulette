@@ -65,11 +65,8 @@ void *croupier(void *arg) {
 		}
 		//estrazione del numero 
 		estratto = rand() % 37;
-
-
-
 		fprintf(log_file, "CROUPIER estratto=%d\n", estratto);
-
+		
 		now = time(NULL);
 		cond_time.tv_sec = now + intervallo;
 		cond_time.tv_nsec = 0;
@@ -98,6 +95,7 @@ void *croupier(void *arg) {
 		//TODO funzione che gestisce le puntate ovvero controlla i vincitori
 		while ((puntata = (pnode *) queue_get(&bl.puntate)) != NULL) {
 			fprintf(log_file, "CROUPIER: nella lista delle puntate numero %d\n", puntata->puntata);
+			num_requests--;
 		}
 		status = pthread_mutex_unlock(&puntate_mutex);
 		if (status != 0) {
@@ -176,20 +174,21 @@ void *player(void *arg) {
 int main(int argc, char **argv) {
 	//TODO impacchettare le funzionalità in funzioni
 	//TODO fare il join dei thread al termine
+
 	/* controllo numero di argomenti */
 	if (argc != 3) {
 		printf("Utilizzo: %s <numero porta> <intervallo secondi>\n", argv[0]);
 		exit(1);
 	} //TODO controllo errori più robusto
+
 	int j = 0;
 	int sockfd, clientfd; /* socket e client descriptor */
 	short int server_port; /* porta del server */
 	int game_interval; /* durata possibilità puntate */
 	struct sockaddr_in self, client_addr; /* info del server e client */
 	socklen_t client_len = sizeof (client_addr);
-	int status; /* raccoglie i valori restituiti
-											dalle system call */
-	pthread_t thread, croupier_tid;
+	int status; /* raccoglie i valori restituiti dalle system call */
+	pthread_t player_tid, croupier_tid;
 	client_t *client_info;
 
 	/* converto i parametri passati a interi */
@@ -204,38 +203,18 @@ int main(int argc, char **argv) {
 	if (status != 0) {
 		err_abort(status, "Creazione del thread croupier");
 	}
-
-	/* apro il socket */
-	sockfd = socket(AF_INET, SOCK_STREAM, 0);
-	if (sockfd < 0) {
-		err_abort(errno, "Creazione socket");
-	}
-
-	/* preparo la struct con le informazioni del server */
-	bzero(&self, sizeof (self));
-	/* protocol family in host order */
-	self.sin_family = AF_INET;
-	self.sin_port = htons(server_port);
-	self.sin_addr.s_addr = htonl(INADDR_ANY);
-
-	/* collego il socket */
-	status = bind(sockfd, (struct sockaddr *) &self, sizeof (self));
-	if (status != 0) {
-		err_abort(errno, "Bind socket");
-	}
-	/* pone il server in ascolto */
-	status = listen(sockfd, 5);
-	if (status != 0) {
-		err_abort(errno, "Error in listening to socket");
-	}
-
+	
+	sockfd = open_socket(self, server_port);
+#ifdef DEBUG
+	/* Crea 10 player thread */
 	for (j = 0; j < 10; j++) {
-		status = pthread_create(&thread, NULL, player, (void *) j);
+		status = pthread_create(&player_tid, NULL, player, (void *) j);
 		if (status != 0) {
 			err_abort(status, "Creazione thread");
 		}
 	}
-
+#endif
+#ifndef DEBUG
 	while (1) {
 		/* accetta connessioni dai client */
 		clientfd = accept(sockfd, (struct sockaddr *) &client_addr, &client_len);
@@ -248,11 +227,12 @@ int main(int argc, char **argv) {
 		client_info->client_data = client_addr;
 		client_info->clientfd = clientfd;
 
-		status = pthread_create(&thread, NULL, player, (void *) client_info);
+		status = pthread_create(&player_tid, NULL, player, (void *) client_info);
 		if (status != 0) {
 			err_abort(status, "Creazione thread");
 		}
 	}
+#endif
 	close(sockfd);
-	return 0;
+	pthread_exit(NULL);
 }
