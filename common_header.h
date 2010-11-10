@@ -5,7 +5,7 @@
 #include <sys/stat.h>
 #include <stdio.h>     
 #include <stdlib.h>
-
+#include <fcntl.h>
 #include <string.h>    /* for convenience */
 #include <unistd.h>    /* for convenience */
 #include <signal.h>    /* for SIG_ERR */
@@ -22,6 +22,10 @@
 
 #include <errno.h>
 
+extern struct request *first_request; //testa della lista
+extern struct request *last_request; //ultimo elemento della lista
+extern int num_requests;
+extern int estratto;
 
 typedef struct player_tag {
 	char				name[50];

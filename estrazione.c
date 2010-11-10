@@ -1,4 +1,4 @@
-/*estrazione.c
+/* estrazione.c
  * =COMPILAZIONE=
  * gcc -Wall -l pthread -o server-roulette estrazione.c common_header.h common_header.c
  *
@@ -17,7 +17,16 @@ pthread_cond_t croupier_cond = PTHREAD_COND_INITIALIZER;
 struct lista_puntate {
 	data_control control;
 	queue puntate;
-} lp;
+} bl;
+
+/* I added a job number to the work node.  Normally, the work node
+   would contain additional data that needed to be processed. */
+typedef struct puntate_node {
+	struct node *next;
+	int puntata;
+} pnode;
+
+
 
 /* Quando estratto è -1 vuol dire che le puntate sono chiuse, quando è un
  * numero positivo le puntate sono aperte */
@@ -30,14 +39,23 @@ int estratto = -1;
  *
  *============================================================================*/
 void *croupier(void *arg) {
+	FILE *log_file;
+	char *log_file_name = "croupier-log.txt";
+	
+
+
 	struct timespec cond_time; //c'è solo cond_time in questa struct
 	time_t now; //Conta i secondi da gennaio 1970 alle ore 00:00:00
 	int status;
 	int intervallo = (int) arg;
-	struct request *puntata;
+	pnode *puntata;
 
 	//inizializzo il seme per la generazione di numeri random
 	srand(time(NULL));
+	log_file = fopen(log_file_name, "w");
+	if(log_file == NULL) {
+		fprintf(stderr, "Impossibile aprire il log file");
+	}
 
 	while (1) {
 		//Blocco il mutex per il croupier che fa l'estrazione
@@ -48,7 +66,9 @@ void *croupier(void *arg) {
 		//estrazione del numero 
 		estratto = rand() % 37;
 
-		printf("CROUPIER estratto=%d\n", estratto);
+
+
+		fprintf(log_file, "CROUPIER estratto=%d\n", estratto);
 
 		now = time(NULL);
 		cond_time.tv_sec = now + intervallo;
@@ -63,7 +83,7 @@ void *croupier(void *arg) {
 			status = pthread_cond_timedwait(&croupier_cond, &puntate_mutex, &cond_time); //TODO inserire gestione errori
 			//Se status == ETIMEDOUT, significa che è scaduto il tempo senza la verifica della condizione
 			if (status == ETIMEDOUT) {
-				printf("CROUPIER tempo scaduto!!! chiudo le puntate\n");
+				fprintf(log_file,"CROUPIER tempo scaduto!!! chiudo le puntate\n");
 				estratto = -1; //bets closed
 				break;
 			}
@@ -73,10 +93,11 @@ void *croupier(void *arg) {
 		}
 
 		//gestione della puntata
-		printf("CROUPIER Gestisco la puntata\n");
+		fprintf(log_file,"CROUPIER Gestisco la puntata. numrichieste = %d\n", num_requests);
+		sleep(2);
 		//TODO funzione che gestisce le puntate ovvero controlla i vincitori
-		while((puntata = get_request()) != NULL){
-			printf("CROUPIER: nella lista delle puntate numero %d", puntata->number);
+		while ((puntata = (pnode *) queue_get(&bl.puntate)) != NULL) {
+			fprintf(log_file, "CROUPIER: nella lista delle puntate numero %d\n", puntata->puntata);
 		}
 		status = pthread_mutex_unlock(&puntate_mutex);
 		if (status != 0) {
@@ -95,6 +116,11 @@ void *player(void *arg) {
 	int num = (int) arg;
 	int puntato = 0;
 	int status;
+	pnode *mybet;
+
+	FILE *log_file;
+	char *log_file_name = "player-log.txt";
+
 	//Il player prende il possesso del mutex
 	status = pthread_mutex_lock(&puntate_mutex);
 	if (status != 0) {
@@ -119,25 +145,37 @@ void *player(void *arg) {
 		if (status != 0) {
 			err_abort(status, "Unlock sul mutex nel player");
 		}
-		
-/*
-		printf("[T%d]?>", num);
-		nbytes = sizeof (buf);
-		bytes_read = read(STDIN_FILENO, buf, nbytes);
-		puntato = atoi(buf);
-*/
+
+		/*
+				printf("[T%d]?>", num);
+				nbytes = sizeof (buf);
+				bytes_read = read(STDIN_FILENO, buf, nbytes);
+				puntato = atoi(buf);
+		 */
 		puntato = rand() % 100;
+		sleep(1);
 		status = pthread_mutex_lock(&puntate_mutex);
 		if (status != 0) {
 			err_abort(status, "Lock sul mutex nel player");
 		}
-		add_request(puntato);
+
+		/* aggiunge un nodo alla lista delle puntate */
+		mybet = malloc(sizeof (pnode));
+		if (!mybet) {
+			printf("ouch! can't malloc!\n");
+			break;
+		}
+		mybet->puntata = puntato;
+		queue_put(&bl.puntate, (node *) mybet);
+		num_requests++;
 		printf("GIOCATORE %d ha aggiunto %d\n", num, puntato);
 	}
 	pthread_exit(NULL);
 }
 
 int main(int argc, char **argv) {
+	//TODO impacchettare le funzionalità in funzioni
+	//TODO fare il join dei thread al termine
 	/* controllo numero di argomenti */
 	if (argc != 3) {
 		printf("Utilizzo: %s <numero porta> <intervallo secondi>\n", argv[0]);
