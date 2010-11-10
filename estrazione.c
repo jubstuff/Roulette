@@ -6,11 +6,18 @@
  */
 #define DEBUG 1
 #include "common_header.h"
+#include "queue.h"
+#include "control.h"
 
 //TODO inserire descrizioni e nomi significativi per le variabili globali
 pthread_mutex_t puntate_mutex = PTHREAD_MUTEX_INITIALIZER;
 pthread_cond_t puntate_cond = PTHREAD_COND_INITIALIZER;
 pthread_cond_t croupier_cond = PTHREAD_COND_INITIALIZER;
+
+struct lista_puntate {
+	data_control control;
+	queue puntate;
+} lp;
 
 /* Quando estratto è -1 vuol dire che le puntate sono chiuse, quando è un
  * numero positivo le puntate sono aperte */
@@ -27,6 +34,7 @@ void *croupier(void *arg) {
 	time_t now; //Conta i secondi da gennaio 1970 alle ore 00:00:00
 	int status;
 	int intervallo = (int) arg;
+	struct request *puntata;
 
 	//inizializzo il seme per la generazione di numeri random
 	srand(time(NULL));
@@ -41,15 +49,15 @@ void *croupier(void *arg) {
 		estratto = rand() % 37;
 
 		printf("CROUPIER estratto=%d\n", estratto);
+
+		now = time(NULL);
+		cond_time.tv_sec = now + intervallo;
+		cond_time.tv_nsec = 0;
 		/* wake up players */
 		status = pthread_cond_broadcast(&puntate_cond);
 		if (status != 0) {
 			err_abort(status, "Broadcast condition in croupier");
 		}
-
-		now = time(NULL);
-		cond_time.tv_sec = now + intervallo;
-		cond_time.tv_nsec = 0;
 		//Attende che la condizione sia true in un tempo specificato da cond_time
 		while (estratto > 0) {
 			status = pthread_cond_timedwait(&croupier_cond, &puntate_mutex, &cond_time); //TODO inserire gestione errori
@@ -63,11 +71,13 @@ void *croupier(void *arg) {
 				err_abort(status, "Timedwait croupier");
 			}
 		}
-		
+
 		//gestione della puntata
 		printf("CROUPIER Gestisco la puntata\n");
-		sleep(5);
 		//TODO funzione che gestisce le puntate ovvero controlla i vincitori
+		while((puntata = get_request()) != NULL){
+			printf("CROUPIER: nella lista delle puntate numero %d", puntata->number);
+		}
 		status = pthread_mutex_unlock(&puntate_mutex);
 		if (status != 0) {
 			err_abort(status, "Unlock sul mutex nel player");
@@ -83,35 +93,46 @@ void *croupier(void *arg) {
  *============================================================================*/
 void *player(void *arg) {
 	int num = (int) arg;
-	int letto = 0;
+	int puntato = 0;
 	int status;
-
+	//Il player prende il possesso del mutex
+	status = pthread_mutex_lock(&puntate_mutex);
+	if (status != 0) {
+		err_abort(status, "Lock sul mutex nel player");
+	}
 	while (1) {
-		//Il player prende il possesso del mutex
-		status = pthread_mutex_lock(&puntate_mutex);
-		if (status != 0) {
-			err_abort(status, "Lock sul mutex nel player");
-		}
-
 		/* in realtà la condizione (estratto < 0) va intesa come
 		 * (puntate_aperte == 1) */
 		while (estratto < 0) {/* if bets are opened */
 			printf("GIOCATORE %d CONDIZIONE FALSA\n", num);
-			letto = 0;
 			pthread_cond_wait(&puntate_cond, &puntate_mutex); //TODO inserire gestione errori
 		}
 
 		//here player can bet
 		/*
 		 * read bet on socket
+		 * unlock mutex
 		 * insert bet in list
+		 * lock mutex
 		 * */
-		add_request(rand() % 100); 
-		printf("GIOCATORE %d ho inserito un numero\n", num);
 		status = pthread_mutex_unlock(&puntate_mutex);
 		if (status != 0) {
 			err_abort(status, "Unlock sul mutex nel player");
 		}
+		
+/*
+		printf("[T%d]?>", num);
+		nbytes = sizeof (buf);
+		bytes_read = read(STDIN_FILENO, buf, nbytes);
+		puntato = atoi(buf);
+*/
+		puntato = rand() % 100;
+		status = pthread_mutex_lock(&puntate_mutex);
+		if (status != 0) {
+			err_abort(status, "Lock sul mutex nel player");
+		}
+		add_request(puntato);
+		printf("GIOCATORE %d ha aggiunto %d\n", num, puntato);
 	}
 	pthread_exit(NULL);
 }
@@ -122,7 +143,7 @@ int main(int argc, char **argv) {
 		printf("Utilizzo: %s <numero porta> <intervallo secondi>\n", argv[0]);
 		exit(1);
 	} //TODO controllo errori più robusto
-	int j=0;
+	int j = 0;
 	int sockfd, clientfd; /* socket e client descriptor */
 	short int server_port; /* porta del server */
 	int game_interval; /* durata possibilità puntate */
@@ -169,8 +190,8 @@ int main(int argc, char **argv) {
 	if (status != 0) {
 		err_abort(errno, "Error in listening to socket");
 	}
-	
-	for(j=0; j<10; j++) {
+
+	for (j = 0; j < 10; j++) {
 		status = pthread_create(&thread, NULL, player, (void *) j);
 		if (status != 0) {
 			err_abort(status, "Creazione thread");

@@ -47,7 +47,7 @@ struct request {
 };
 
 void add_request(int request_num);
-struct request *get_request(pthread_mutex_t *mutex);
+struct request *get_request();
 void handle_request(struct request* a_request, pthread_t thread_id);
 
 

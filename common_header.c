@@ -72,15 +72,8 @@ void add_request(int request_num) {
 #endif
 } //fine add_request
 
-struct request *get_request(pthread_mutex_t *mutex) {
-	int status; //codice di ritorno delle funzioni pthread
+struct request *get_request() {
 	struct request *a_request;
-
-	/* lock sul mutex per garantire accesso esclusivo alla lista */
-	status = pthread_mutex_lock(mutex);
-	if (status) {
-		err_abort(status, "add_request: lock sul mutex fallito");
-	}
 
 	if (num_requests > 0) {
 		a_request = first_request;
@@ -95,11 +88,6 @@ struct request *get_request(pthread_mutex_t *mutex) {
 		a_request = NULL;
 	}
 
-	/* unlock del mutex */
-	status = pthread_mutex_unlock(mutex);
-	if (status) {
-		err_abort(status, "add_request: unlock sul mutex fallito");
-	}
 
 	return a_request;
 
