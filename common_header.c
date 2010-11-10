@@ -1,7 +1,5 @@
 #include "common_header.h"
 
-struct request *first_request = NULL; //testa della lista
-struct request *last_request = NULL; //ultimo elemento della lista
 int num_requests = 0;
 
 /**

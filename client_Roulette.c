@@ -22,9 +22,9 @@ char *gestioneGiocata(void) {
 			break;
 		case 'N': case 'n': //FIXME qui dovrebbe prendere direttamente la coppia numero:puntata, non n|N
 			do {
-				printf("Inserisci il numero su cui vuoi puntare (0-32): ");
+				printf("Inserisci il numero su cui vuoi puntare (0-36): ");
 				scanf("%d", &numero);
-			} while ((numero < 0) && (numero > 32));
+			} while ((numero < 0) && (numero > 36));
 			return ("<%d>:<%d>", numero, somma); //FIXME non si può ritornare così
 			break;
 		default:
@@ -72,7 +72,7 @@ int main(int argc, char* argv[]) {
 	printf("Porta congratulazioni: %d\n", congrat_port);
 
 	//Crea il socket
-	fdSocket = socket(PF_LOCAL, SOCK_STREAM, 0);
+	fdSocket = socket(AF_INET, SOCK_STREAM, 0);
 	if (fdSocket > 0)
 		printf("Socket creato\n");
 	else {
