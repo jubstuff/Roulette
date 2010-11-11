@@ -3,33 +3,40 @@
 
 char *gestioneGiocata(void) {
 	int somma, numero;
-	char scelta;
+	char *strServer, scelta;
 
 	printf("Inserisci la somma che vuoi puntare: ");
 	//Anche se non mi piace lo scanf
 	scanf("%d", &somma);
-	printf("MENU DI SCELTA\n");
-	printf("p per PARI\n");
-	printf("d per DISPARI\n");
-	printf("n per NUMERO\n");
+
+	//Il client scegli di puntare su PARI/DISPARI o su un numero da 0 a 36
+	printf("Vuoi giocare su pari/dispari o su un numero: ")
+	printf("Premi 1 per PARI/DISPARI\n");
+	printf("Premi 2 per NUMERO\n");
 	scanf("%s", &scelta);
 	switch (scelta) {
-		case 'P': case 'p':
-			return ("<P>:<%d>", somma); //FIXME non si può ritornare così
+		case '1':
+			do {
+				printf("Inserisci P per PARI oppure D per DISPARI: \n");
+				scanf("%d", &scelta);
+				scelta = toupper(scelta);
+			} while(scelta != 'P' && scelta != 'D');
 			break;
-		case 'D': case 'd':
-			return ("<D>:<%d>", somma); //FIXME non si può ritornare così
-			break;
-		case 'N': case 'n': //FIXME qui dovrebbe prendere direttamente la coppia numero:puntata, non n|N
+		case '2':
 			do {
 				printf("Inserisci il numero su cui vuoi puntare (0-36): ");
-				scanf("%d", &numero);
+				scanf("%s", &scelta);
+				numero = atoi(scelta);
 			} while ((numero < 0) && (numero > 36));
-			return ("<%d>:<%d>", numero, somma); //FIXME non si può ritornare così
+			
 			break;
-		default:
-			break;
+		default: 
+			break; //aggiungi sempre una clausola di default
 	}
+	//Concatenzione delle stringhe
+	strServer = scelta;
+	strcat((strServer, ":"), somma);
+	return(strServer);
 }
 
 int main(int argc, char* argv[]) {
