@@ -16,19 +16,6 @@ pthread_mutex_t puntate_mutex = PTHREAD_MUTEX_INITIALIZER;
 pthread_cond_t puntate_cond = PTHREAD_COND_INITIALIZER;
 pthread_cond_t croupier_cond = PTHREAD_COND_INITIALIZER;
 
-struct lista_puntate {
-	data_control control;
-	queue puntate;
-} bl;
-
-/* I added a job number to the work node.  Normally, the work node
-   would contain additional data that needed to be processed. */
-typedef struct puntate_node {
-	struct node *next;
-	int puntata;
-} pnode;
-
-
 
 /* Quando estratto è -1 vuol dire che le puntate sono chiuse, quando è un
  * numero positivo le puntate sono aperte */
@@ -83,7 +70,7 @@ void *croupier(void *arg) {
 			status = pthread_cond_timedwait(&croupier_cond, &puntate_mutex,
 				&cond_time);
 			//Se status == ETIMEDOUT, significa che è scaduto il tempo senza la
-			verifica della condizione
+			//verifica della condizione
 			if (status == ETIMEDOUT) {
 #ifdef CREATE_LOG
 				fprintf(log_file, "CROUPIER tempo scaduto!!! chiudo le puntate\n");
@@ -198,7 +185,7 @@ void *player(void *arg) {
 		if (status != 0) {
 			err_abort(status, "Unlock sul mutex nel player");
 		}
-
+		//questo valore in realtà viene preso dal client
 		puntato = rand() % 37;
 		sleep(1);
 		status = pthread_mutex_lock(&puntate_mutex);
@@ -211,8 +198,8 @@ void *player(void *arg) {
 		 */
 		mybet = malloc(sizeof (pnode));
 		if (!mybet) {
-			printf("ouch! can't malloc!\n");
-			break;
+			printf("Errore malloc!");
+			pthread_exit(1); //TODO controllare se si può fare pthread_exit
 		}
 		mybet->puntata = puntato;
 		queue_put(&bl.puntate, (node *) mybet);

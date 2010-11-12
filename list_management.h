@@ -6,7 +6,7 @@ typedef struct client_tag {
 /* struttura contenente i dati di una singola giocata */
 typedef struct bet_tag {
     int bet_type; /* flag che assume valore 1 se si punta su un bet_num scelto, 2 se si
-	               * punta su un bet_num pari o dispari */
+	            * punta su un bet_num pari o dispari */
     int bet_num;
     char bet_num_EU; /*even uneven (pari o dispari)*/ //FIXME dispari si dice odd
     int bet_money;
@@ -27,7 +27,7 @@ typedef struct player_tag {
 /* ----------------------------------------------------------------*/
 player_t *bet_tag_insert(player_t *, bet_t *, struct sockaddr_in);
 void bet_tag_print(bet_t *);
-player_t *player_tag_insert(player_t *, player_t *);
+void player_tag_insert(player_t *, player_t *);
 void player_tag_print(player_t *);
 void win_player(player_t *, int);
 /* ----------------------------------------------------------------*/

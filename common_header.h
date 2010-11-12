@@ -26,6 +26,17 @@ extern int num_requests;
 extern int estratto;
 
 
+struct lista_puntate {
+	data_control control;
+	queue puntate;
+} bl;
+
+typedef struct puntate_node {
+	struct node *next;
+	int puntata;
+} pnode;
+
+
 /**
  * Stampa sullo standard error un messaggio contenente l'errore, il file che l'ha
  * causato, la riga e la spiegazione.
