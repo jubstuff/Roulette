@@ -56,12 +56,5 @@ void err_abort(int code, char *text);
  */
 int open_socket(struct sockaddr_in self, short int server_port);
 
-/**
- * parse_bet
- *
- * Analizza una puntata. Riconosce se è stata fatta una puntata di tipo
- * Pari/Dispari oppure su un numero
- * */
-void parse_bet(char *bet);
 #endif  /* _COMMON_HEADER_H */
 
