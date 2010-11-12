@@ -1,26 +1,27 @@
 #ifndef _COMMON_HEADER_H
 #define _COMMON_HEADER_H
 
-#include <sys/types.h>       /* alcuni sistemi richiedono questo header file */
+#include <arpa/inet.h>
+#include <ctype.h>
+#include <errno.h>
+#include <fcntl.h>
+#include <pthread.h>
+#include <signal.h>
+#include <sys/socket.h>
 #include <sys/stat.h>
+#include <sys/types.h>
 #include <stdio.h>     
 #include <stdlib.h>
-#include <fcntl.h>
-#include <string.h>    /* for convenience */
-#include <unistd.h>    /* for convenience */
-#include <signal.h>    /* for SIG_ERR */
+#include <string.h>    
 #include <time.h>
+#include <unistd.h>    
+#include <wait.h>
+
 #define MAXBUF 4096               /* max line length */
 
 
-#include <wait.h>
-#include <sys/socket.h>
-#include <arpa/inet.h>
 
 /* thread */
-#include <pthread.h>
-
-#include <errno.h>
 
 extern int num_requests;
 extern int estratto;
@@ -55,5 +56,12 @@ void err_abort(int code, char *text);
  */
 int open_socket(struct sockaddr_in self, short int server_port);
 
+/**
+ * parse_bet
+ *
+ * Analizza una puntata. Riconosce se è stata fatta una puntata di tipo
+ * Pari/Dispari oppure su un numero
+ * */
+void parse_bet(char *bet);
 #endif  /* _COMMON_HEADER_H */
 
