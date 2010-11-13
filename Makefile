@@ -1,0 +1,1 @@
+server-roulette : common_header.o estrazione.o queue.o control.o list_management.o

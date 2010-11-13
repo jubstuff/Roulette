@@ -74,7 +74,7 @@ int main(int argc, char* argv[]) {
 	money = atoi(argv[4]);
 	printf("Denaro: %d\n", money);
 
-	//porta per le congratulazioni
+	//porta per le congratulazioni //FIXME dobbiamo farla scegliere al SO
 	congrat_port = atoi(argv[5]);
 	printf("Porta congratulazioni: %d\n", congrat_port);
 
