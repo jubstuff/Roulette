@@ -3,9 +3,11 @@
 
 #include <arpa/inet.h>
 #include <ctype.h>
+#include "control.h"
 #include <errno.h>
 #include <fcntl.h>
 #include <pthread.h>
+#include "queue.h"
 #include <signal.h>
 #include <sys/socket.h>
 #include <sys/stat.h>

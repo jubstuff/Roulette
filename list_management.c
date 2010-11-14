@@ -6,8 +6,6 @@
 /*TODO decidere come devono essere legate tra loro le strutture dati*/
 
 player_t *bet_tag_insert(player_t *player, bet_t *curr_bet, struct sockaddr_in client_addr) {
-	queue_put(&(player->bet), (node *)curr_bet)
-#ifdef OLD
 	bet_t *b1; /* puntatore a lista ausiliario */
 	player_t *p2; /* puntatore a lista ausiliario */
 	int trovato;
@@ -39,13 +37,10 @@ player_t *bet_tag_insert(player_t *player, bet_t *curr_bet, struct sockaddr_in c
 		}
 	}
 	return (player);
-#endif
 }
 
 void player_tag_insert(player_t *player, player_t *curr_player) {
 	//In questa funzione dobbiamo inserire le cose peculiari del player
-	queue_put(&player, (node *)curr_player);
-#ifdef OLD
 	player_t *p1; // puntatore a lista ausiliario
 	if (player == NULL) {
 		player = curr_player;
@@ -58,9 +53,7 @@ void player_tag_insert(player_t *player, player_t *curr_player) {
 		curr_player->next_player = NULL;
 		p1->next_player = curr_player; /* connessione all'elemento precedente */
 	}
-	return (player); //JUST_ASK perché ritorna il puntatore alla lista?
-#endif
-
+	//return (player); //JUST_ASK perché ritorna il puntatore alla lista?
 }
 
 void player_tag_print(player_t *player) {

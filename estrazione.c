@@ -8,9 +8,8 @@
 #define DEBUG 1
 #define CREATE_LOG 1
 
-#include "queue.h"
-#include "control.h"
 #include "common_header.h"
+#include "list_management.h"
 //TODO inserire descrizioni e nomi significativi per le variabili globali
 pthread_mutex_t puntate_mutex = PTHREAD_MUTEX_INITIALIZER;
 pthread_cond_t puntate_cond = PTHREAD_COND_INITIALIZER;
@@ -31,8 +30,6 @@ void *croupier(void *arg) {
 	FILE *log_file;
 	char *log_file_name = "croupier-log.txt";
 
-
-
 	struct timespec cond_time; //c'è solo cond_time in questa struct
 	time_t now; //Conta i secondi da gennaio 1970 alle ore 00:00:00
 	int status;
@@ -41,6 +38,7 @@ void *croupier(void *arg) {
 
 	//inizializzo il seme per la generazione di numeri random
 	srand(time(NULL));
+
 	log_file = fopen(log_file_name, "w");
 	if (log_file == NULL) {
 		fprintf(stderr, "Impossibile aprire il log file");
@@ -52,14 +50,18 @@ void *croupier(void *arg) {
 		if (status != 0) {
 			err_abort(status, "Lock sul mutex nel croupier");
 		}
+
 		//estrazione del numero da 1 a 36
 		estratto = rand() % 37;
+
 #ifdef CREATE_LOG
 		fprintf(log_file, "CROUPIER estratto=%d\n", estratto);
 #endif
+
 		now = time(NULL);
 		cond_time.tv_sec = now + intervallo;
 		cond_time.tv_nsec = 0;
+
 		/* wake up players */
 		status = pthread_cond_broadcast(&puntate_cond);
 		if (status != 0) {
@@ -69,15 +71,18 @@ void *croupier(void *arg) {
 		while (estratto > 0) {
 			status = pthread_cond_timedwait(&croupier_cond, &puntate_mutex,
 				&cond_time);
+
 			//Se status == ETIMEDOUT, significa che è scaduto il tempo senza la
 			//verifica della condizione
 			if (status == ETIMEDOUT) {
+
 #ifdef CREATE_LOG
 				fprintf(log_file, "CROUPIER tempo scaduto!!! chiudo le puntate\n");
 #endif
 				estratto = -1; //bets closed
 				break;
 			}
+
 			if (status != 0) {
 				err_abort(status, "Timedwait croupier");
 			}
@@ -198,8 +203,7 @@ void *player(void *arg) {
 		 */
 		mybet = malloc(sizeof (pnode));
 		if (!mybet) {
-			printf("Errore malloc!");
-			pthread_exit(1); //TODO controllare se si può fare pthread_exit
+			err_abort(errno, "Errore malloc!" );
 		}
 		mybet->puntata = puntato;
 		queue_put(&bl.puntate, (node *) mybet);
