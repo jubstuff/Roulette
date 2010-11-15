@@ -18,7 +18,7 @@ pthread_cond_t croupier_cond = PTHREAD_COND_INITIALIZER;
 
 /* Quando estratto è -1 vuol dire che le puntate sono chiuse, quando è un
  * numero positivo le puntate sono aperte */
-int estratto = -1;
+int puntate_aperte = -1;
 
 //TODO inserire descrizione funzione
 
@@ -29,11 +29,10 @@ int estratto = -1;
 void *croupier(void *arg) {
 	FILE *log_file;
 	char *log_file_name = "croupier-log.txt";
-
 	struct timespec cond_time; //c'è solo cond_time in questa struct
 	int status;
 	int intervallo = (int) arg;
-	
+	int estratto;
 
 	//inizializzo il seme per la generazione di numeri random
 	srand(time(NULL));
@@ -50,22 +49,22 @@ void *croupier(void *arg) {
 			err_abort(status, "Lock sul mutex nel croupier");
 		}
 
-		//estrazione del numero da 1 a 36
-		estratto = rand() % 37;
+		
 
 #ifdef CREATE_LOG
 		fprintf(log_file, "CROUPIER estratto=%d\n", estratto);
 #endif
 
 		cond_time = calcola_intervallo(intervallo);
-
+		
+		puntate_aperte = 1;
 		/* wake up players */
 		status = pthread_cond_broadcast(&puntate_cond);
 		if (status != 0) {
 			err_abort(status, "Broadcast condition in croupier");
 		}
 
-		while (estratto > 0) {
+		while (puntate_aperte > 0) {
 			status = pthread_cond_timedwait(&croupier_cond, &puntate_mutex,
 				&cond_time);
 
@@ -73,7 +72,7 @@ void *croupier(void *arg) {
 #ifdef CREATE_LOG
 				fprintf(log_file, "CROUPIER tempo scaduto!!! chiudo le puntate\n");
 #endif
-				estratto = -1; //bets closed
+				puntate_aperte = -1; //bets closed
 				break;
 			}
 			if (status != 0) {
@@ -84,7 +83,9 @@ void *croupier(void *arg) {
 		//gestione della puntata
 		//sleep(2);
 		//TODO inserire funzione che controlla i vincitori
-		gestisci_puntata();
+		//estrazione del numero da 0 a 36
+		estratto = rand() % 37;
+		gestisci_puntate(estratto);
 		status = pthread_mutex_unlock(&puntate_mutex);
 		if (status != 0) {
 			err_abort(status, "Unlock sul mutex nel croupier");
@@ -156,7 +157,7 @@ void *player(void *arg) {
 	while (1) {
 		/* in realtà la condizione (estratto < 0) va intesa come
 		 * (puntate_aperte == 1) */
-		while (estratto < 0) {
+		while (puntate_aperte < 0) {
 			printf("GIOCATORE %d CONDIZIONE FALSA\n", num_giocatore);
 			status = pthread_cond_wait(&puntate_cond, &puntate_mutex);
 			if (status != 0) {
@@ -175,11 +176,13 @@ void *player(void *arg) {
 		if (status != 0) {
 			err_abort(status, "Unlock sul mutex nel player");
 		}
-		//questi valori in realtà viene preso dal client
+		//TODO leggere valori dal client
+		//questi valori in realtà vengono presi dal client
 		num_puntato_dal_giocatore = rand() % 37;
 		tipo_puntata = (bet_t)(rand() % 3);
 		somma_puntata = (rand() % 100)+1;
 		sleep(1); //TODO rimuovere questa sleep
+
 		status = pthread_mutex_lock(&puntate_mutex);
 		if (status != 0) {
 			err_abort(status, "Lock sul mutex nel player");
@@ -196,7 +199,7 @@ void *player(void *arg) {
 		mybet->tipo = tipo_puntata;
 		mybet->somma_puntata = somma_puntata;
 		queue_put(&(lista_puntate.puntate), (node *) mybet);
-		printf("GIOCATORE %d ha aggiunto %d di tipo %d puntando %d€\n",
+		printf("GIOCATORE %d ha puntato il %d di tipo %d puntando %d€\n",
 			num_giocatore, mybet->numero, mybet->tipo, mybet->somma_puntata);
 		num_requests++;
 	}

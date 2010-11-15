@@ -41,7 +41,7 @@ typedef struct puntate_node {
 
 extern int num_requests;
 
-extern int estratto;
+extern int puntate_aperte;
 
 struct lista_puntate_t {
 	data_control control;
@@ -69,7 +69,7 @@ void err_abort(int code, char *text);
 int open_socket(struct sockaddr_in self, short int server_port);
 
 
-void gestisci_puntata();
+void gestisci_puntate(int estratto);
 
 struct timespec calcola_intervallo(int intervallo);
 #endif  /* _COMMON_HEADER_H */

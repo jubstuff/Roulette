@@ -45,14 +45,37 @@ int open_socket(struct sockaddr_in self, short int server_port) {
 	return sockfd;
 }
 
-void gestisci_puntata(int estratto) {
+void gestisci_puntate(int estratto) {
 	puntata_t *puntata;
+	printf("Il numero estratto è %d\n", estratto);
 	while ((puntata = (puntata_t *) queue_get(&(lista_puntate.puntate))) != NULL) {
-		fprintf(stdout, "CROUPIER: nella lista delle puntate numero %d di tipo %d con %d€\n",
-			puntata->numero, puntata->tipo, puntata->somma_puntata);
-		if (estratto == puntata->numero) {
-			fprintf(stdout, "Questa puntata vince!!\n");
+		switch (puntata->tipo) {
+			case NUMBER:
+				fprintf(stdout, "CROUPIER: puntati %d€ sul numero %d \n",
+					puntata->somma_puntata, puntata->numero);
+				if (estratto == puntata->numero) {
+					fprintf(stdout, "Questa puntata vince!!\n");
+
+				}
+				break;
+			case EVEN:
+				fprintf(stdout, "CROUPIER: puntati %d€ sui PARI \n",
+					puntata->somma_puntata);
+				if (estratto % 2 == 0) {
+					fprintf(stdout, "Questa puntata vince!!\n");
+				}
+				break;
+			case ODD:
+				fprintf(stdout, "CROUPIER: puntati %d€ sui DISPARI \n",
+					puntata->somma_puntata);
+				if (estratto % 2 != 0) {
+					fprintf(stdout, "Questa puntata vince!!\n");
+				}
+				break;
+			default:
+				break;
 		}
+
 		free(puntata);
 		num_requests--;
 	}
