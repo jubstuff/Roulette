@@ -14,15 +14,15 @@ typedef struct bet_tag {
 } bet_t;
 
 /* struttura contenente i dati di un singolo player */
-typedef struct player_tag {
-    int money;
-    char nickname[50]; //FIXME inserire una costante al posto di 50
-    int win_money; //JUST_ASK questo cos'è?
-    int messport;
-    client_t *info_client;
-    bet_t *bet; /*lista bet del player*/
-    struct player_tag *next_player; /*prossimo elemento*/
-} player_t;
+//typedef struct player_tag {
+//    int money;
+//    char nickname[50]; //FIXME inserire una costante al posto di 50
+//    int win_money; //JUST_ASK questo cos'è?
+//    int messport;
+//    client_t *info_client;
+//    bet_t *bet; //lista bet del player
+//    struct player_tag *next_player; //prossimo elemento
+//} player_t;
 
 /* ----------------------------------------------------------------*/
 player_t *bet_tag_insert(player_t *, bet_t *, struct sockaddr_in);

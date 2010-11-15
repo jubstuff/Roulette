@@ -89,3 +89,4 @@ struct timespec calcola_intervallo(int intervallo) {
 	cond_time.tv_nsec = 0;
 	return cond_time;
 }
+

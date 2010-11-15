@@ -9,6 +9,7 @@
 #define CREATE_LOG 1
 
 #include "common_header.h"
+
 //#include "list_management.h"
 //TODO inserire descrizioni e nomi significativi per le variabili globali
 pthread_mutex_t puntate_mutex = PTHREAD_MUTEX_INITIALIZER;
@@ -33,9 +34,9 @@ void *croupier(void *arg) {
 	int status;
 	int intervallo = (int) arg;
 	int estratto;
+	player_t *player;
 
-	//inizializzo il seme per la generazione di numeri random
-	srand(time(NULL));
+
 
 	log_file = fopen(log_file_name, "w");
 	if (log_file == NULL) {
@@ -49,14 +50,14 @@ void *croupier(void *arg) {
 			err_abort(status, "Lock sul mutex nel croupier");
 		}
 
-		
+
 
 #ifdef CREATE_LOG
 		fprintf(log_file, "CROUPIER estratto=%d\n", estratto);
 #endif
 
 		cond_time = calcola_intervallo(intervallo);
-		
+
 		puntate_aperte = 1;
 		/* wake up players */
 		status = pthread_cond_broadcast(&puntate_cond);
@@ -85,6 +86,24 @@ void *croupier(void *arg) {
 		//TODO inserire funzione che controlla i vincitori
 		//estrazione del numero da 0 a 36
 		estratto = rand() % 37;
+
+		status = pthread_mutex_lock(&(players_list.control.mutex));
+		if (status != 0) {
+			err_abort(status, "Lock sul mutex nel player");
+		}
+		printf("Ci sono %d giocatori per questa giocata\n", players_list.num_giocatori);
+		printf("Ecco i loro nomi:\n");
+		while ((player = (player_t *) queue_get(&(players_list.giocatori))) != NULL) {
+			printf("%s\n", player->nickname);
+		}
+
+
+
+		status = pthread_mutex_unlock(&(players_list.control.mutex));
+		if (status != 0) {
+			err_abort(status, "Unlock sul mutex nel player");
+		}
+
 		gestisci_puntate(estratto);
 
 		status = pthread_mutex_unlock(&puntate_mutex);
@@ -107,15 +126,30 @@ void *player(void *arg) {
 	int status;
 	int somma_puntata;
 	puntata_t *mybet;
-	//	player_t player;
+	player_t *dati_player;
 	//	size_t nbytes;
 	//	ssize_t bytes_read;
 
+	dati_player = malloc(sizeof (player_t));
+	if (!dati_player) {
+		printf("Errore malloc!\n");
+		abort();
+	}
+	//TODO questi dati devono essere presi dal client, ovviamente
+	dati_player->money = (rand() % MAX_BUDGET) + 1;
+	snprintf(dati_player->nickname, sizeof (dati_player->nickname),
+		"%s%d", "Giocatore", num_giocatore);
 
-
-	//	FILE *log_file;
-	//	char *log_file_name = "player-log.txt";
-
+	status = pthread_mutex_lock(&(players_list.control.mutex));
+	if (status != 0) {
+		err_abort(status, "Lock sul mutex nel player");
+	}
+	players_list.num_giocatori++;
+	queue_put(&(players_list.giocatori), (node *) dati_player);
+	status = pthread_mutex_unlock(&(players_list.control.mutex));
+	if (status != 0) {
+		err_abort(status, "Unlock sul mutex nel player");
+	}
 
 #ifndef DEBUG
 	/* Recupero le info dal client */
@@ -180,29 +214,47 @@ void *player(void *arg) {
 		//TODO leggere valori dal client
 		//questi valori in realtà vengono presi dal client
 		num_puntato_dal_giocatore = rand() % 37;
-		tipo_puntata = (bet_t)(rand() % 3);
-		somma_puntata = (rand() % 100)+1;
-		sleep(1); //TODO rimuovere questa sleep
+		tipo_puntata = (bet_t) (rand() % 3);
+		somma_puntata = (rand() % 100) + 1;
 
+		//lock del mutex per leggere money nella lista dei giocatori
+		status = pthread_mutex_lock(&(players_list.control.mutex));
+		if (status != 0) {
+			err_abort(status, "Lock sul mutex nel player");
+		}
+		if (somma_puntata <= dati_player->money) {
+			status = pthread_mutex_unlock(&(players_list.control.mutex));
+			if (status != 0) {
+				err_abort(status, "Unlock sul mutex nel player");
+			}
+			sleep(1); //TODO rimuovere questa sleep
+			status = pthread_mutex_lock(&puntate_mutex);
+			if (status != 0) {
+				err_abort(status, "Lock sul mutex nel player");
+			}
+
+			/* aggiunge un nodo alla lista delle puntate
+			 * TODO modificare e integrare con funzioni di Antonio
+			 */
+			mybet = (puntata_t *) malloc(sizeof (puntata_t));
+			if (!mybet) {
+				err_abort(errno, "Errore malloc!");
+			}
+			mybet->numero = num_puntato_dal_giocatore;
+			mybet->tipo = tipo_puntata;
+			mybet->somma_puntata = somma_puntata;
+			queue_put(&(lista_puntate.puntate), (node *) mybet);
+			printf("GIOCATORE %d ha puntato il %d di tipo %d puntando %d€\n",
+				num_giocatore, mybet->numero, mybet->tipo, mybet->somma_puntata);
+			num_requests++;
+		} else {
+			//puntata non valida: somma troppo alta
+			printf("GIOCATORE %d: somma troppo alta, ritenta\n", num_giocatore);
+		}
 		status = pthread_mutex_lock(&puntate_mutex);
 		if (status != 0) {
 			err_abort(status, "Lock sul mutex nel player");
 		}
-
-		/* aggiunge un nodo alla lista delle puntate
-		 * TODO modificare e integrare con funzioni di Antonio
-		 */
-		mybet = (puntata_t *) malloc(sizeof (puntata_t));
-		if (!mybet) {
-			err_abort(errno, "Errore malloc!");
-		}
-		mybet->numero = num_puntato_dal_giocatore;
-		mybet->tipo = tipo_puntata;
-		mybet->somma_puntata = somma_puntata;
-		queue_put(&(lista_puntate.puntate), (node *) mybet);
-		printf("GIOCATORE %d ha puntato il %d di tipo %d puntando %d€\n",
-			num_giocatore, mybet->numero, mybet->tipo, mybet->somma_puntata);
-		num_requests++;
 	}
 	pthread_exit(NULL);
 }
@@ -222,17 +274,19 @@ int main(int argc, char **argv) {
 	//clientfd; /* socket e client descriptor */
 	short int server_port; /* porta del server */
 	int game_interval; /* durata possibilità puntate */
-	struct sockaddr_in self;// client_addr; /* info del server e client */
+	struct sockaddr_in self; // client_addr; /* info del server e client */
 	//socklen_t client_len = sizeof (client_addr);
 	int status; /* raccoglie i valori restituiti dalle system call */
 	pthread_t player_tid, croupier_tid;
 	//client_t *client_info;
 
-
+	//inizializzo il seme per la generazione di numeri random
+	srand(time(NULL));
 	//inizializza strutture dati
 	queue_init(&(lista_puntate.puntate));
-
-
+	queue_init(&(players_list.giocatori));
+	control_init(&(players_list.control));
+	control_activate(&(players_list.control));
 	/* converto i parametri passati a interi */
 	server_port = atoi(argv[1]);
 	game_interval = atoi(argv[2]);

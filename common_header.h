@@ -20,7 +20,7 @@
 #include <wait.h>
 
 #define MAXBUF 4096               /* max line length */
-
+#define MAX_BUDGET 500
 /**
  * Definizione dei tipi
  */
@@ -47,6 +47,12 @@ struct lista_puntate_t {
     queue puntate;
 } lista_puntate;
 
+typedef struct lista_giocatori {
+    data_control control;
+    queue giocatori;
+    int num_giocatori;
+} lista_giocatori_t;
+
 typedef struct player_tag {
     int money;
     char nickname[50]; //FIXME inserire una costante al posto di 50
@@ -66,7 +72,7 @@ extern int num_requests;
 
 extern int puntate_aperte;
 
-
+lista_giocatori_t players_list;
 
 
 /**

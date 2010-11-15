@@ -16,8 +16,10 @@ typedef struct data_control {
     int active;
 } data_control;
 
-
-
+int control_init(data_control *mycontrol);
+int control_destroy(data_control *mycontrol);
+int control_activate(data_control *mycontrol );
+int control_deactivate(data_control *mycontrol);
 
 #endif	/* CONTROL_H */
 
