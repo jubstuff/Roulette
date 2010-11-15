@@ -31,10 +31,9 @@ void *croupier(void *arg) {
 	char *log_file_name = "croupier-log.txt";
 
 	struct timespec cond_time; //c'è solo cond_time in questa struct
-	time_t now; //Conta i secondi da gennaio 1970 alle ore 00:00:00
 	int status;
 	int intervallo = (int) arg;
-	puntata_t *puntata;
+	
 
 	//inizializzo il seme per la generazione di numeri random
 	srand(time(NULL));
@@ -58,10 +57,12 @@ void *croupier(void *arg) {
 		fprintf(log_file, "CROUPIER estratto=%d\n", estratto);
 #endif
 		//TODO mettere in una funzione calcola_intervallo
+/*
 		now = time(NULL);
 		cond_time.tv_sec = now + intervallo;
 		cond_time.tv_nsec = 0;
-
+*/
+		cond_time = calcola_intervallo(intervallo);
 		/* wake up players */
 		status = pthread_cond_broadcast(&puntate_cond);
 		if (status != 0) {

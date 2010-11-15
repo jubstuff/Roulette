@@ -54,3 +54,12 @@ void gestisci_puntata() {
 		num_requests--;
 	}
 }
+
+struct timespec calcola_intervallo(int intervallo) {
+	time_t now;
+	struct timespec cond_time;
+	now = time(NULL);
+	cond_time.tv_sec = now + intervallo;
+	cond_time.tv_nsec = 0;
+	return cond_time;
+}

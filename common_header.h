@@ -69,5 +69,7 @@ int open_socket(struct sockaddr_in self, short int server_port);
 
 
 void gestisci_puntata();
+
+struct timespec calcola_intervallo(int intervallo);
 #endif  /* _COMMON_HEADER_H */
 
