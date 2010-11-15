@@ -56,13 +56,9 @@ void *croupier(void *arg) {
 #ifdef CREATE_LOG
 		fprintf(log_file, "CROUPIER estratto=%d\n", estratto);
 #endif
-		//TODO mettere in una funzione calcola_intervallo
-/*
-		now = time(NULL);
-		cond_time.tv_sec = now + intervallo;
-		cond_time.tv_nsec = 0;
-*/
+
 		cond_time = calcola_intervallo(intervallo);
+
 		/* wake up players */
 		status = pthread_cond_broadcast(&puntate_cond);
 		if (status != 0) {
@@ -73,8 +69,6 @@ void *croupier(void *arg) {
 			status = pthread_cond_timedwait(&croupier_cond, &puntate_mutex,
 				&cond_time);
 
-			//Se status == ETIMEDOUT, significa che è scaduto il tempo senza la
-			//verifica della condizione
 			if (status == ETIMEDOUT) {
 #ifdef CREATE_LOG
 				fprintf(log_file, "CROUPIER tempo scaduto!!! chiudo le puntate\n");
@@ -88,7 +82,7 @@ void *croupier(void *arg) {
 		}
 
 		//gestione della puntata
-		sleep(2);
+		//sleep(2);
 		//TODO inserire funzione che controlla i vincitori
 		gestisci_puntata();
 		status = pthread_mutex_unlock(&puntate_mutex);
@@ -109,6 +103,7 @@ void *player(void *arg) {
 	int num_puntato_dal_giocatore = 0;
 	bet_t tipo_puntata;
 	int status;
+	int somma_puntata;
 	puntata_t *mybet;
 	//	player_t player;
 	//	size_t nbytes;
@@ -180,10 +175,11 @@ void *player(void *arg) {
 		if (status != 0) {
 			err_abort(status, "Unlock sul mutex nel player");
 		}
-		//questo valore in realtà viene preso dal client
+		//questi valori in realtà viene preso dal client
 		num_puntato_dal_giocatore = rand() % 37;
 		tipo_puntata = (bet_t)(rand() % 3);
-		sleep(1);
+		somma_puntata = (rand() % 100)+1;
+		sleep(1); //TODO rimuovere questa sleep
 		status = pthread_mutex_lock(&puntate_mutex);
 		if (status != 0) {
 			err_abort(status, "Lock sul mutex nel player");
@@ -198,8 +194,10 @@ void *player(void *arg) {
 		}
 		mybet->puntata = num_puntato_dal_giocatore;
 		mybet->tipo = tipo_puntata;
+		mybet->somma_puntata = somma_puntata;
 		queue_put(&(lista_puntate.puntate), (node *) mybet);
-		printf("GIOCATORE %d ha aggiunto %d\n", num_giocatore, mybet->puntata);
+		printf("GIOCATORE %d ha aggiunto %d di tipo %d puntando %d€\n",
+			num_giocatore, mybet->puntata, mybet->tipo, mybet->somma_puntata);
 		num_requests++;
 	}
 	pthread_exit(NULL);

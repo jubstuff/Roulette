@@ -48,8 +48,8 @@ int open_socket(struct sockaddr_in self, short int server_port) {
 void gestisci_puntata() {
 	puntata_t *puntata;
 	while ((puntata = (puntata_t *) queue_get(&(lista_puntate.puntate))) != NULL) {
-		fprintf(stdout, "CROUPIER: nella lista delle puntate numero %d di tipo %d\n",
-			puntata->puntata, puntata->tipo);
+		fprintf(stdout, "CROUPIER: nella lista delle puntate numero %d di tipo %d con %d€\n",
+			puntata->puntata, puntata->tipo, puntata->somma_puntata);
 		free(puntata);
 		num_requests--;
 	}
