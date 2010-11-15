@@ -28,7 +28,7 @@ typedef enum bet_type { NUMBER = 0, EVEN, ODD } bet_t;
 
 typedef struct puntate_node {
 	struct node *next;
-	int puntata;
+	int numero;
         bet_t tipo;
         int somma_puntata;
 } puntata_t;

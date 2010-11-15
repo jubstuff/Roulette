@@ -192,12 +192,12 @@ void *player(void *arg) {
 		if (!mybet) {
 			err_abort(errno, "Errore malloc!");
 		}
-		mybet->puntata = num_puntato_dal_giocatore;
+		mybet->numero = num_puntato_dal_giocatore;
 		mybet->tipo = tipo_puntata;
 		mybet->somma_puntata = somma_puntata;
 		queue_put(&(lista_puntate.puntate), (node *) mybet);
 		printf("GIOCATORE %d ha aggiunto %d di tipo %d puntando %d€\n",
-			num_giocatore, mybet->puntata, mybet->tipo, mybet->somma_puntata);
+			num_giocatore, mybet->numero, mybet->tipo, mybet->somma_puntata);
 		num_requests++;
 	}
 	pthread_exit(NULL);
