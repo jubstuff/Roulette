@@ -21,23 +21,32 @@
 
 #define MAXBUF 4096               /* max line length */
 
-
-
-/* thread */
-
-extern int num_requests;
-extern int estratto;
-
-
-struct lista_puntate {
-	data_control control;
-	queue puntate;
-} bl;
+/**
+ * Definizione dei tipi
+ */
+typedef enum bet_type { NUMBER = 0, EVEN, ODD } bet_t;
 
 typedef struct puntate_node {
 	struct node *next;
 	int puntata;
-} pnode;
+        bet_t tipo;
+} puntata_t;
+
+
+
+/**
+ * Definizione variabili
+ */
+
+extern int num_requests;
+
+extern int estratto;
+
+struct lista_puntate_t {
+	data_control control;
+	queue puntate;
+} lista_puntate;
+
 
 
 /**
@@ -58,5 +67,7 @@ void err_abort(int code, char *text);
  */
 int open_socket(struct sockaddr_in self, short int server_port);
 
+
+void gestisci_puntata();
 #endif  /* _COMMON_HEADER_H */
 

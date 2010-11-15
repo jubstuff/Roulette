@@ -2,3 +2,5 @@ nbproject
 *.mk
 *.[oa]
 *~
+.dep.inc
+*.out

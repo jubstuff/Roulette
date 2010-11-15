@@ -16,7 +16,6 @@ void err_abort(int code, char *text) {
 	abort();
 }
 
-
 int open_socket(struct sockaddr_in self, short int server_port) {
 	int sockfd;
 	int status;
@@ -44,4 +43,14 @@ int open_socket(struct sockaddr_in self, short int server_port) {
 		err_abort(errno, "Error in listening to socket");
 	}
 	return sockfd;
+}
+
+void gestisci_puntata() {
+	puntata_t *puntata;
+	while ((puntata = (puntata_t *) queue_get(&(lista_puntate.puntate))) != NULL) {
+		fprintf(stdout, "CROUPIER: nella lista delle puntate numero %d di tipo %d\n",
+			puntata->puntata, puntata->tipo);
+		free(puntata);
+		num_requests--;
+	}
 }
