@@ -24,15 +24,38 @@
 /**
  * Definizione dei tipi
  */
-typedef enum bet_type { NUMBER = 0, EVEN, ODD } bet_t;
+typedef enum bet_type {
+    NUMBER = 0,
+    EVEN,
+    ODD
+} bet_t;
 
 typedef struct puntate_node {
-	struct node *next;
-	int numero;
-        bet_t tipo;
-        int somma_puntata;
+    struct node *next;
+    int numero;
+    bet_t tipo;
+    int somma_puntata;
 } puntata_t;
 
+typedef struct client_tag {
+    struct sockaddr_in client_data; // porta,indirizzo del client
+    int clientfd; // socket del client
+} client_t;
+
+struct lista_puntate_t {
+    data_control control;
+    queue puntate;
+} lista_puntate;
+
+typedef struct player_tag {
+    int money;
+    char nickname[50]; //FIXME inserire una costante al posto di 50
+    int win_money; //JUST_ASK questo cos'è?
+    int messport;
+    client_t *info_client;
+    //bet_t *bet; //lista delle puntate del giocatore
+    struct player_tag *next_player;
+} player_t;
 
 
 /**
@@ -43,10 +66,6 @@ extern int num_requests;
 
 extern int puntate_aperte;
 
-struct lista_puntate_t {
-	data_control control;
-	queue puntate;
-} lista_puntate;
 
 
 
