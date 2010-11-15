@@ -30,6 +30,7 @@ typedef struct puntate_node {
 	struct node *next;
 	int puntata;
         bet_t tipo;
+        int somma_puntata;
 } puntata_t;
 
 
