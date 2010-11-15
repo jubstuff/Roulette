@@ -30,22 +30,16 @@ typedef enum bet_type {
     ODD
 } bet_t;
 
-typedef struct puntate_node {
-    struct node *next;
-    int numero;
-    bet_t tipo;
-    int somma_puntata;
-} puntata_t;
 
 typedef struct client_tag {
     struct sockaddr_in client_data; // porta,indirizzo del client
     int clientfd; // socket del client
 } client_t;
 
-struct lista_puntate_t {
+typedef struct lista_puntate {
     data_control control;
     queue puntate;
-} lista_puntate;
+} lista_puntate_t;
 
 typedef struct lista_giocatori {
     data_control control;
@@ -54,15 +48,21 @@ typedef struct lista_giocatori {
 } lista_giocatori_t;
 
 typedef struct player_tag {
+    struct node *next;
     int money;
     char nickname[50]; //FIXME inserire una costante al posto di 50
     int win_money; //JUST_ASK questo cos'è?
     int messport;
     client_t *info_client;
-    //bet_t *bet; //lista delle puntate del giocatore
-    struct player_tag *next_player;
+    lista_puntate_t lista_puntate_personale;
 } player_t;
 
+typedef struct puntate_node {
+    struct node *next;
+    int numero;
+    bet_t tipo;
+    int somma_puntata;
+} puntata_t;
 
 /**
  * Definizione variabili
@@ -73,6 +73,7 @@ extern int num_requests;
 extern int puntate_aperte;
 
 lista_giocatori_t players_list;
+lista_puntate_t lista_puntate;
 
 
 /**
@@ -95,6 +96,13 @@ int open_socket(struct sockaddr_in self, short int server_port);
 
 
 void gestisci_puntate(int estratto);
+void gestisci_puntata_numero(int estratto, puntata_t *puntata, player_t *player);
+void gestisci_puntata_pari(int estratto, puntata_t *puntata, player_t *player);
+void gestisci_puntata_dispari(int estratto, puntata_t *puntata, player_t *player);
+void aumenta_budget(int moltiplicatore, puntata_t *puntata, player_t *player);
+
+puntata_t *inizializza_nodo_puntata(int numero_puntato, bet_t tipo_puntata, int somma_puntata);
+
 
 struct timespec calcola_intervallo(int intervallo);
 #endif  /* _COMMON_HEADER_H */

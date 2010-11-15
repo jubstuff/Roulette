@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -Wall -l pthread
+CFLAGS = -Wall -l pthread -g
 OBJS = common_header.o estrazione.o queue.o control.o #list_management.o
 
 server-roulette : $(OBJS)

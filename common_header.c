@@ -47,38 +47,59 @@ int open_socket(struct sockaddr_in self, short int server_port) {
 
 void gestisci_puntate(int estratto) {
 	puntata_t *puntata;
-	printf("Il numero estratto è %d\n", estratto);
-	while ((puntata = (puntata_t *) queue_get(&(lista_puntate.puntate))) != NULL) {
-		switch (puntata->tipo) {
-			case NUMBER:
-				fprintf(stdout, "CROUPIER: puntati %d€ sul numero %d \n",
-					puntata->somma_puntata, puntata->numero);
-				if (estratto == puntata->numero) {
-					fprintf(stdout, "Questa puntata vince!!\n");
-
-				}
-				break;
-			case EVEN:
-				fprintf(stdout, "CROUPIER: puntati %d€ sui PARI \n",
-					puntata->somma_puntata);
-				if (estratto % 2 == 0) {
-					fprintf(stdout, "Questa puntata vince!!\n");
-				}
-				break;
-			case ODD:
-				fprintf(stdout, "CROUPIER: puntati %d€ sui DISPARI \n",
-					puntata->somma_puntata);
-				if (estratto % 2 != 0) {
-					fprintf(stdout, "Questa puntata vince!!\n");
-				}
-				break;
-			default:
-				break;
+	queue *q = &(players_list.giocatori);
+	player_t *player = (player_t *) (q->head);
+	printf("CROUPIER Il numero estratto è %d\n", estratto);
+	int contatore = 0;
+	while (player != NULL) {
+		printf("===GIOCATORE %d===\n", contatore);
+		while ((puntata = (puntata_t *) queue_get(&(player->lista_puntate_personale.puntate))) != NULL) {
+			switch (puntata->tipo) {
+				case NUMBER:
+					gestisci_puntata_numero(estratto, puntata, player);
+					break;
+				case EVEN:
+					gestisci_puntata_pari(estratto, puntata, player);
+					break;
+				case ODD:
+					gestisci_puntata_dispari(estratto, puntata, player);
+					break;
+				default:
+					break;
+			}
 		}
-
-		free(puntata);
-		num_requests--;
+		player = (player_t *) player->next;
+		contatore++;
 	}
+}
+
+void gestisci_puntata_numero(int estratto, puntata_t *puntata, player_t *player) {
+	fprintf(stdout, "CROUPIER: puntati %d€ sui PARI \n",
+			puntata->somma_puntata);
+	if (estratto == puntata->numero) {
+		aumenta_budget(36, puntata, player);
+	}
+}
+
+void gestisci_puntata_pari(int estratto, puntata_t *puntata, player_t *player) {
+	fprintf(stdout, "CROUPIER: puntati %d€ sui PARI \n",
+			puntata->somma_puntata);
+	if (estratto % 2 == 0) {
+		aumenta_budget(2, puntata, player);
+	}
+}
+
+void gestisci_puntata_dispari(int estratto, puntata_t *puntata, player_t *player) {
+	fprintf(stdout, "CROUPIER: puntati %d€ sui DISPARI \n",
+			puntata->somma_puntata);
+	if (estratto % 2 != 0) {
+		aumenta_budget(2, puntata, player);
+	}
+}
+
+void aumenta_budget(int moltiplicatore, puntata_t *puntata, player_t *player) {
+	fprintf(stdout, "CROUPIER Questa puntata vince!!\n");
+	player->money += (puntata->somma_puntata * moltiplicatore);
 }
 
 struct timespec calcola_intervallo(int intervallo) {
@@ -90,3 +111,14 @@ struct timespec calcola_intervallo(int intervallo) {
 	return cond_time;
 }
 
+puntata_t *inizializza_nodo_puntata(int numero_puntato, bet_t tipo_puntata, int somma_puntata) {
+	puntata_t *mybet;
+	mybet = (puntata_t *) malloc(sizeof (puntata_t));
+	if (!mybet) {
+		err_abort(errno, "Errore malloc!");
+	}
+	mybet->numero = numero_puntato;
+	mybet->tipo = tipo_puntata;
+	mybet->somma_puntata = somma_puntata;
+	return mybet;
+}
