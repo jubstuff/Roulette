@@ -190,8 +190,6 @@ void *player(void *arg) {
 		err_abort(status, "Lock sul mutex nel player");
 	}
 	while (1) {
-		/* in realtà la condizione (estratto < 0) va intesa come
-		 * (puntate_aperte == 1) */
 		while (puntate_aperte < 0) {
 			printf("GIOCATORE %d CONDIZIONE FALSA\n", num_giocatore);
 			status = pthread_cond_wait(&puntate_cond, &puntate_mutex);
@@ -247,10 +245,21 @@ void *player(void *arg) {
 			printf("GIOCATORE %d ha puntato il %d di tipo %d puntando %d€\n",
 				num_giocatore, mybet->numero, mybet->tipo, mybet->somma_puntata);
 			num_requests++;
+			status = pthread_mutex_unlock(&puntate_mutex);
+			if (status != 0) {
+				err_abort(status, "Unlock sul mutex nel player");
+			}
 		} else {
+			status = pthread_mutex_unlock(&(players_list.control.mutex));
+			if (status != 0) {
+				err_abort(status, "Unlock sul mutex nel player");
+			}
 			//puntata non valida: somma troppo alta
 			printf("GIOCATORE %d: somma troppo alta, ritenta\n", num_giocatore);
+			sleep(1); //TODO rimuovere questa sleep
 		}
+
+		//Questo lock è indispensabile per il controllo della condition variable
 		status = pthread_mutex_lock(&puntate_mutex);
 		if (status != 0) {
 			err_abort(status, "Lock sul mutex nel player");
