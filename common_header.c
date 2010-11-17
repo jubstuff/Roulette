@@ -93,6 +93,7 @@ void gestisci_puntate(int estratto) {
 	}
 	printf("CROUPIER In questa mano ci sono stati %d vincitori e %d perdenti\n",
 		numero_di_vincitori_in_questa_mano, numero_di_perdenti_in_questa_mano);
+	sleep(10);
 	//TODO inviare il numero di perdenti a tutti i client
 	//TODO inviare gli indirizzi IP dei vincitori a tutti i client
 }

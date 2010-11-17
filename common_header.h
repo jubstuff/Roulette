@@ -21,6 +21,7 @@
 
 #define MAXBUF 4096               /* max line length */
 #define MAX_BUDGET 500
+
 /**
  * Definizione dei tipi
  */
@@ -30,6 +31,10 @@ typedef enum bet_type {
     ODD
 } bet_t;
 
+typedef enum bet_state {
+    OPEN = 1,
+    CLOSED
+} state_t;
 
 typedef struct client_tag {
     struct sockaddr_in client_data; // porta,indirizzo del client
@@ -70,7 +75,7 @@ typedef struct puntate_node {
 
 extern int num_requests;
 
-extern int puntate_aperte;
+extern int stato_puntate;
 
 extern int numero_di_vincitori_in_questa_mano;
 

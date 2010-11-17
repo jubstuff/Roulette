@@ -19,7 +19,7 @@ pthread_cond_t croupier_cond = PTHREAD_COND_INITIALIZER;
 
 /* Quando estratto è -1 vuol dire che le puntate sono chiuse, quando è un
  * numero positivo le puntate sono aperte */
-int puntate_aperte = -1;
+int stato_puntate = -1;
 
 //TODO inserire descrizione funzione
 
@@ -57,15 +57,14 @@ void *croupier(void *arg) {
 #endif
 
 		cond_time = calcola_intervallo(intervallo);
-		sleep(10);
-		puntate_aperte = 1;
+		stato_puntate = 1;
 		/* wake up players */
 		status = pthread_cond_broadcast(&puntate_cond);
 		if (status != 0) {
 			err_abort(status, "Broadcast condition in croupier");
 		}
 
-		while (puntate_aperte > 0) {
+		while (stato_puntate > 0) {
 			status = pthread_cond_timedwait(&croupier_cond, &puntate_mutex,
 											&cond_time);
 
@@ -73,7 +72,7 @@ void *croupier(void *arg) {
 #ifdef CREATE_LOG
 				fprintf(log_file, "CROUPIER tempo scaduto!!! chiudo le puntate\n");
 #endif
-				puntate_aperte = -1; //bets closed
+				stato_puntate = -1; //bets closed
 				break;
 			}
 			if (status != 0) {
@@ -127,10 +126,13 @@ void *player(void *arg) {
 		printf("Errore malloc!\n");
 		abort(); //FIXME che fare qui?
 	}
+
+	//======================DA ELIMINARE===================================
 	//TODO questi dati devono essere presi dal client, ovviamente
 	dati_player->money = (rand() % MAX_BUDGET) + 1;
 	snprintf(dati_player->nickname, sizeof (dati_player->nickname),
 			"%s%d", "Giocatore", num_giocatore);
+	//======================DA ELIMINARE===================================
 
 
 	status = pthread_mutex_lock(&(players_list.control.mutex));
@@ -178,14 +180,17 @@ void *player(void *arg) {
 
 	//TODO inserire le info nella lista dei giocatori
 #endif
-
+	
 	status = pthread_mutex_lock(&puntate_mutex);
 	if (status != 0) {
 		err_abort(status, "Lock sul mutex nel player");
 	}
 	while (1) {
-		while (puntate_aperte < 0) {
-			printf("GIOCATORE %d PUNTATE CHIUSE\n", num_giocatore);
+		while (stato_puntate < 0) {
+			printf("GIOCATORE %d: TROVATO PUNTATE CHIUSE\n", num_giocatore);
+
+			//aspettare che il croupier mi invii il numero di perdenti e la lista
+			//dei giocatori che hanno vinto
 			status = pthread_cond_wait(&puntate_cond, &puntate_mutex);
 			if (status != 0) {
 				err_abort(status, "Wait per l'apertura delle puntate");
@@ -204,31 +209,18 @@ void *player(void *arg) {
 			err_abort(status, "Unlock sul mutex nel player");
 		}
 
+	//======================DA ELIMINARE===================================
 		//TODO questi valori in realtà vengono presi dal client
 		num_puntato_dal_giocatore = rand() % 37;
 		tipo_puntata = (bet_t) (rand() % 3);
 		somma_puntata = (rand() % 100) + 1;
+	//======================DA ELIMINARE===================================
 
-		//lock del mutex per leggere money nella lista dei giocatori
-/*
- non so se questa cosa va bene
-		status = pthread_mutex_lock(&(players_list.control.mutex));
-		if (status != 0) {
-			err_abort(status, "Lock sul mutex nel player");
-		}
-*/
 		if (somma_puntata <= dati_player->money) {
 			//puntata valida: la inserisco nella lista
 			printf("GIOCATORE %d: budget prima della puntata %d€\n",
 				num_giocatore, dati_player->money);
 			dati_player->money -= somma_puntata;
-/*
-
-			status = pthread_mutex_unlock(&(players_list.control.mutex));
-			if (status != 0) {
-				err_abort(status, "Unlock sul mutex nel player");
-			}
-*/
 			sleep(1); //TODO rimuovere questa sleep
 			status = pthread_mutex_lock(&puntate_mutex);
 			if (status != 0) {
