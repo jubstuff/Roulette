@@ -28,17 +28,10 @@ int stato_puntate = -1;
  *
  *============================================================================*/
 void *croupier(void *arg) {
-	FILE *log_file;
-	char *log_file_name = "croupier-log.txt";
-	struct timespec cond_time; //c'è solo cond_time in questa struct
+	struct timespec cond_time;
 	int status;
 	int intervallo = (int) arg;
 	int estratto;
-
-	log_file = fopen(log_file_name, "w");
-	if (log_file == NULL) {
-		fprintf(stderr, "Impossibile aprire il log file");
-	}
 
 	while (1) {
 		//Blocco il mutex per il croupier che fa l'estrazione
@@ -105,8 +98,7 @@ void *player(void *arg) {
 	int somma_puntata;
 	puntata_t *mybet = NULL;
 	player_t *dati_player = NULL;
-	//	size_t nbytes;
-	//	ssize_t bytes_read;
+
 
 	dati_player = (player_t *)malloc(sizeof (player_t));
 	if (!dati_player) {
