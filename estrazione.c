@@ -34,9 +34,6 @@ void *croupier(void *arg) {
 	int status;
 	int intervallo = (int) arg;
 	int estratto;
-//	player_t *player;
-
-
 
 	log_file = fopen(log_file_name, "w");
 	if (log_file == NULL) {
@@ -49,13 +46,6 @@ void *croupier(void *arg) {
 		if (status != 0) {
 			err_abort(status, "Lock sul mutex nel croupier");
 		}
-
-
-
-#ifdef CREATE_LOG
-		fprintf(log_file, "CROUPIER estratto=%d\n", estratto);
-#endif
-
 		cond_time = calcola_intervallo(intervallo);
 		stato_puntate = 1;
 		/* wake up players */
@@ -69,9 +59,6 @@ void *croupier(void *arg) {
 											&cond_time);
 
 			if (status == ETIMEDOUT) {
-#ifdef CREATE_LOG
-				fprintf(log_file, "CROUPIER tempo scaduto!!! chiudo le puntate\n");
-#endif
 				stato_puntate = -1; //bets closed
 				break;
 			}
@@ -222,13 +209,13 @@ void *player(void *arg) {
 				num_giocatore, dati_player->money);
 			dati_player->money -= somma_puntata;
 			sleep(1); //TODO rimuovere questa sleep
+			
 			status = pthread_mutex_lock(&puntate_mutex);
 			if (status != 0) {
 				err_abort(status, "Lock sul mutex nel player");
 			}
 
 			// aggiunge un nodo alla lista delle puntate
-
 			mybet = inizializza_nodo_puntata(num_puntato_dal_giocatore,
 											tipo_puntata, somma_puntata);
 			queue_put(&(dati_player->lista_puntate_personale.puntate),
@@ -239,26 +226,13 @@ void *player(void *arg) {
 
 			printf("GIOCATORE %d: budget dopo la puntata %d€\n",
 				num_giocatore, dati_player->money);
-			status = pthread_mutex_unlock(&puntate_mutex);
-			if (status != 0) {
-				err_abort(status, "Unlock sul mutex nel player");
-			}
+
 		} else {
 			//puntata non valida: somma troppo alta
-			status = pthread_mutex_unlock(&(players_list.control.mutex));
-			if (status != 0) {
-				err_abort(status, "Unlock sul mutex nel player");
-			}
-			
 			printf("GIOCATORE %d: somma troppo alta, ritenta\n", num_giocatore);
 			sleep(1); //TODO rimuovere questa sleep
 		}
 
-		//Questo lock è indispensabile per il controllo della condition variable
-		status = pthread_mutex_lock(&puntate_mutex);
-		if (status != 0) {
-			err_abort(status, "Lock sul mutex nel player");
-		}
 		while(stato_puntate == 0) {
 			printf("Il croupier sta processando la puntata, aspetto...\n");
 			pthread_cond_wait(&croupier_cond, &puntate_mutex);
