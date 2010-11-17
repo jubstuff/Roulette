@@ -186,7 +186,7 @@ void *player(void *arg) {
 		err_abort(status, "Lock sul mutex nel player");
 	}
 	while (1) {
-		while (stato_puntate < 0) {
+		while (stato_puntate == -1) { //se le puntate sono chiuse prima dell'estrazione, aspetta
 			printf("GIOCATORE %d: TROVATO PUNTATE CHIUSE\n", num_giocatore);
 
 			//aspettare che il croupier mi invii il numero di perdenti e la lista
@@ -258,6 +258,10 @@ void *player(void *arg) {
 		status = pthread_mutex_lock(&puntate_mutex);
 		if (status != 0) {
 			err_abort(status, "Lock sul mutex nel player");
+		}
+		while(stato_puntate == 0) {
+			printf("Il croupier sta processando la puntata, aspetto...\n");
+			pthread_cond_wait(&croupier_cond, &puntate_mutex);
 		}
 	}
 	pthread_exit(NULL);
