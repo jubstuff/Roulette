@@ -72,6 +72,11 @@ extern int num_requests;
 
 extern int puntate_aperte;
 
+extern int numero_di_vincitori_in_questa_mano;
+
+extern int numero_di_perdenti_in_questa_mano;
+
+
 lista_giocatori_t players_list;
 lista_puntate_t lista_puntate;
 

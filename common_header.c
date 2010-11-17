@@ -45,14 +45,23 @@ int open_socket(struct sockaddr_in self, short int server_port) {
 	return sockfd;
 }
 
+/*
+ * LOCKING PROTOCOL questa funzione necessita dei mutex puntate e player bloccati
+ */
 void gestisci_puntate(int estratto) {
 	puntata_t *puntata;
 	queue *q = &(players_list.giocatori);
-	player_t *player = (player_t *) (q->head);
-	printf("CROUPIER Il numero estratto è %d\n", estratto);
+	int vincitore = 0;
 	int contatore = 0;
+	player_t *player = (player_t *) (q->head);
+	int numero_di_perdenti_in_questa_mano = 0;
+	int numero_di_vincitori_in_questa_mano = 0;
+	int budget_giocatore_prima_del_controllo = 0;
+
+	printf("CROUPIER Il numero estratto è %d\n", estratto);
 	while (player != NULL) {
 		printf("===GIOCATORE %d===\n", contatore);
+		budget_giocatore_prima_del_controllo = player->money;
 		while ((puntata = (puntata_t *) queue_get(&(player->lista_puntate_personale.puntate))) != NULL) {
 			switch (puntata->tipo) {
 				case NUMBER:
@@ -68,16 +77,31 @@ void gestisci_puntate(int estratto) {
 					break;
 			}
 		}
-		player = (player_t *) player->next;
+		vincitore = (player->money > budget_giocatore_prima_del_controllo) ? 1 : 0;
 		contatore++;
+		if (vincitore) {
+			//TODO aggiungi alla lista dei vincitori
+			numero_di_vincitori_in_questa_mano++;
+		} else {
+			numero_di_perdenti_in_questa_mano++;
+		}
+		if(player->money == 0) {
+			//TODO aggiungi alla lista dei giocatori da eliminare dal gioco
+		}
+		
+		player = (player_t *) player->next;
 	}
+	printf("CROUPIER In questa mano ci sono stati %d vincitori e %d perdenti\n",
+		numero_di_vincitori_in_questa_mano, numero_di_perdenti_in_questa_mano);
+	//TODO inviare il numero di perdenti a tutti i client
+	//TODO inviare gli indirizzi IP dei vincitori a tutti i client
 }
 
 void gestisci_puntata_numero(int estratto, puntata_t *puntata, player_t *player) {
 	fprintf(stdout, "CROUPIER: puntati %d€ sui PARI \n",
 			puntata->somma_puntata);
 	if (estratto == puntata->numero) {
-		aumenta_budget(36, puntata, player);
+		aumenta_budget(36, puntata, player); //TODO modificare moltiplicatore con costante
 	}
 }
 
@@ -85,7 +109,7 @@ void gestisci_puntata_pari(int estratto, puntata_t *puntata, player_t *player) {
 	fprintf(stdout, "CROUPIER: puntati %d€ sui PARI \n",
 			puntata->somma_puntata);
 	if (estratto % 2 == 0) {
-		aumenta_budget(2, puntata, player);
+		aumenta_budget(2, puntata, player); //TODO modificare moltiplicatore con costante
 	}
 }
 
@@ -93,7 +117,7 @@ void gestisci_puntata_dispari(int estratto, puntata_t *puntata, player_t *player
 	fprintf(stdout, "CROUPIER: puntati %d€ sui DISPARI \n",
 			puntata->somma_puntata);
 	if (estratto % 2 != 0) {
-		aumenta_budget(2, puntata, player);
+		aumenta_budget(2, puntata, player); //TODO modificare moltiplicatore con costante
 	}
 }
 
