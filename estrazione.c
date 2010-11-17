@@ -17,9 +17,7 @@ pthread_cond_t puntate_cond = PTHREAD_COND_INITIALIZER;
 pthread_cond_t croupier_cond = PTHREAD_COND_INITIALIZER;
 
 
-/* Quando estratto è -1 vuol dire che le puntate sono chiuse, quando è un
- * numero positivo le puntate sono aperte */
-int stato_puntate = -1;
+
 
 //TODO inserire descrizione funzione
 
@@ -40,19 +38,20 @@ void *croupier(void *arg) {
 			err_abort(status, "Lock sul mutex nel croupier");
 		}
 		cond_time = calcola_intervallo(intervallo);
-		stato_puntate = 1;
+		//apre le puntate
+		lista_puntate.stato_puntate = 1;
 		/* wake up players */
 		status = pthread_cond_broadcast(&puntate_cond);
 		if (status != 0) {
 			err_abort(status, "Broadcast condition in croupier");
 		}
 
-		while (stato_puntate > 0) {
+		while (lista_puntate.stato_puntate == 1) {
 			status = pthread_cond_timedwait(&croupier_cond, &puntate_mutex,
 											&cond_time);
 
 			if (status == ETIMEDOUT) {
-				stato_puntate = -1; //bets closed
+				lista_puntate.stato_puntate = -1; //chiude le puntate
 				break;
 			}
 			if (status != 0) {
@@ -60,10 +59,10 @@ void *croupier(void *arg) {
 			}
 		}
 
-		//gestione della puntata
 		//estrazione del numero da 0 a 36
 		estratto = rand() % 37;
 
+		//gestione della puntata
 		status = pthread_mutex_lock(&(players_list.control.mutex));
 		if (status != 0) {
 			err_abort(status, "Lock sul mutex nel croupier");
@@ -99,8 +98,8 @@ void *player(void *arg) {
 	puntata_t *mybet = NULL;
 	player_t *dati_player = NULL;
 
-
-	dati_player = (player_t *)malloc(sizeof (player_t));
+	//alloca un nuovo nodo per la lista dei giocatori
+	dati_player = (player_t *) malloc(sizeof (player_t));
 	if (!dati_player) {
 		printf("Errore malloc!\n");
 		abort(); //FIXME che fare qui?
@@ -118,6 +117,7 @@ void *player(void *arg) {
 	if (status != 0) {
 		err_abort(status, "Lock all'inserimento del nodo giocatore");
 	}
+	//aggiunge il nodo alla lista dei giocatori
 	players_list.num_giocatori++;
 	queue_init(&(dati_player->lista_puntate_personale.puntate));
 	queue_put(&(players_list.giocatori), (node *) dati_player);
@@ -126,50 +126,13 @@ void *player(void *arg) {
 		err_abort(status, "Unlock all'inserimento del nodo giocatore");
 	}
 
-#ifndef DEBUG
-	/* Recupero le info dal client */
-	client_t *client = (client_t *) arg;
-
-	player = malloc(sizeof (player_t));
-
-	/* leggo la porta di congratulazioni */
-	nbytes = sizeof (in_port_t);
-	bytes_read = read(client->clientfd, &(player->congrat_port), nbytes);
-	if (bytes_read < 0) {
-		err_abort(errno, "Lettura Porta Congratulazioni");
-	}
-
-	/* leggo i soldi */
-	nbytes = sizeof (int)
-		bytes_read = read(client->clientfd, &(player->money), nbytes);
-	if (bytes_read < 0) {
-		err_abort(errno, "Lettura somma giocatore");
-	}
-
-	/* leggo il nickname */
-	//TODO mettere un valore costante al posto di 50
-	bytes_read = read(client->clientfd, player->name, 50);
-	if (bytes_read < 0) {
-		err_abort(errno, "Lettura Nick Giocatore");
-	}
-	printf("\n===== DATI GIOCATORE =====\n");
-	printf("Nickname: %s\n", player->name);
-	printf("Soldi: %d\n", player->money);
-	printf("Porta congratulazioni: %d\n", player->congrat_port);
-
-	//TODO inserire le info nella lista dei giocatori
-#endif
-	
 	status = pthread_mutex_lock(&puntate_mutex);
 	if (status != 0) {
 		err_abort(status, "Lock sul mutex nel player");
 	}
 	while (1) {
-		while (stato_puntate == -1) { //se le puntate sono chiuse prima dell'estrazione, aspetta
+		while (lista_puntate.stato_puntate == -1) { //se le puntate sono chiuse prima dell'estrazione, aspetta
 			printf("GIOCATORE %d: TROVATO PUNTATE CHIUSE\n", num_giocatore);
-
-			//aspettare che il croupier mi invii il numero di perdenti e la lista
-			//dei giocatori che hanno vinto
 			status = pthread_cond_wait(&puntate_cond, &puntate_mutex);
 			if (status != 0) {
 				err_abort(status, "Wait per l'apertura delle puntate");
@@ -188,44 +151,36 @@ void *player(void *arg) {
 			err_abort(status, "Unlock sul mutex nel player");
 		}
 
-	//======================DA ELIMINARE===================================
+		//======================DA ELIMINARE===================================
 		//TODO questi valori in realtà vengono presi dal client
 		num_puntato_dal_giocatore = rand() % 37;
 		tipo_puntata = (bet_t) (rand() % 3);
 		somma_puntata = (rand() % 100) + 1;
-	//======================DA ELIMINARE===================================
+		//======================DA ELIMINARE===================================
 
 		if (somma_puntata <= dati_player->money) {
-			//puntata valida: la inserisco nella lista
-			printf("GIOCATORE %d: budget prima della puntata %d€\n",
-				num_giocatore, dati_player->money);
+			//puntata valida
 			dati_player->money -= somma_puntata;
-			sleep(1); //TODO rimuovere questa sleep
-			
+
+
+			mybet = inizializza_nodo_puntata(num_puntato_dal_giocatore,
+											tipo_puntata, somma_puntata);
 			status = pthread_mutex_lock(&puntate_mutex);
 			if (status != 0) {
 				err_abort(status, "Lock sul mutex nel player");
 			}
-
 			// aggiunge un nodo alla lista delle puntate
-			mybet = inizializza_nodo_puntata(num_puntato_dal_giocatore,
-											tipo_puntata, somma_puntata);
 			queue_put(&(dati_player->lista_puntate_personale.puntate),
 					(node *) mybet);
-
 			printf("GIOCATORE %d ha puntato il %d di tipo %d puntando %d€\n",
 				num_giocatore, mybet->numero, mybet->tipo, mybet->somma_puntata);
-
-			printf("GIOCATORE %d: budget dopo la puntata %d€\n",
-				num_giocatore, dati_player->money);
-
 		} else {
 			//puntata non valida: somma troppo alta
 			printf("GIOCATORE %d: somma troppo alta, ritenta\n", num_giocatore);
-			sleep(1); //TODO rimuovere questa sleep
 		}
+		sleep(1); //TODO rimuovere questa sleep
 
-		while(stato_puntate == 0) {
+		while (lista_puntate.stato_puntate == 0) {
 			printf("Il croupier sta processando la puntata, aspetto...\n");
 			pthread_cond_wait(&croupier_cond, &puntate_mutex);
 		}
@@ -254,6 +209,15 @@ int main(int argc, char **argv) {
 	pthread_t player_tid, croupier_tid;
 	//client_t *client_info;
 
+
+	/*
+	 * STATO PUNTATE
+	 *
+	 * -1 => significa che le puntate sono chiuse
+	 * 1  => significa che le puntate sono aperte
+	 *
+	 * */
+	lista_puntate.stato_puntate = -1;
 	//TODO mettere queste inizializzazioni in una funzione
 	//inizializzo il seme per la generazione di numeri random
 	srand(time(NULL));

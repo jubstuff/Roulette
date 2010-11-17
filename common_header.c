@@ -15,7 +15,12 @@ void err_abort(int code, char *text) {
 	fprintf(stderr, "%s at %s:%d: %s\n", text, __FILE__, __LINE__, strerror(code));
 	abort();
 }
-
+/**
+ * Apre un socket, e si mette in ascolto su di esso
+ * @param self
+ * @param server_port
+ * @return il socket aperto
+ */
 int open_socket(struct sockaddr_in self, short int server_port) {
 	int sockfd;
 	int status;
@@ -44,9 +49,12 @@ int open_socket(struct sockaddr_in self, short int server_port) {
 	}
 	return sockfd;
 }
-
-/*
+/**
+ * Processa la lista dei giocatori, contando il numero di vincitori e perdenti,
+ * e aumentando il budget dei vincitori
+ * 
  * LOCKING PROTOCOL questa funzione necessita dei mutex puntate e player bloccati
+ * @param estratto numero estratto dalla roulette
  */
 void gestisci_puntate(int estratto) {
 	puntata_t *puntata;
@@ -97,15 +105,25 @@ void gestisci_puntate(int estratto) {
 	//TODO inviare il numero di perdenti a tutti i client
 	//TODO inviare gli indirizzi IP dei vincitori a tutti i client
 }
-
+/**
+ * Controlla se una puntata del tipo <N>:<M> è vincente
+ * @param estratto
+ * @param puntata
+ * @param player
+ */
 void gestisci_puntata_numero(int estratto, puntata_t *puntata, player_t *player) {
-	fprintf(stdout, "CROUPIER: puntati %d€ sui PARI \n",
-			puntata->somma_puntata);
+	fprintf(stdout, "CROUPIER: puntati %d€ sul numero %d \n",
+			puntata->somma_puntata, puntata->numero);
 	if (estratto == puntata->numero) {
 		aumenta_budget(36, puntata, player); //TODO modificare moltiplicatore con costante
 	}
 }
-
+/**
+ * Controlla se una puntata del tipo P:<N> è vincente
+ * @param estratto
+ * @param puntata
+ * @param player
+ */
 void gestisci_puntata_pari(int estratto, puntata_t *puntata, player_t *player) {
 	fprintf(stdout, "CROUPIER: puntati %d€ sui PARI \n",
 			puntata->somma_puntata);
@@ -113,7 +131,12 @@ void gestisci_puntata_pari(int estratto, puntata_t *puntata, player_t *player) {
 		aumenta_budget(2, puntata, player); //TODO modificare moltiplicatore con costante
 	}
 }
-
+/**
+ * Controlla se una puntata del tipo D:<N> è vincente
+ * @param estratto
+ * @param puntata
+ * @param player
+ */
 void gestisci_puntata_dispari(int estratto, puntata_t *puntata, player_t *player) {
 	fprintf(stdout, "CROUPIER: puntati %d€ sui DISPARI \n",
 			puntata->somma_puntata);
@@ -121,12 +144,21 @@ void gestisci_puntata_dispari(int estratto, puntata_t *puntata, player_t *player
 		aumenta_budget(2, puntata, player); //TODO modificare moltiplicatore con costante
 	}
 }
-
+/**
+ * Aumenta il budget del giocatore, dato un moltiplicatore
+ * @param moltiplicatore
+ * @param puntata
+ * @param player
+ */
 void aumenta_budget(int moltiplicatore, puntata_t *puntata, player_t *player) {
 	fprintf(stdout, "CROUPIER Questa puntata vince!!\n");
 	player->money += (puntata->somma_puntata * moltiplicatore);
 }
-
+/**
+ * Calcola l'intervallo di attesa del croupier
+ * @param intervallo
+ * @return la struttura timespec contenente il tempo di fine attesa
+ */
 struct timespec calcola_intervallo(int intervallo) {
 	time_t now;
 	struct timespec cond_time;
@@ -135,7 +167,13 @@ struct timespec calcola_intervallo(int intervallo) {
 	cond_time.tv_nsec = 0;
 	return cond_time;
 }
-
+/**
+ * Inizializza un nodo della lista puntate
+ * @param numero_puntato
+ * @param tipo_puntata
+ * @param somma_puntata
+ * @return
+ */
 puntata_t *inizializza_nodo_puntata(int numero_puntato, bet_t tipo_puntata, int somma_puntata) {
 	puntata_t *mybet;
 	mybet = (puntata_t *) malloc(sizeof (puntata_t));
