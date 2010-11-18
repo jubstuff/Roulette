@@ -60,6 +60,10 @@ void *croupier(void *arg) {
 		}
 
 		//estrazione del numero da 0 a 36
+		status = pthread_mutex_unlock(&puntate_mutex);
+		if (status != 0) {
+			err_abort(status, "Unlock sul mutex nel croupier");
+		}
 		estratto = rand() % 37;
 
 		//gestione della puntata
@@ -73,10 +77,6 @@ void *croupier(void *arg) {
 		gestisci_puntate(estratto);
 
 		status = pthread_mutex_unlock(&(players_list.control.mutex));
-		if (status != 0) {
-			err_abort(status, "Unlock sul mutex nel croupier");
-		}
-		status = pthread_mutex_unlock(&puntate_mutex);
 		if (status != 0) {
 			err_abort(status, "Unlock sul mutex nel croupier");
 		}
