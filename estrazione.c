@@ -139,8 +139,10 @@ void *player(void *arg) {
 			}
 		}
 
-		//here player can bet
+		
 		/*
+		 * here player can bet
+		 * 
 		 * unlock mutex
 		 * read bet on socket
 		 * insert bet in list
@@ -177,6 +179,10 @@ void *player(void *arg) {
 		} else {
 			//puntata non valida: somma troppo alta
 			printf("GIOCATORE %d: somma troppo alta, ritenta\n", num_giocatore);
+			status = pthread_mutex_lock(&puntate_mutex);
+			if (status != 0) {
+				err_abort(status, "Lock sul mutex nel player");
+			}
 		}
 		sleep(1); //TODO rimuovere questa sleep
 
