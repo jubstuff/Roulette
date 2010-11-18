@@ -44,7 +44,6 @@ typedef struct client_tag {
 typedef struct lista_puntate {
     data_control control;
     queue puntate;
-    int stato_puntate;
 } lista_puntate_t;
 
 typedef struct lista_giocatori {
