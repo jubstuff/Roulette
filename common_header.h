@@ -4,7 +4,7 @@
 #include <arpa/inet.h>
 #include <ctype.h>
 #include "control.h"
-#include <errno.h>
+#include <errno.h> //ETIMEDOUT
 #include <fcntl.h>
 #include <pthread.h>
 #include "queue.h"
@@ -12,14 +12,14 @@
 #include <sys/socket.h>
 #include <sys/stat.h>
 #include <sys/types.h>
-#include <stdio.h>     
+#include <stdio.h>
 #include <stdlib.h>
-#include <string.h>    
+#include <string.h>
 #include <time.h>
-#include <unistd.h>    
+#include <unistd.h>
 #include <wait.h>
 
-#define MAXBUF 4096               /* max line length */
+#define MAXBUF 4096 /* max line length */
 #define MAX_BUDGET 500
 
 /**
@@ -44,6 +44,7 @@ typedef struct client_tag {
 typedef struct lista_puntate {
     data_control control;
     queue puntate;
+    int stato_puntate;
 } lista_puntate_t;
 
 typedef struct lista_giocatori {
@@ -89,9 +90,9 @@ lista_puntate_t lista_puntate;
 /**
  * Stampa sullo standard error un messaggio contenente l'errore, il file che l'ha
  * causato, la riga e la spiegazione.
- * 
+ *
  * @param code il codice d'errore (il valore di ritorno per le funzioni pthread,
- *		la variabile errno per le altre syscall)
+ * la variabile errno per le altre syscall)
  * @param text Una stringa che spiega l'errore
  */
 void err_abort(int code, char *text);
@@ -115,5 +116,4 @@ puntata_t *inizializza_nodo_puntata(int numero_puntato, bet_t tipo_puntata, int 
 
 
 struct timespec calcola_intervallo(int intervallo);
-#endif  /* _COMMON_HEADER_H */
-
+#endif /* _COMMON_HEADER_H */

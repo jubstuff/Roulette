@@ -224,6 +224,7 @@ void *player(void *arg) {
 		} else {
 			//puntata non valida: somma troppo alta
 			printf("GIOCATORE %d: somma troppo alta, ritenta\n", num_giocatore);
+<<<<<<< HEAD:estrazione.c
 
 			status = pthread_mutex_lock(&puntate_mutex);
 			if (status != 0) {
@@ -231,6 +232,8 @@ void *player(void *arg) {
 			}
 
 
+=======
+>>>>>>> 64b286a... Integrata la variabile stato_puntate nella struttura dati lista_puntate:estrazione.c
 			sleep(1); //TODO rimuovere questa sleep
 		}
 
