@@ -6,6 +6,7 @@
 #include "control.h"
 #include <errno.h> //ETIMEDOUT
 #include <fcntl.h>
+#include "player.h"
 #include <pthread.h>
 #include "queue.h"
 #include <signal.h>

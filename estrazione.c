@@ -13,17 +13,17 @@
 //#include "list_management.h"
 //TODO inserire descrizioni e nomi significativi per le variabili globali
 pthread_mutex_t puntate_mutex = PTHREAD_MUTEX_INITIALIZER;
-pthread_cond_t puntate_cond = PTHREAD_COND_INITIALIZER;
+pthread_cond_t puntate_aperte = PTHREAD_COND_INITIALIZER;
 pthread_cond_t croupier_cond = PTHREAD_COND_INITIALIZER;
 
 
 
 
-//TODO inserire descrizione funzione
+// TODO inserire descrizione funzione
 
 /**
  * FUNZIONE croupier
- *
+ * @todo fare le pizze
  *============================================================================*/
 void *croupier(void *arg) {
 	struct timespec cond_time;
@@ -32,16 +32,17 @@ void *croupier(void *arg) {
 	int estratto;
 
 	while (1) {
+
+		cond_time = calcola_intervallo(intervallo);
 		//Blocco il mutex per il croupier che fa l'estrazione
 		status = pthread_mutex_lock(&puntate_mutex);
 		if (status != 0) {
 			err_abort(status, "Lock sul mutex nel croupier");
 		}
-		cond_time = calcola_intervallo(intervallo);
 		//apre le puntate
 		lista_puntate.stato_puntate = 1;
 		/* wake up players */
-		status = pthread_cond_broadcast(&puntate_cond);
+		status = pthread_cond_broadcast(&puntate_aperte);
 		if (status != 0) {
 			err_abort(status, "Broadcast condition in croupier");
 		}
@@ -68,7 +69,7 @@ void *croupier(void *arg) {
 			err_abort(status, "Lock sul mutex nel croupier");
 		}
 		printf("Ci sono %d giocatori per questa giocata\n",
-			   players_list.num_giocatori);
+			players_list.num_giocatori);
 
 		gestisci_puntate(estratto);
 
@@ -85,108 +86,8 @@ void *croupier(void *arg) {
 }
 //TODO inserire descrizione funzione
 
-/**
- * FUNZIONE player
- *
- *============================================================================*/
-void *player(void *arg) {
-	int num_giocatore = (int) arg;
-	int num_puntato_dal_giocatore = 0;
-	bet_t tipo_puntata;
-	int status;
-	int somma_puntata;
-	puntata_t *mybet = NULL;
-	player_t *dati_player = NULL;
-
-	//alloca un nuovo nodo per la lista dei giocatori
-	dati_player = (player_t *) malloc(sizeof (player_t));
-	if (!dati_player) {
-		printf("Errore malloc!\n");
-		abort(); //FIXME che fare qui?
-	}
-
-	//======================DA ELIMINARE===================================
-	//TODO questi dati devono essere presi dal client, ovviamente
-	dati_player->money = (rand() % MAX_BUDGET) + 1;
-	snprintf(dati_player->nickname, sizeof (dati_player->nickname),
-			 "%s%d", "Giocatore", num_giocatore);
-	//======================DA ELIMINARE===================================
 
 
-	status = pthread_mutex_lock(&(players_list.control.mutex));
-	if (status != 0) {
-		err_abort(status, "Lock all'inserimento del nodo giocatore");
-	}
-	//aggiunge il nodo alla lista dei giocatori
-	players_list.num_giocatori++;
-	queue_init(&(dati_player->lista_puntate_personale.puntate));
-	queue_put(&(players_list.giocatori), (node *) dati_player);
-	status = pthread_mutex_unlock(&(players_list.control.mutex));
-	if (status != 0) {
-		err_abort(status, "Unlock all'inserimento del nodo giocatore");
-	}
-
-	status = pthread_mutex_lock(&puntate_mutex);
-	if (status != 0) {
-		err_abort(status, "Lock sul mutex nel player");
-	}
-	while (1) {
-		while (lista_puntate.stato_puntate == -1) { //se le puntate sono chiuse prima dell'estrazione, aspetta
-			printf("GIOCATORE %d: TROVATO PUNTATE CHIUSE\n", num_giocatore);
-			status = pthread_cond_wait(&puntate_cond, &puntate_mutex);
-			if (status != 0) {
-				err_abort(status, "Wait per l'apertura delle puntate");
-			}
-		}
-
-		//here player can bet
-		/*
-		 * unlock mutex
-		 * read bet on socket
-		 * insert bet in list
-		 * lock mutex
-		 * */
-		status = pthread_mutex_unlock(&puntate_mutex);
-		if (status != 0) {
-			err_abort(status, "Unlock sul mutex nel player");
-		}
-
-		//======================DA ELIMINARE===================================
-		//TODO questi valori in realtà vengono presi dal client
-		num_puntato_dal_giocatore = rand() % 37;
-		tipo_puntata = (bet_t) (rand() % 3);
-		somma_puntata = (rand() % 100) + 1;
-		//======================DA ELIMINARE===================================
-
-		if (somma_puntata <= dati_player->money) {
-			//puntata valida
-			dati_player->money -= somma_puntata;
-
-
-			mybet = inizializza_nodo_puntata(num_puntato_dal_giocatore,
-											 tipo_puntata, somma_puntata);
-			status = pthread_mutex_lock(&puntate_mutex);
-			if (status != 0) {
-				err_abort(status, "Lock sul mutex nel player");
-			}
-			// aggiunge un nodo alla lista delle puntate
-			queue_put(&(dati_player->lista_puntate_personale.puntate),
-					  (node *) mybet);
-			printf("GIOCATORE %d ha puntato il %d di tipo %d puntando %d€\n",
-				   num_giocatore, mybet->numero, mybet->tipo, mybet->somma_puntata);
-		} else {
-			//puntata non valida: somma troppo alta
-			printf("GIOCATORE %d: somma troppo alta, ritenta\n", num_giocatore);
-		}
-		sleep(1); //TODO rimuovere questa sleep
-
-		while (lista_puntate.stato_puntate == 0) {
-			printf("Il croupier sta processando la puntata, aspetto...\n");
-			pthread_cond_wait(&croupier_cond, &puntate_mutex);
-		}
-	}
-	pthread_exit(NULL);
-}
 
 int main(int argc, char **argv) {
 	//TODO impacchettare le funzionalità in funzioni
@@ -230,9 +131,9 @@ int main(int argc, char **argv) {
 	server_port = atoi(argv[1]);
 	game_interval = atoi(argv[2]);
 
-#ifdef DEBUG
+
 	printf("La giocata durerà %d secondi\n", game_interval);
-#endif
+
 	/* creo il thread CROUPIER */
 	status = pthread_create(&croupier_tid, NULL, croupier, (void *) game_interval);
 	if (status != 0) {
