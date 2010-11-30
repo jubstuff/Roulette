@@ -8,6 +8,11 @@
 #ifndef PLAYER_H
 #define	PLAYER_H
 
+struct argomentoGestorePuntate {
+    queue *listaPuntatePrivata;
+    int clientFd;
+};
+
 void *player(void *arg);
 void *gestore_puntate(void *arg);
 
