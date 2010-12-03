@@ -8,7 +8,7 @@
 #ifndef QUEUE_H
 #define	QUEUE_H
 
-typedef struct node {
+typedef struct node_tag {
     struct node *next;
 } node;
 

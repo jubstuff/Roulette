@@ -44,6 +44,7 @@ typedef struct sessioneDiGioco {
     queue elencoGiocatori;
     pthread_mutex_t mutex;
     pthread_cond_t attesaRiempimentoListaPuntate;
+    pthread_cond_t attesaAlmenoUnGiocatore;
     int giocatoriConnessi;
     int giocatoriChePuntano;
 } sessione_gioco_t;
@@ -65,6 +66,21 @@ typedef struct puntate_node {
     int sommaPuntata;
 } puntata_t;
 
+typedef struct vincitore {
+    int portaMessaggiCongratulazioni;
+    struct sockaddr_in indirizzoIp;
+}vincitore_t;
+
+typedef struct analisiDiSessionePuntata{
+    queue elencoVincitori;
+    int numeroPerdenti;
+    int numeroVincitori;
+    pthread_mutex_t mutex;
+    pthread_cond_t attesaMessaggi;
+}analisi_puntata_t;
+
+
+
 /**
  * Definizione variabili
  */
@@ -80,6 +96,7 @@ extern int numero_di_perdenti_in_questa_mano;
 
 sessione_gioco_t sessioneGiocoCorrente;
 sessione_puntate_t sessionePuntateCorrente;
+analisi_puntata_t analisiSessionePuntata;
 
 //TODO inizializzazione dei semafori e delle condition variables nel main
 
