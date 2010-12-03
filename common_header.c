@@ -56,6 +56,8 @@ int open_socket(struct sockaddr_in self, short int server_port) {
  * LOCKING PROTOCOL questa funzione necessita dei mutex puntate e player bloccati
  * @param estratto numero estratto dalla roulette
  */
+#ifdef ASDRUBALE_BARCA
+
 void gestisci_puntate(int estratto) {
 	puntata_t *puntata;
 	queue *q = &(players_list.giocatori);
@@ -154,19 +156,7 @@ void aumenta_budget(int moltiplicatore, puntata_t *puntata, player_t *player) {
 	fprintf(stdout, "CROUPIER Questa puntata vince!!\n");
 	player->money += (puntata->somma_puntata * moltiplicatore);
 }
-/**
- * Calcola l'intervallo di attesa del croupier
- * @param intervallo
- * @return la struttura timespec contenente il tempo di fine attesa
- */
-struct timespec calcola_intervallo(int intervallo) {
-	time_t now;
-	struct timespec cond_time;
-	now = time(NULL);
-	cond_time.tv_sec = now + intervallo;
-	cond_time.tv_nsec = 0;
-	return cond_time;
-}
+
 /**
  * Inizializza un nodo della lista puntate
  * @param numero_puntato
@@ -184,4 +174,19 @@ puntata_t *inizializza_nodo_puntata(int numero_puntato, bet_t tipo_puntata, int 
 	mybet->tipo = tipo_puntata;
 	mybet->somma_puntata = somma_puntata;
 	return mybet;
+}
+
+#endif
+/**
+ * Calcola l'intervallo di attesa del croupier
+ * @param intervallo
+ * @return la struttura timespec contenente il tempo di fine attesa
+ */
+struct timespec calcola_intervallo(int intervallo) {
+	time_t now;
+	struct timespec cond_time;
+	now = time(NULL);
+	cond_time.tv_sec = now + intervallo;
+	cond_time.tv_nsec = 0;
+	return cond_time;
 }

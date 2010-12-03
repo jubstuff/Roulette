@@ -5,16 +5,18 @@
  * Created on 22 novembre 2010, 20.59
  */
 
+#include "queue.h"
+
 #ifndef PLAYER_H
 #define	PLAYER_H
 
-struct argomentoGestorePuntate {
+typedef struct argomento {
     queue *listaPuntatePrivata;
     int clientFd;
-};
+} argomento_gestore_puntate_t;
 
 void *player(void *arg);
-void *gestore_puntate(void *arg);
+void *gestorePuntateGiocatore(void *arg);
 
 #endif	/* PLAYER_H */
 

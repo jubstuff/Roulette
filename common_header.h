@@ -33,25 +33,29 @@ typedef struct client_tag {
 } client_t;
 
 typedef struct sessioneDiPuntate {
-    queue elenco;
     pthread_mutex_t mutex;
     pthread_cond_t aperte;
     pthread_cond_t chiuse;
+    pthread_cond_t attesaCroupier;
     int stato;
 } sessione_puntate_t;
 
 typedef struct sessioneDiGioco {
     queue elencoGiocatori;
     pthread_mutex_t mutex;
+    pthread_cond_t attesaRiempimentoListaPuntate;
     int giocatoriConnessi;
+    int giocatoriChePuntano;
 } sessione_gioco_t;
 
 typedef struct player {
     struct node *next;
+    int budgetPrecedente;
     int budgetAttuale;
     char nickname[50]; //FIXME inserire una costante al posto di 50
     int portaMessaggiCongratulazioni;
     client_t *datiConnessioneClient;
+    queue elencoPuntate;
 } player_t;
 
 typedef struct puntate_node {
@@ -76,6 +80,9 @@ extern int numero_di_perdenti_in_questa_mano;
 
 sessione_gioco_t sessioneGiocoCorrente;
 sessione_puntate_t sessionePuntateCorrente;
+
+//TODO inizializzazione dei semafori e delle condition variables nel main
+
 
 
 /**
@@ -103,7 +110,7 @@ void gestisci_puntata_pari(int estratto, puntata_t *puntata, player_t *player);
 void gestisci_puntata_dispari(int estratto, puntata_t *puntata, player_t *player);
 void aumenta_budget(int moltiplicatore, puntata_t *puntata, player_t *player);
 
-puntata_t *inizializza_nodo_puntata(int numero_puntato, bet_t tipo_puntata, int somma_puntata);
+//puntata_t *inizializza_nodo_puntata(int numero_puntato, bet_t tipo_puntata, int somma_puntata);
 
 
 struct timespec calcola_intervallo(int intervallo);

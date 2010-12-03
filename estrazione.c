@@ -23,7 +23,7 @@ pthread_cond_t croupier_cond = PTHREAD_COND_INITIALIZER;
 
 /**
  * FUNZIONE croupier
- * @todo fare le pizze
+ *
  *============================================================================*/
 void *croupier(void *arg) {
 	struct timespec cond_time;
