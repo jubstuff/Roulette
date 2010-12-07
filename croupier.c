@@ -3,7 +3,7 @@
 
 void *croupier(void *arg) {
 	struct timespec intervalloGiocate;
-	int intervalloInSecondi = 10; //questo viene passato dal main
+	int intervalloInSecondi = (int)arg; //questo viene passato dal main
 	int status;
 	int numeroEstratto;
 	int contVincitori=0;
@@ -11,7 +11,7 @@ void *croupier(void *arg) {
 	player_t *tempHead;
 	puntata_t *puntata;
 	vincitore_t  *singoloVincitore;
-	
+	printf("Preparo il tavolo da gioco.\n");
 	
 	while(1) {
 		/*

@@ -4,6 +4,7 @@
 #include <arpa/inet.h>
 #include <ctype.h>
 #include "control.h"
+#include "croupier.h"
 #include <errno.h> //ETIMEDOUT
 #include <fcntl.h>
 #include "player.h"

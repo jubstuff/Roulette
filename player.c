@@ -42,7 +42,7 @@ void *player(void *arg) {
 	 * può iniziare la giocata
 	 */
 	if( sessioneGiocoCorrente.giocatoriConnessi == 1) {
-		pthread_cond_signal(sessioneGiocoCorrente.attesaAlmenoUnGiocatore); //TODO check error
+		pthread_cond_signal(&sessioneGiocoCorrente.attesaAlmenoUnGiocatore); //TODO check error
 	}
 	pthread_mutex_unlock(&sessioneGiocoCorrente.mutex); //TODO check error
 
@@ -104,14 +104,14 @@ void *player(void *arg) {
 		  la scompattiamo e la inviamo al client una parte 
 		  alla volta*/
 		
-		write("numero perdenti");
-		write("numero vincitori");
+		//write("numero perdenti");
+		//write("numero vincitori");
 		
 		/*non possiamo inviare la lista dei vincitori
 		  dobbiamo scompattare anche questa*/
 		//Loop per ogni nodo della lista dei vincitori
-		write("indirizzo ip");
-		write("portamessaggi");
+		//write("indirizzo ip");
+		//write("portamessaggi");
 		
 	}
 	free(argomentoGestorePuntate);
