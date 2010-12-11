@@ -8,7 +8,7 @@ void *croupier(void *arg) {
 	int numeroEstratto;
 	int contVincitori=0;
 	int contPerdenti=0;
-	player_t *tempHead = NULL;
+	player_t *tempPlayer = NULL;
 	puntata_t *puntata = NULL;
 	vincitore_t  *singoloVincitore = NULL;
 	printf("Preparo il tavolo da gioco.\n");
@@ -28,6 +28,7 @@ void *croupier(void *arg) {
 		/*
 		 * Apri le puntate e risveglia tutti i giocatori in attesa di puntare
 		 */
+		printf("[Croupier] Apro le puntate\n");
 		pthread_mutex_lock(&sessionePuntateCorrente.mutex); //TODO check error
 		sessionePuntateCorrente.stato = 1;
 		pthread_cond_broadcast(&sessionePuntateCorrente.aperte); //TODO check error 
@@ -52,6 +53,7 @@ void *croupier(void *arg) {
 		 * Aspetta che tutti i giocatori salvino i propri pacchetti di puntate
 		 * nella lista comune
 		 */
+		printf("[Croupier] Aspetto che i giocatori salvino le puntate\n");
 		pthread_mutex_lock(&sessioneGiocoCorrente.mutex); //TODO check error		
 		while(sessioneGiocoCorrente.giocatoriChePuntano > 0) {
 			pthread_cond_wait(&sessioneGiocoCorrente.attesaRiempimentoListaPuntate, &sessioneGiocoCorrente.mutex); //TODO check error
@@ -59,45 +61,46 @@ void *croupier(void *arg) {
 		pthread_mutex_unlock(&sessioneGiocoCorrente.mutex); //TODO check error
 		
 		numeroEstratto = rand() % 37;
+		printf("[Croupier] È stato estratto il numero %d\n", numeroEstratto);
 		/*
 		 * processare la lista delle puntate
 		 */
-		pthread_mutex_lock(&sessioneGiocoCorrente.mutex); //TODO check error
-		tempHead = (player_t *)sessioneGiocoCorrente.elencoGiocatori.head;
 		queue_init(&(analisiSessionePuntata.elencoVincitori));
-		
-		while(tempHead != NULL) {
-			tempHead->budgetPrecedente = tempHead->budgetAttuale;
+		pthread_mutex_lock(&sessioneGiocoCorrente.mutex); //TODO check error
+		tempPlayer = (player_t *)sessioneGiocoCorrente.elencoGiocatori.head;
+		while(tempPlayer != NULL) {
+			tempPlayer->budgetPrecedente = tempPlayer->budgetAttuale;
 			//scorri la lista delle puntate
-			while( (puntata = (puntata_t *)queue_get(&tempHead->elencoPuntate)) != NULL ) {
+			puntata = (puntata_t *)queue_get(&tempPlayer->elencoPuntate);
+			while( puntata != NULL ) {
+			printf("[Croupier] =====SONO QUI====\n");
 				/*
 				 * Decrementa il budget della somma puntata. Il controllo della
 				 * validità della puntata viene fatto nel client
 				 */
-				tempHead->budgetAttuale = tempHead->budgetAttuale - (puntata->sommaPuntata);
+				tempPlayer->budgetAttuale = tempPlayer->budgetAttuale - (puntata->sommaPuntata);
 				//gestione della puntata in base al suo tipo.
 				if((puntata->tipoPuntata >= 0) && (puntata->tipoPuntata <=36)) {
-					//gestisci_puntata_numero(numeroEstratto, puntata, tempHead);
-					printf("Numero\n");
+					gestisci_puntata_numero(numeroEstratto, puntata, tempPlayer);
 				} else if(puntata->tipoPuntata == -1) {
-					//gestisci_puntata_pari(numeroEstratto, puntata, tempHead);
-					printf("Dispari\n");
+					gestisci_puntata_pari(numeroEstratto, puntata, tempPlayer);
 				} else if(puntata->tipoPuntata == -2) {
-					//gestisci_puntata_dispari(numeroEstratto, puntata, tempHead);
-					printf("Pari\n");
+					gestisci_puntata_dispari(numeroEstratto, puntata, tempPlayer);
 				}
 				free(puntata);
+				printf("[Croupier] Budget Attuale di %s: %d", tempPlayer->nickname, tempPlayer->budgetAttuale);
+				puntata = (puntata_t *)queue_get(&tempPlayer->elencoPuntate);
 			}
 			 /*
 			  * controlliamo quali giocatori sono vincitori e quali perdenti
 			  */
-			if(tempHead->budgetAttuale > tempHead->budgetPrecedente) {
+			if(tempPlayer->budgetAttuale > tempPlayer->budgetPrecedente) {
 				contVincitori++;
 				singoloVincitore = (vincitore_t *)malloc(sizeof(vincitore_t));
 				//TODO controllare se mettere solo in una sockaddr
-				singoloVincitore->indirizzoIp.sin_addr = tempHead->datiConnessioneClient->clientData.sin_addr;
-				singoloVincitore->indirizzoIp.sin_port = tempHead->datiConnessioneClient->clientData.sin_port;
-				singoloVincitore->portaMessaggiCongratulazioni = tempHead->portaMessaggiCongratulazioni;
+				singoloVincitore->indirizzoIp.sin_addr = tempPlayer->datiConnessioneClient->clientData.sin_addr;
+				singoloVincitore->indirizzoIp.sin_port = tempPlayer->datiConnessioneClient->clientData.sin_port;
+				singoloVincitore->portaMessaggiCongratulazioni = tempPlayer->portaMessaggiCongratulazioni;
 				
 				pthread_mutex_lock(&analisiSessionePuntata.mutex); //TODO check error
 				queue_put(&analisiSessionePuntata.elencoVincitori,(node *)singoloVincitore);
@@ -106,10 +109,10 @@ void *croupier(void *arg) {
 				contPerdenti++;	
 			}
 			
-			tempHead = (player_t *)tempHead->next;
+			tempPlayer = (player_t *)tempPlayer->next;
 		}
 		pthread_mutex_unlock(&sessioneGiocoCorrente.mutex); //TODO check error
-		
+		printf("Ci sono stati %d vincitori e %d perdenti.\n", contVincitori, contPerdenti);
 		//memorizziamo il numero di vincitori e di perdenti
 		pthread_mutex_lock(&analisiSessionePuntata.mutex); //TODO check error
 		analisiSessionePuntata.numeroVincitori = contVincitori;
@@ -123,7 +126,7 @@ void *croupier(void *arg) {
 		  delle puntate*/
 		
 		contPerdenti=contVincitori=0;
-		
+		printf("Arrivo");
 		  		
 		
 		

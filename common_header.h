@@ -4,7 +4,6 @@
 #include <arpa/inet.h>
 #include <ctype.h>
 #include "control.h"
-
 #include <errno.h> //ETIMEDOUT
 #include <fcntl.h>
 #include "player.h"
@@ -123,7 +122,7 @@ void err_abort(int code, char *text);
 int open_socket(struct sockaddr_in self, short int server_port);
 
 
-void gestisci_puntate(int estratto);
+//void gestisci_puntate(int estratto);
 void gestisci_puntata_numero(int estratto, puntata_t *puntata, player_t *player);
 void gestisci_puntata_pari(int estratto, puntata_t *puntata, player_t *player);
 void gestisci_puntata_dispari(int estratto, puntata_t *puntata, player_t *player);

@@ -64,12 +64,14 @@ void *player(void *arg) {
 		/*
 		 * Aspetta che il croupier apra le puntate
 		 */
+		printf("[Player] Aspetto l'apertura delle puntate\n");
 		pthread_mutex_lock(&sessionePuntateCorrente.mutex); //TODO check error
 		while (sessionePuntateCorrente.stato == 0) {
 			pthread_cond_wait(&sessionePuntateCorrente.aperte, &sessionePuntateCorrente.mutex); //TODO check error
 		}
 		pthread_mutex_unlock(&sessionePuntateCorrente.mutex); //TODO check error
 
+		printf("[Player] Creo il gestore delle puntate\n");
 		pthread_create(&tidGestorePuntateGiocatore, NULL, gestorePuntateGiocatore, (void *) argomentoGestorePuntate);
 		/*
 		 * Aspetta che il croupier chiuda le puntate
@@ -98,6 +100,7 @@ void *player(void *arg) {
 		pthread_mutex_unlock(&sessioneGiocoCorrente.mutex); //TODO check error
 
 		queue_init(&listaPuntatePrivata);
+		queue_init(argomentoGestorePuntate->listaPuntatePrivata);
 
 		//* Aspettare che il croupier gestisca le puntate
 		//* Quando segnalato, far partire la gestione dei messaggi tra client
@@ -146,17 +149,19 @@ void *gestorePuntateGiocatore(void *arg) {
 		bytes_read = read(argomento->clientFd, &tipoPuntata, sizeof(int));
 		bytes_read = read(argomento->clientFd, &sommaPuntata, sizeof(int));
 		
-		singolaPuntata = (puntata_t *) malloc(sizeof (singolaPuntata)); //TODO check error
+		singolaPuntata = (puntata_t *) malloc(sizeof (puntata_t)); //TODO check error
 		singolaPuntata->next = NULL;
 		singolaPuntata->tipoPuntata = tipoPuntata;
 		singolaPuntata->sommaPuntata = sommaPuntata;
 		singolaPuntata->numeroPuntato = tipoPuntata;
+/*
 			
 		printf("Il tipo puntata è %d\n", singolaPuntata->tipoPuntata);
 		printf("La somma puntata è %d\n", singolaPuntata->sommaPuntata);
 		if(singolaPuntata->numeroPuntato >= 0) {
 			printf("Il numero puntato è %d\n", singolaPuntata->numeroPuntato);
 		}
+*/
 
 		queue_put(argomento->listaPuntatePrivata, (node *) singolaPuntata);
 		singolaPuntata = NULL;
