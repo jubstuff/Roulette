@@ -1,12 +1,12 @@
 #include <stdio.h>
 #include "queue.h"
 
-void queue_init(queue* myroot) {
+void queue_init(queue *myroot) {
 	myroot->head = NULL;
 	myroot->tail = NULL;
 }
 
-void queue_put(queue* myroot, node* mynode) {
+void queue_put(queue *myroot, node *mynode) {
 	mynode->next = NULL;
 	if(myroot->tail != NULL) {
 		myroot->tail->next = mynode;

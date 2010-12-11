@@ -1,8 +1,11 @@
 #include "client_header.h"
+#include <stdio.h>
+#include <ctype.h>
 
 #define ENUMRANGE -1
 #define ECHARINV -2
 #define EBADSYNTAX -3
+#define NO_NUMBER -4
 
 /**
  * parse_bet
@@ -10,37 +13,52 @@
  * Analizza una puntata. Riconosce se è stata fatta una puntata di tipo
  * Pari/Dispari oppure su un numero
  * */
-int parse_bet(char *bet, int *money_bet, char *bet_type, int *number_bet) {
+int parse_bet(char *puntataStr, int *sommaPuntata, int *tipoPuntata, int *numeroPuntato) {
 	/* FIXME non c'è controllo sull'overflow dell'int dei soldi.
 	 * Non dovrebbe essere un grosso problema in ogni caso, perché
 	 * il controllo sul valore massimo della puntata si deve comunque
 	 * fare, anche se non in questa funzione */
 	int error_flag = 0;
-
-	if ( (sscanf(bet, "%d:%d", number_bet, money_bet)) == 2) {
+	char bet_type;
+	
+	*numeroPuntato = NO_NUMBER;
+	
+	if ( (sscanf(puntataStr, "%d:%d", numeroPuntato, sommaPuntata)) == 2) {
 		/* è stata inserita una puntata corretta del tipo <X>:<N> */
-		if( *number_bet >= 0 && *number_bet <= 36 ) {
+		if( *numeroPuntato >= 0 && *numeroPuntato <= 36 ) {
 			//OK
+			*tipoPuntata = *numeroPuntato;
+/*
 			printf("Numero\n");
-			printf("Sono stati puntati %d€ sul %d\n", *money_bet, *number_bet);
+			printf("Sono stati puntati %d€ sul %d\n", *sommaPuntata, *numeroPuntato);
+			printf("Il tipo di puntata è %d\n", *tipoPuntata);
+*/
 		} else {
 			//puntato un numero non corretto
 			//printf("Errore: bisogna puntare un numero 0 <= N <= 36\n");
 			error_flag = ENUMRANGE;
 		}
 	}
-	else if ( (sscanf(bet, "%c:%d", bet_type, money_bet)) == 2) {
+	else if ( (sscanf(puntataStr, "%c:%d", &bet_type, sommaPuntata)) == 2) {
 		/* è stata inserita una puntata del tipo char:<N>*/
-		*bet_type = toupper(*bet_type);
-		if ( *bet_type == 'P' ) {
+		bet_type = toupper(bet_type);
+		if ( bet_type == 'P' ) {
 			//caso P:<N>
+			*tipoPuntata = -2;
+/*
 			printf("Pari\n");
-			printf("Sono stati puntati %d€ sui pari\n", *money_bet);
+			printf("Sono stati puntati %d€ sui pari\n", *sommaPuntata);
+			printf("Il tipo di puntata è %d\n", *tipoPuntata);
+*/
 		}
-		else if( *bet_type == 'D' ) {
+		else if( bet_type == 'D' ) {
 			//caso D:<N>
+			*tipoPuntata = -1;
+/*
 			printf("Dispari\n");
-			printf("Sono stati puntati %d€ sui dispari\n", *money_bet);
+			printf("Sono stati puntati %d€ sui dispari\n", *sommaPuntata);
+			printf("Il tipo di puntata è %d\n", *tipoPuntata);
+*/
 		}
 		else {
 			//carattere non valido

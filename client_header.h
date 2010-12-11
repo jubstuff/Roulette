@@ -13,7 +13,7 @@
  * Analizza una puntata. Riconosce se è stata fatta una puntata di tipo
  * Pari/Dispari oppure su un numero
  * */
-int parse_bet(char *bet, int *money_bet, char *bet_type, int *number_bet);
+int parse_bet(char *puntataStr, int *sommaPuntata, int *tipoPuntata, int *numeroPuntato);
 
 #endif	/* CLIENT_HEADER_H */
 

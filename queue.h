@@ -13,7 +13,8 @@ typedef struct node_tag {
 } node;
 
 typedef struct queue {
-    node *head, *tail;
+    node *head;
+    node *tail;
 } queue;
 
 void queue_init(queue *myroot);

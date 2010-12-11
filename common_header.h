@@ -4,7 +4,7 @@
 #include <arpa/inet.h>
 #include <ctype.h>
 #include "control.h"
-#include "croupier.h"
+
 #include <errno.h> //ETIMEDOUT
 #include <fcntl.h>
 #include "player.h"
@@ -23,14 +23,15 @@
 
 #define MAXBUF 4096 /* max line length */
 #define MAX_BUDGET 500
+#define NICK_LENGTH 50
 
 /**
  * Definizione dei tipi
  */
 
 typedef struct client_tag {
-    struct sockaddr_in client_data; // porta,indirizzo del client
-    int clientfd; // socket del client
+    struct sockaddr_in clientData; // porta,indirizzo del client
+    int clientFd; // socket del client
 } client_t;
 
 typedef struct sessioneDiPuntate {
@@ -54,8 +55,8 @@ typedef struct player {
     struct node *next;
     int budgetPrecedente;
     int budgetAttuale;
-    char nickname[50]; //FIXME inserire una costante al posto di 50
-    int portaMessaggiCongratulazioni;
+    char nickname[NICK_LENGTH];
+    in_port_t portaMessaggiCongratulazioni;
     client_t *datiConnessioneClient;
     queue elencoPuntate;
 } player_t;
@@ -78,7 +79,7 @@ typedef struct analisiDiSessionePuntata{
     int numeroVincitori;
     pthread_mutex_t mutex;
     pthread_cond_t attesaMessaggi;
-}analisi_puntata_t;
+} analisi_puntata_t;
 
 
 

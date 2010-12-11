@@ -6,20 +6,14 @@
 
 
 #include "common_header.h"
-
-//TODO inserire descrizioni e nomi significativi per le variabili globali
-pthread_mutex_t puntate_mutex = PTHREAD_MUTEX_INITIALIZER;
-pthread_cond_t puntate_aperte = PTHREAD_COND_INITIALIZER;
-pthread_cond_t croupier_cond = PTHREAD_COND_INITIALIZER;
-
-
+#include "croupier.h"
 
 
 //TODO inserire descrizione funzione
 
 int main(int argc, char **argv) {
-	//TODO impacchettare le funzionalità in funzioni
 	//TODO fare il join dei thread al termine
+	//TODO controllare tutte le malloc!!!
 
 	/* controllo numero di argomenti */
 	if (argc != 3) {
@@ -27,73 +21,70 @@ int main(int argc, char **argv) {
 		exit(1);
 	} //TODO controllo errori più robusto
 
-	int j = 0;
 	int sockfd;
-	//clientfd; /* socket e client descriptor */
-	short int server_port; /* porta del server */
-	int game_interval; /* durata possibilità puntate */
-	struct sockaddr_in self; // client_addr; /* info del server e client */
-	//socklen_t client_len = sizeof (client_addr);
+	int clientFd;
+	client_t *datiConnessioneClient;
+	short int serverPort; /* porta del server */
+	int gameInterval; /* durata possibilità puntate */
+	struct sockaddr_in self;
+	struct sockaddr_in indirizzoClient;
+	size_t lenIndirizzoClient;
 	int status; /* raccoglie i valori restituiti dalle system call */
-	pthread_t player_tid, croupier_tid;
-	//client_t *client_info;
+	pthread_t playerTid, croupierTid;
 
 
-	/*
-	 * STATO PUNTATE
-	 *
-	 * -1 => significa che le puntate sono chiuse
-	 * 1 => significa che le puntate sono aperte
-	 *
-	 * */
-	//lista_puntate.stato_puntate = -1;
+
 	//TODO mettere queste inizializzazioni in una funzione
-	//inizializzo il seme per la generazione di numeri random
 	srand(time(NULL));
-	//inizializza strutture dati
 
 	/* converto i parametri passati a interi */
-	server_port = atoi(argv[1]);
-	game_interval = atoi(argv[2]);
+	serverPort = atoi(argv[1]);
+	gameInterval = atoi(argv[2]);
 
-
-	printf("La giocata durerà %d secondi\n", game_interval);
+	printf("La giocata durerà %d secondi\n", gameInterval);
 
 	/* creo il thread CROUPIER */
-	status = pthread_create(&croupier_tid, NULL, croupier, (void *) game_interval);
+	status = pthread_create(&croupierTid, NULL, croupier, (void *) gameInterval);
 	if (status != 0) {
 		err_abort(status, "Creazione del thread croupier");
 	}
 
-	sockfd = open_socket(self, server_port);
-#ifndef DEBUG
-	/* Crea 10 player thread */
-	for (j = 0; j < 10; j++) {
-		status = pthread_create(&player_tid, NULL, player, (void *) j);
-		if (status != 0) {
-			err_abort(status, "Creazione thread");
-		}
-	}
-#endif
-#ifndef DEBUG
+	sockfd = open_socket(self, serverPort);
+
 	while (1) {
 		/* accetta connessioni dai client */
-		clientfd = accept(sockfd, (struct sockaddr *) &client_addr, &client_len);
-		if (clientfd < 0) {
+		lenIndirizzoClient = sizeof (indirizzoClient);
+		clientFd = accept(sockfd, (struct sockaddr *) &indirizzoClient, &lenIndirizzoClient);
+		if (clientFd < 0) {
 			err_abort(errno, "Error accepting connection");
 		}
 		/* inserisco informazioni sul client da inviare al thread player */
-		client_info = NULL;
-		client_info = malloc(sizeof (client_t));
-		client_info->client_data = client_addr;
-		client_info->clientfd = clientfd;
-		F
-		status = pthread_create(&player_tid, NULL, player, (void *) client_info);
+		datiConnessioneClient = NULL;
+		datiConnessioneClient = malloc(sizeof (client_t));
+		datiConnessioneClient->clientData = indirizzoClient;
+		datiConnessioneClient->clientFd = clientFd;
+		
+		status = pthread_create(&playerTid, NULL, player, (void *) datiConnessioneClient);
 		if (status != 0) {
 			err_abort(status, "Creazione thread");
 		}
 	}
-#endif
+
 	close(sockfd);
 	pthread_exit(NULL);
 }
+
+
+//TODO inserire descrizioni e nomi significativi per le variabili globali
+//pthread_mutex_t puntate_mutex = PTHREAD_MUTEX_INITIALIZER;
+//pthread_cond_t puntate_aperte = PTHREAD_COND_INITIALIZER;
+//pthread_cond_t croupier_cond = PTHREAD_COND_INITIALIZER;
+#ifndef DEBUG
+/* Crea 10 player thread */
+for (j = 0; j < 10; j++) {
+	status = pthread_create(&playerTid, NULL, player, (void *) j);
+	if (status != 0) {
+		err_abort(status, "Creazione thread");
+	}
+}
+#endif
