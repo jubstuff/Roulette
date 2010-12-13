@@ -71,9 +71,7 @@ void *croupier(void *arg) {
 		while(tempPlayer != NULL) {
 			tempPlayer->budgetPrecedente = tempPlayer->budgetAttuale;
 			//scorri la lista delle puntate
-			puntata = (puntata_t *)queue_get(&tempPlayer->elencoPuntate);
-			while( puntata != NULL ) {
-			printf("[Croupier] =====SONO QUI====\n");
+			while( (puntata = (puntata_t *)queue_get(&tempPlayer->elencoPuntate)) != NULL ) {
 				/*
 				 * Decrementa il budget della somma puntata. Il controllo della
 				 * validità della puntata viene fatto nel client
@@ -88,8 +86,7 @@ void *croupier(void *arg) {
 					gestisci_puntata_dispari(numeroEstratto, puntata, tempPlayer);
 				}
 				free(puntata);
-				printf("[Croupier] Budget Attuale di %s: %d", tempPlayer->nickname, tempPlayer->budgetAttuale);
-				puntata = (puntata_t *)queue_get(&tempPlayer->elencoPuntate);
+				printf("[Croupier] Budget Attuale di %s: %d\n", tempPlayer->nickname, tempPlayer->budgetAttuale);
 			}
 			 /*
 			  * controlliamo quali giocatori sono vincitori e quali perdenti
@@ -126,9 +123,5 @@ void *croupier(void *arg) {
 		  delle puntate*/
 		
 		contPerdenti=contVincitori=0;
-		printf("Arrivo");
-		  		
-		
-		
 	}
 }

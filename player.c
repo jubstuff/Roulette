@@ -137,7 +137,6 @@ void *gestorePuntateGiocatore(void *arg) {
 	int sommaPuntata;
 	
 	
-	printf("In attesa delle puntate\n");
 	bzero(stringaPuntata, sizeof (stringaPuntata));
 	while (1) {
 		/* riceve una stringa dal client del tipo "int tipo:int somma" dove:
