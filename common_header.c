@@ -17,6 +17,43 @@ void err_abort(int code, char *text) {
 }
 
 /**
+ * roulette_mutex_lock
+ * 
+ * Effettua il lock sul mutex ed il check per errori
+ * 
+ * @param mutex mutex da bloccare
+ * @param msg messaggio da visualizzare
+ * @return il valore restituito pthread_mutex_lock
+ */
+int roulette_mutex_lock(pthread_mutex_t *mutex, char *msg){
+    int status;
+    status = pthread_mutex_lock(mutex);
+    if(status != 0){
+        err_abort(status, msg);
+    }
+    return status;
+}
+/**
+ * roulette_mutex_unlock
+ *
+ * Effettua l'unlock sul mutex ed il check per errori
+ *
+ * @param mutex mutex da sbloccare
+ * @param msg messaggio da visualizzare
+ * @return il valore restituito pthread_mutex_lock
+ */
+int roulette_mutex_unlock(pthread_mutex_t *mutex, char *msg){
+    int status;
+    status = pthread_mutex_unlock(mutex);
+    if(status != 0){
+        err_abort(status, msg);
+    }
+    return status;
+}
+
+
+
+/**
  * Apre un socket, e si mette in ascolto su di esso
  * @param self
  * @param server_port
@@ -63,7 +100,6 @@ void gestisci_puntata_numero(int estratto, puntata_t *puntata, player_t *player)
 	}
 }
 
-
 /**
  * Controlla se una puntata del tipo P:<N> è vincente
  * @param estratto
@@ -98,6 +134,19 @@ void aumenta_budget(int moltiplicatore, puntata_t *puntata, player_t *player) {
 	player->budgetAttuale += (puntata->sommaPuntata * moltiplicatore);
 }
 
+/**
+ * Calcola l'intervallo di attesa del croupier
+ * @param intervallo
+ * @return la struttura timespec contenente il tempo di fine attesa
+ */
+struct timespec calcola_intervallo(int intervallo) {
+	time_t now;
+	struct timespec cond_time;
+	now = time(NULL);
+	cond_time.tv_sec = now + intervallo;
+	cond_time.tv_nsec = 0;
+	return cond_time;
+}
 
 #ifdef ASDRUBALE_BARCA
 
@@ -179,16 +228,3 @@ puntata_t *inizializza_nodo_puntata(int numero_puntato, bet_t tipo_puntata, int 
 
 #endif
 
-/**
- * Calcola l'intervallo di attesa del croupier
- * @param intervallo
- * @return la struttura timespec contenente il tempo di fine attesa
- */
-struct timespec calcola_intervallo(int intervallo) {
-	time_t now;
-	struct timespec cond_time;
-	now = time(NULL);
-	cond_time.tv_sec = now + intervallo;
-	cond_time.tv_nsec = 0;
-	return cond_time;
-}

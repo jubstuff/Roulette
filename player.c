@@ -13,13 +13,13 @@ void *player(void *arg) {
 	ssize_t bytesRead;
 	size_t nicknameLen;
 	/*
-	 * Quando è già in atto una puntata, non si possono connettere nuovi giocatori
-	 */
-	pthread_mutex_lock(&sessionePuntateCorrente.mutex); //TODO check error
-	while (sessionePuntateCorrente.stato == 1) {
-		pthread_cond_wait(&sessionePuntateCorrente.chiuse, &sessionePuntateCorrente.mutex);
-	}
-	pthread_mutex_unlock(&sessionePuntateCorrente.mutex); //TODO check error
+     * Quando è già in atto una puntata, non si possono connettere nuovi giocatori
+     */
+    pthread_mutex_lock(&sessionePuntateCorrente.mutex); //TODO check error
+    while (sessionePuntateCorrente.stato == 1) {
+        pthread_cond_wait(&sessionePuntateCorrente.chiuse, &sessionePuntateCorrente.mutex);
+    }
+    pthread_mutex_unlock(&sessionePuntateCorrente.mutex); //TODO check error
 
 	/*
 	 * Recupera dati dal client e inserisci un nuovo giocatore nella lista
@@ -34,7 +34,8 @@ void *player(void *arg) {
 	bytesRead = read(datiGiocatore->datiConnessioneClient->clientFd, datiGiocatore->nickname, nicknameLen);
 	
 	datiGiocatore->portaMessaggiCongratulazioni = ntohs(datiGiocatore->portaMessaggiCongratulazioni);
-	printf("====Dati Giocatore====\n");
+	//TODO eliminare queste read
+        printf("====Dati Giocatore====\n");
 	printf("Nickname: %s\n", datiGiocatore->nickname);
 	printf("Budget Iniziale: %d\n", datiGiocatore->budgetAttuale);
 	printf("Porta Congratulazioni: %d\n\n", datiGiocatore->portaMessaggiCongratulazioni);
