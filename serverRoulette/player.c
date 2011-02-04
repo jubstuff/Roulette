@@ -90,6 +90,8 @@ void *player(void *arg) {
 		 * collegare pacchetto di puntate alla lista del giocatore
 		 */
 		pthread_mutex_lock(&sessioneGiocoCorrente.mutex); //TODO check error
+		/* aggiunge la lista recuperata dal gestore puntate al nodo relativo al
+		 * giocatore nella lista globale */
 		datiGiocatore->elencoPuntate.head = listaPuntatePrivata.head;
 		sessioneGiocoCorrente.giocatoriChePuntano--;
 		/*
@@ -169,11 +171,3 @@ void *gestorePuntateGiocatore(void *arg) {
 	}
 	pthread_exit(NULL);
 }
-
-
-//======================DA ELIMINARE===================================
-	//TODO questi dati devono essere presi dal client, ovviamente
-	//datiGiocatore->budgetAttuale = (rand() % MAX_BUDGET) + 1;
-	//snprintf(datiGiocatore->nickname, sizeof (datiGiocatore->nickname),
-	//	"%s%d", "Giocatore", num_giocatore);
-	//======================DA ELIMINARE===================================

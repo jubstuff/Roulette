@@ -61,6 +61,7 @@ void *croupier(void *arg) {
         pthread_mutex_unlock(&sessioneGiocoCorrente.mutex); //TODO check error
 
         //numeroEstratto = rand() % 37;
+		//TODO rimettere generazione casuale
         //Just:rendo il numero statico, per provare vittorie e perdite
         numeroEstratto = 33;
         printf("[Croupier] È stato estratto il numero %d\n", numeroEstratto);
@@ -83,9 +84,11 @@ void *croupier(void *arg) {
                 if ((puntata->tipoPuntata >= 0) && (puntata->tipoPuntata <= 36)) {
                     gestisci_puntata_numero(numeroEstratto, puntata, tempPlayer);
                 } else if (puntata->tipoPuntata == -1) {
-                    gestisci_puntata_pari(numeroEstratto, puntata, tempPlayer);
+                    //gestisci_puntata_dispari(numeroEstratto, puntata, tempPlayer);
+					aumenta_budget(2, puntata, tempPlayer);
                 } else if (puntata->tipoPuntata == -2) {
-                    gestisci_puntata_dispari(numeroEstratto, puntata, tempPlayer);
+                    //gestisci_puntata_pari(numeroEstratto, puntata, tempPlayer);
+					aumenta_budget(2, puntata, tempPlayer);  //TODO lasciare aumenta_budget o tornare a gestisci_puntate?
                 }
                 free(puntata);
                 printf("[Croupier] Budget Attuale di %s: %d\n", tempPlayer->nickname, tempPlayer->budgetAttuale);
@@ -104,13 +107,22 @@ void *croupier(void *arg) {
                 pthread_mutex_lock(&analisiSessionePuntata.mutex); //TODO check error
                 queue_put(&analisiSessionePuntata.elencoVincitori, (node *) singoloVincitore);
                 pthread_mutex_unlock(&analisiSessionePuntata.mutex); //TODO check error
-            } else {
+            } else if(tempPlayer->budgetAttuale == 0) {
+				//TODO
+				//stacca il nodo dalla lista
+				//manda un messaggio
+				//disconnetti
+				//pulisci la memoria
+				contPerdenti++;
+			}
+			else {
                 contPerdenti++;
             }
 
             tempPlayer = (player_t *) tempPlayer->next;
         }
         pthread_mutex_unlock(&sessioneGiocoCorrente.mutex); //TODO check error
+
         printf("Ci sono stati %d vincitori e %d perdenti.\n", contVincitori, contPerdenti);
         //memorizziamo il numero di vincitori e di perdenti
         pthread_mutex_lock(&analisiSessionePuntata.mutex); //TODO check error
