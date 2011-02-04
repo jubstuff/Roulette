@@ -3,7 +3,6 @@
 
 #include <arpa/inet.h>
 #include <ctype.h>
-#include "control.h"
 #include <errno.h> //ETIMEDOUT
 #include <fcntl.h>
 #include "player.h"
@@ -44,6 +43,9 @@ typedef struct client_tag {
  * Contiene le informazioni sullo stato delle puntate della sessione corrente.
  * In ogni momento dell'esecuzione ne esiste una ed una sola istanza chiamata
  * sessionePuntateCorrente
+ *
+ * @param stato Informa sullo stato delle puntate. 1 significa puntate aperte,
+ * 0 significa puntate chiuse
  */
 typedef struct sessioneDiPuntate {
     pthread_mutex_t mutex;

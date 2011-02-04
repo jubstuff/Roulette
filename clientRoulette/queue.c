@@ -1,8 +1,6 @@
 #include <stdio.h>
 #include "queue.h"
-/**
- * Queue init
- */
+
 void queue_init(queue *myroot) {
 	myroot->head = NULL;
 	myroot->tail = NULL;

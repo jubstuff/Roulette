@@ -14,6 +14,7 @@ void *player(void *arg) {
 	size_t nicknameLen;
 	/*
      * Quando è già in atto una puntata, non si possono connettere nuovi giocatori
+	 * Aspetta che le puntate siano chiuse per connettersi
      */
     pthread_mutex_lock(&sessionePuntateCorrente.mutex); //TODO check error
     while (sessionePuntateCorrente.stato == 1) {
@@ -34,8 +35,8 @@ void *player(void *arg) {
 	bytesRead = read(datiGiocatore->datiConnessioneClient->clientFd, datiGiocatore->nickname, nicknameLen);
 	
 	datiGiocatore->portaMessaggiCongratulazioni = ntohs(datiGiocatore->portaMessaggiCongratulazioni);
-	//TODO eliminare queste read
-        printf("====Dati Giocatore====\n");
+	
+    printf("====Dati Giocatore====\n");
 	printf("Nickname: %s\n", datiGiocatore->nickname);
 	printf("Budget Iniziale: %d\n", datiGiocatore->budgetAttuale);
 	printf("Porta Congratulazioni: %d\n\n", datiGiocatore->portaMessaggiCongratulazioni);

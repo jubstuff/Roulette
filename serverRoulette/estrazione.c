@@ -59,6 +59,7 @@ int main(int argc, char **argv) {
     analisiSessionePuntata.numeroPerdenti = 0;
     analisiSessionePuntata.numeroVincitori = 0;
 
+	//inizializzo la generazione random
     srand(time(NULL));
 
     /* converto i parametri passati a interi */
@@ -66,6 +67,7 @@ int main(int argc, char **argv) {
     gameInterval = atoi(argv[2]);
 
     //FINE INIZIALIZZAZIONI
+
     printf("La giocata durerà %d secondi\n", gameInterval);
 
     /* creo il thread CROUPIER */

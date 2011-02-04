@@ -1,22 +1,18 @@
 CC = gcc
 CFLAGS = -Wall -l pthread -g
-OBJS = common_header.o estrazione.o queue.o control.o player.o croupier.o
+OBJS = common_header.o estrazione.o queue.o player.o croupier.o
 
 server-roulette : $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS)
+	$(CC) $(CFLAGS) $(OBJS) -o server-roulette
 common_header.o : common_header.c common_header.h
 	$(CC) $(CFLAGS) -c common_header.c
 estrazione.o : estrazione.c
 	$(CC)  $(CFLAGS) -c estrazione.c
-queue.o : queue.c queue.h
-	$(CC) $(CFLAGS) -c queue.c
-control.o : control.c control.h
-	$(CC) $(CFLAGS) -c control.c
 player.o : player.c player.h
 	$(CC) $(CFLAGS) -c player.c
 croupier.o : croupier.c croupier.h
 	$(CC) $(CFLAGS) -c croupier.c
-#list_management.o : list_management.c list_management.h
-#	$(CC) $(CFLAGS) -c list_management.c
+queue.o : queue.c queue.h
+	$(CC) $(CFLAGS) -c queue.c
 clean :
-	rm $(OBJS) a.out
+	rm $(OBJS) server-roulette 
