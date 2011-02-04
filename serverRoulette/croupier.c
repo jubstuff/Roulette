@@ -68,8 +68,12 @@ void *croupier(void *arg) {
         /*
          * processare la lista delle puntate
          */
+        pthread_mutex_lock(&analisiSessionePuntata.mutex); //TODO check error
         queue_init(&(analisiSessionePuntata.elencoVincitori));
-        pthread_mutex_lock(&sessioneGiocoCorrente.mutex); //TODO check error
+		analisiSessionePuntata.stato = 0;
+        pthread_mutex_unlock(&analisiSessionePuntata.mutex); //TODO check error
+
+		pthread_mutex_lock(&sessioneGiocoCorrente.mutex); //TODO check error
         tempPlayer = (player_t *) sessioneGiocoCorrente.elencoGiocatori.head;
         while (tempPlayer != NULL) {
             tempPlayer->budgetPrecedente = tempPlayer->budgetAttuale;
@@ -129,6 +133,7 @@ void *croupier(void *arg) {
         pthread_mutex_lock(&analisiSessionePuntata.mutex); //TODO check error
         analisiSessionePuntata.numeroVincitori = contVincitori;
         analisiSessionePuntata.numeroPerdenti = contPerdenti;
+		analisiSessionePuntata.stato = 1;
         pthread_cond_broadcast(&analisiSessionePuntata.attesaMessaggi); //TODO check error
         pthread_mutex_unlock(&analisiSessionePuntata.mutex); //TODO check error
 

@@ -5,9 +5,12 @@
 
 #define IP_ADDRESS_LENGTH 15
 
+void *lettorePuntate(void *arg);
+
 int main(int argc, char **argv) {
 	int serverFd;
 	int clientFd;
+	int congratFd;
 	int status;
 
 	struct sockaddr_in serverData;
@@ -19,12 +22,11 @@ int main(int argc, char **argv) {
 	char nickname[NICK_LENGTH];
 	size_t nicknameLen;
 	int budget;
-	ssize_t bytesRead;
-	char puntata[20];
-	int sommaPuntata;
-	int tipoPuntata;
-	int numeroPuntato;
-
+	pthread_t tidLettorePuntate;
+	char buf[100];
+	int flagFinePuntate;
+	int numeroPerdenti; //numero richieste da accettare
+	int numeroVincitori; //numero di messaggi da inviare
 
 	/* controllo numero di argomenti */
 	if (argc != 5) {
@@ -107,6 +109,42 @@ int main(int argc, char **argv) {
 		perror("Writing nickname on socket");
 		abort();
 	}
+	/*
+
+		read(serverFd,buf,sizeof("[server] sei connesso"));
+		printf("%s\n", buf);
+	 */
+	while (1) {
+		pthread_create(&tidLettorePuntate, NULL, lettorePuntate, (void *) serverFd); //TODO check error
+		//ricevi la segnalazione che le puntate sono chiuse
+		read(serverFd, &flagFinePuntate, sizeof (int));
+		if (flagFinePuntate == 1) {
+			pthread_cancel(tidLettorePuntate);
+			//ho vinto
+			//read(serverFd, &numeroPerdenti, sizeof (int));
+			printf("Ho vinto!!\n");
+			//printf("Devo aspettarmi %d messaggi di congratulazioni\n", numeroPerdenti);
+		} else if (flagFinePuntate == 0) {
+			//ho perso
+			printf("Ho perso!!!\n");
+		} else {
+			//non dovrebbe mai arrivare qui, nel caso, termina
+			abort();
+		}
+		//gestisci messaggi
+
+	}
+	close(serverFd);
+	pthread_exit(NULL);
+}
+
+void *lettorePuntate(void *arg) {
+	ssize_t bytesRead;
+	char puntata[20];
+	int sommaPuntata;
+	int tipoPuntata;
+	int numeroPuntato;
+	int serverFd = (int) arg;
 
 	while ((bytesRead = read(STDIN_FILENO, puntata, MAXBUF)) > 0) {
 		puntata[bytesRead - 1] = '\0';
@@ -131,6 +169,5 @@ int main(int argc, char **argv) {
 			}
 		}
 	}
-	close(serverFd);
-	return 0;
+	pthread_exit(NULL);
 }

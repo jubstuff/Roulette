@@ -12,38 +12,41 @@ void *player(void *arg) {
 	argomento_gestore_puntate_t *argomentoGestorePuntate;
 	ssize_t bytesRead;
 	size_t nicknameLen;
+	struct sockaddr_in clientData;
+	int flag = 1; //avvisa il client che le puntate sono chiuse
 	/*
-     * Quando è già in atto una puntata, non si possono connettere nuovi giocatori
+	 * Quando è già in atto una puntata, non si possono connettere nuovi giocatori
 	 * Aspetta che le puntate siano chiuse per connettersi
-     */
-    pthread_mutex_lock(&sessionePuntateCorrente.mutex); //TODO check error
-    while (sessionePuntateCorrente.stato == 1) {
-        pthread_cond_wait(&sessionePuntateCorrente.chiuse, &sessionePuntateCorrente.mutex);
-    }
-    pthread_mutex_unlock(&sessionePuntateCorrente.mutex); //TODO check error
+	 */
+	pthread_mutex_lock(&sessionePuntateCorrente.mutex); //TODO check error
+	while (sessionePuntateCorrente.stato == 1) {
+		pthread_cond_wait(&sessionePuntateCorrente.chiuse, &sessionePuntateCorrente.mutex);
+	}
+	pthread_mutex_unlock(&sessionePuntateCorrente.mutex); //TODO check error
 
 	/*
 	 * Recupera dati dal client e inserisci un nuovo giocatore nella lista
 	 */
 	datiGiocatore = (player_t *) malloc(sizeof (player_t)); //TODO check error
-	
-	datiGiocatore->datiConnessioneClient = (client_t *)arg;
+
+	datiGiocatore->datiConnessioneClient = (client_t *) arg;
 	//TODO error check sulle read
 	bytesRead = read(datiGiocatore->datiConnessioneClient->clientFd, &datiGiocatore->portaMessaggiCongratulazioni, sizeof (in_port_t));
 	bytesRead = read(datiGiocatore->datiConnessioneClient->clientFd, &datiGiocatore->budgetAttuale, sizeof (int));
-	bytesRead = read(datiGiocatore->datiConnessioneClient->clientFd, &nicknameLen, sizeof(size_t));
+	bytesRead = read(datiGiocatore->datiConnessioneClient->clientFd, &nicknameLen, sizeof (size_t));
 	bytesRead = read(datiGiocatore->datiConnessioneClient->clientFd, datiGiocatore->nickname, nicknameLen);
-	
+
 	datiGiocatore->portaMessaggiCongratulazioni = ntohs(datiGiocatore->portaMessaggiCongratulazioni);
 	datiGiocatore->budgetPrecedente = 0;
 	datiGiocatore->vincitore = 0;
-	
-    printf("====Dati Giocatore====\n");
+
+	printf("====Dati Giocatore====\n");
 	printf("Nickname: %s\n", datiGiocatore->nickname);
 	printf("Budget Iniziale: %d\n", datiGiocatore->budgetAttuale);
 	printf("Porta Congratulazioni: %d\n\n", datiGiocatore->portaMessaggiCongratulazioni);
-	
-	
+
+	//write(datiGiocatore->datiConnessioneClient->clientFd, "[server] sei connesso", sizeof("[server] sei connesso"));
+
 	pthread_mutex_lock(&sessioneGiocoCorrente.mutex); //TODO check error
 	queue_put(&sessioneGiocoCorrente.elencoGiocatori, (node *) datiGiocatore);
 	sessioneGiocoCorrente.giocatoriConnessi++;
@@ -64,6 +67,7 @@ void *player(void *arg) {
 	argomentoGestorePuntate->listaPuntatePrivata = &listaPuntatePrivata;
 	argomentoGestorePuntate->clientFd = datiGiocatore->datiConnessioneClient->clientFd;
 
+
 	while (1) {
 		/*
 		 * Aspetta che il croupier apra le puntate
@@ -76,7 +80,7 @@ void *player(void *arg) {
 		pthread_mutex_unlock(&sessionePuntateCorrente.mutex); //TODO check error
 
 		printf("[Player] Creo il gestore delle puntate\n");
-		pthread_create(&tidGestorePuntateGiocatore, NULL, gestorePuntateGiocatore, (void *) argomentoGestorePuntate);
+		pthread_create(&tidGestorePuntateGiocatore, NULL, gestorePuntateGiocatore, (void *) argomentoGestorePuntate); //TODO check error
 		/*
 		 * Aspetta che il croupier chiuda le puntate
 		 */
@@ -111,28 +115,36 @@ void *player(void *arg) {
 		//* Aspettare che il croupier gestisca le puntate
 		//* Quando segnalato, far partire la gestione dei messaggi tra client
 
-		pthread_cond_wait(&analisiSessionePuntata.attesaMessaggi, &analisiSessionePuntata.mutex); //TODO check error
+		pthread_mutex_lock(&analisiSessionePuntata.mutex); //TODO check error
+		while (analisiSessionePuntata.stato == 0) {
+			printf("[player] Aspetto che termini la gestione delle puntaten\n");
+			pthread_cond_wait(&analisiSessionePuntata.attesaMessaggi, &analisiSessionePuntata.mutex); //TODO check error
+		}
+		pthread_mutex_unlock(&analisiSessionePuntata.mutex); //TODO check error
 
-		//gestione messaggi tra client
+		//=gestione messaggi tra client
 
-		/*non si può inviare tramite write una struttura.
-		  la scompattiamo e la inviamo al client una parte 
-		  alla volta*/
+		//connetterci al socket del client e inviare messaggio di chiusura puntate
 
-		//write("numero perdenti");
-		//write("numero vincitori");
-
-		/*non possiamo inviare la lista dei vincitori
-		  dobbiamo scompattare anche questa*/
-		//Loop per ogni nodo della lista dei vincitori
-		//write("indirizzo ip");
-		//write("portamessaggi");
 		pthread_mutex_lock(&sessioneGiocoCorrente.mutex); //TODO check error
-		if(datiGiocatore->vincitore == 1){
+
+		if (datiGiocatore->vincitore == 1) {
+			//invia 1 per dire che ha vinto
+			flag = 1;
+			write(datiGiocatore->datiConnessioneClient->clientFd, &flag, sizeof (int)); //TODO check error
 			//invia il numero di perdenti al client
+			//pthread_mutex_lock(&analisiSessionePuntata.mutex); //TODO check error
+			//write(datiGiocatore->datiConnessioneClient->clientFd, &analisiSessionePuntata.numeroPerdenti, sizeof (int)); //TODO check error
+			//pthread_mutex_unlock(&analisiSessionePuntata.mutex); //TODO check error
+			//azzero il flag per la prossima puntata
+			datiGiocatore->vincitore = 0;
 		} else {
+			//invia 0 per dire che ha perso
+			flag = 0;
+			write(datiGiocatore->datiConnessioneClient->clientFd, &flag, sizeof (int));
 			//invia il numero dei vincitori
 			//per ogni vincitore, invia indirizzo IP e porta congratulazioni al client
+
 		}
 		pthread_mutex_unlock(&sessioneGiocoCorrente.mutex); //TODO check error
 
@@ -149,8 +161,8 @@ void *gestorePuntateGiocatore(void *arg) {
 	puntata_t *singolaPuntata;
 	int tipoPuntata;
 	int sommaPuntata;
-	
-	
+
+
 	bzero(stringaPuntata, sizeof (stringaPuntata));
 	while (1) {
 		/* riceve una stringa dal client del tipo "int tipo:int somma" dove:
@@ -159,22 +171,22 @@ void *gestorePuntateGiocatore(void *arg) {
 		 * tipo >= 0 rappresenta il numero puntato
 		 * somma rappresenta la somma puntata
 		 */
-		bytes_read = read(argomento->clientFd, &tipoPuntata, sizeof(int));
-		bytes_read = read(argomento->clientFd, &sommaPuntata, sizeof(int));
-		
+		bytes_read = read(argomento->clientFd, &tipoPuntata, sizeof (int));
+		bytes_read = read(argomento->clientFd, &sommaPuntata, sizeof (int));
+
 		singolaPuntata = (puntata_t *) malloc(sizeof (puntata_t)); //TODO check error
 		singolaPuntata->next = NULL;
 		singolaPuntata->tipoPuntata = tipoPuntata;
 		singolaPuntata->sommaPuntata = sommaPuntata;
 		singolaPuntata->numeroPuntato = tipoPuntata;
-/*
+		/*
 			
-		printf("Il tipo puntata è %d\n", singolaPuntata->tipoPuntata);
-		printf("La somma puntata è %d\n", singolaPuntata->sommaPuntata);
-		if(singolaPuntata->numeroPuntato >= 0) {
-			printf("Il numero puntato è %d\n", singolaPuntata->numeroPuntato);
-		}
-*/
+				printf("Il tipo puntata è %d\n", singolaPuntata->tipoPuntata);
+				printf("La somma puntata è %d\n", singolaPuntata->sommaPuntata);
+				if(singolaPuntata->numeroPuntato >= 0) {
+					printf("Il numero puntato è %d\n", singolaPuntata->numeroPuntato);
+				}
+		 */
 
 		queue_put(argomento->listaPuntatePrivata, (node *) singolaPuntata);
 		singolaPuntata = NULL;

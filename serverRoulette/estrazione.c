@@ -58,7 +58,7 @@ int main(int argc, char **argv) {
     queue_init(&analisiSessionePuntata.elencoVincitori);
     analisiSessionePuntata.numeroPerdenti = 0;
     analisiSessionePuntata.numeroVincitori = 0;
-
+	analisiSessionePuntata.stato = 0;
 	//inizializzo la generazione random
     srand(time(NULL));
 

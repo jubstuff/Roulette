@@ -74,6 +74,8 @@ typedef struct sessioneDiGioco {
  * player_t
  *
  * Contiene i dettagli su un giocatore connesso al server
+ * @param vincitore Indica se il giocatore ha vinto la puntata corrente.
+ *                  1 se ha vinto, 0 se ha perso
  */
 typedef struct player {
     struct node *next;
@@ -122,6 +124,7 @@ typedef struct analisiDiSessionePuntata{
     queue elencoVincitori;
     int numeroPerdenti;
     int numeroVincitori;
+    int stato;
     pthread_mutex_t mutex;
     pthread_cond_t attesaMessaggi;
 } analisi_puntata_t;
