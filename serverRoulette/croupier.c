@@ -98,6 +98,7 @@ void *croupier(void *arg) {
              */
             if (tempPlayer->budgetAttuale > tempPlayer->budgetPrecedente) {
                 contVincitori++;
+				tempPlayer->vincitore = 1;
                 singoloVincitore = (vincitore_t *) malloc(sizeof (vincitore_t));
                 //TODO controllare se mettere solo in una sockaddr
                 singoloVincitore->indirizzoIp.sin_addr = tempPlayer->datiConnessioneClient->clientData.sin_addr;

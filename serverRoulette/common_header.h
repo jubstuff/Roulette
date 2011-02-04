@@ -83,6 +83,7 @@ typedef struct player {
     in_port_t portaMessaggiCongratulazioni;
     client_t *datiConnessioneClient;
     queue elencoPuntate;
+    int vincitore;
 } player_t;
 
 /**

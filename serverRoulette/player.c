@@ -35,6 +35,8 @@ void *player(void *arg) {
 	bytesRead = read(datiGiocatore->datiConnessioneClient->clientFd, datiGiocatore->nickname, nicknameLen);
 	
 	datiGiocatore->portaMessaggiCongratulazioni = ntohs(datiGiocatore->portaMessaggiCongratulazioni);
+	datiGiocatore->budgetPrecedente = 0;
+	datiGiocatore->vincitore = 0;
 	
     printf("====Dati Giocatore====\n");
 	printf("Nickname: %s\n", datiGiocatore->nickname);
@@ -125,6 +127,14 @@ void *player(void *arg) {
 		//Loop per ogni nodo della lista dei vincitori
 		//write("indirizzo ip");
 		//write("portamessaggi");
+		pthread_mutex_lock(&sessioneGiocoCorrente.mutex); //TODO check error
+		if(datiGiocatore->vincitore == 1){
+			//invia il numero di perdenti al client
+		} else {
+			//invia il numero dei vincitori
+			//per ogni vincitore, invia indirizzo IP e porta congratulazioni al client
+		}
+		pthread_mutex_unlock(&sessioneGiocoCorrente.mutex); //TODO check error
 
 	}
 	free(datiGiocatore);
