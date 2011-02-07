@@ -131,6 +131,14 @@ void *croupier(void *arg) {
         printf("Ci sono stati %d vincitori e %d perdenti.\n", contVincitori, contPerdenti);
         //memorizziamo il numero di vincitori e di perdenti
         pthread_mutex_lock(&analisiSessionePuntata.mutex); //TODO check error
+/*
+		vincitore_t *temp = (vincitore_t *)analisiSessionePuntata.elencoVincitori.head;
+		while(temp != NULL){
+			printf("Indirizzo: %s\n", inet_ntoa(temp->indirizzoIp.sin_addr));
+			printf("Porta Congratulazioni: %d\n\n", temp->portaMessaggiCongratulazioni);
+			temp = (vincitore_t *)temp->next;
+		}
+*/
         analisiSessionePuntata.numeroVincitori = contVincitori;
         analisiSessionePuntata.numeroPerdenti = contPerdenti;
 		analisiSessionePuntata.stato = 1;

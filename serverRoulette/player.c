@@ -12,8 +12,9 @@ void *player(void *arg) {
 	argomento_gestore_puntate_t *argomentoGestorePuntate;
 	ssize_t bytesRead;
 	size_t nicknameLen;
-	struct sockaddr_in clientData;
-	int flag = 1; //avvisa il client che le puntate sono chiuse
+	int i;
+	int flag = -1; //avvisa il client che le puntate sono chiuse
+	int numeroVincitori;
 	/*
 	 * Quando è già in atto una puntata, non si possono connettere nuovi giocatori
 	 * Aspetta che le puntate siano chiuse per connettersi
@@ -133,9 +134,11 @@ void *player(void *arg) {
 			flag = 1;
 			write(datiGiocatore->datiConnessioneClient->clientFd, &flag, sizeof (int)); //TODO check error
 			//invia il numero di perdenti al client
-			//pthread_mutex_lock(&analisiSessionePuntata.mutex); //TODO check error
-			//write(datiGiocatore->datiConnessioneClient->clientFd, &analisiSessionePuntata.numeroPerdenti, sizeof (int)); //TODO check error
-			//pthread_mutex_unlock(&analisiSessionePuntata.mutex); //TODO check error
+
+			pthread_mutex_lock(&analisiSessionePuntata.mutex); //TODO check error
+			write(datiGiocatore->datiConnessioneClient->clientFd, &analisiSessionePuntata.numeroPerdenti, sizeof (int)); //TODO check error
+			pthread_mutex_unlock(&analisiSessionePuntata.mutex); //TODO check error
+
 			//azzero il flag per la prossima puntata
 			datiGiocatore->vincitore = 0;
 		} else {
@@ -143,7 +146,26 @@ void *player(void *arg) {
 			flag = 0;
 			write(datiGiocatore->datiConnessioneClient->clientFd, &flag, sizeof (int));
 			//invia il numero dei vincitori
+			pthread_mutex_lock(&analisiSessionePuntata.mutex); //TODO check error
+			numeroVincitori = analisiSessionePuntata.numeroVincitori;
+			pthread_mutex_unlock(&analisiSessionePuntata.mutex); //TODO check error
+			write(datiGiocatore->datiConnessioneClient->clientFd, &numeroVincitori, sizeof (int));
+
+
 			//per ogni vincitore, invia indirizzo IP e porta congratulazioni al client
+			pthread_mutex_lock(&analisiSessionePuntata.mutex); //TODO check error
+			vincitore_t *temp = (vincitore_t *) analisiSessionePuntata.elencoVincitori.head;
+			while (temp != NULL) {
+				//scrivere indirizzo ip giocatore[i]
+				write(datiGiocatore->datiConnessioneClient->clientFd,inet_ntoa(temp->indirizzoIp.sin_addr), IP_ADDRESS_LENGTH);
+				//scrivere porta giocatore[i]
+				int tempPort = htons(temp->portaMessaggiCongratulazioni);
+				write(datiGiocatore->datiConnessioneClient->clientFd, &tempPort, sizeof (in_port_t));
+				//printf("Porta Congratulazioni: %d\n\n", temp->portaMessaggiCongratulazioni);
+				temp = (vincitore_t *) temp->next;
+			}
+			pthread_mutex_unlock(&analisiSessionePuntata.mutex); //TODO check error
+
 
 		}
 		pthread_mutex_unlock(&sessioneGiocoCorrente.mutex); //TODO check error

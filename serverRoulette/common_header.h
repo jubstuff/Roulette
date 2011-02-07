@@ -22,7 +22,7 @@
 #define MAXBUF 4096 /* max line length */
 #define MAX_BUDGET 500
 #define NICK_LENGTH 50
-
+#define IP_ADDRESS_LENGTH 15
 /*
  * Definizione dei tipi
  */
@@ -110,9 +110,10 @@ typedef struct puntate_node {
  * Elemento della lista vincitori. 
  */
 typedef struct vincitore {
+    struct node *next;
     int portaMessaggiCongratulazioni;
     struct sockaddr_in indirizzoIp;
-}vincitore_t;
+} vincitore_t;
 
 /**
  * analisi_puntata_t

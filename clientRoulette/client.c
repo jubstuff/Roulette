@@ -3,7 +3,7 @@
 #include "common_header.h"
 #include "client_header.h"
 
-#define IP_ADDRESS_LENGTH 15
+
 
 void *lettorePuntate(void *arg);
 
@@ -24,6 +24,7 @@ int main(int argc, char **argv) {
 	int budget;
 	pthread_t tidLettorePuntate;
 	char buf[100];
+	in_port_t tempPort;
 	int flagFinePuntate;
 	int numeroPerdenti; //numero richieste da accettare
 	int numeroVincitori; //numero di messaggi da inviare
@@ -118,15 +119,29 @@ int main(int argc, char **argv) {
 		pthread_create(&tidLettorePuntate, NULL, lettorePuntate, (void *) serverFd); //TODO check error
 		//ricevi la segnalazione che le puntate sono chiuse
 		read(serverFd, &flagFinePuntate, sizeof (int));
+		pthread_cancel(tidLettorePuntate);
 		if (flagFinePuntate == 1) {
-			pthread_cancel(tidLettorePuntate);
 			//ho vinto
-			//read(serverFd, &numeroPerdenti, sizeof (int));
+
+			read(serverFd, &numeroPerdenti, sizeof (int));
 			printf("Ho vinto!!\n");
-			//printf("Devo aspettarmi %d messaggi di congratulazioni\n", numeroPerdenti);
+			printf("Devo aspettarmi %d messaggi di congratulazioni\n", numeroPerdenti);
+			//deve accettare numPerdenti messaggi sul socket
 		} else if (flagFinePuntate == 0) {
 			//ho perso
+
+			//deve ricevere numvincitori
+			read(serverFd, &numeroVincitori, sizeof (int));
 			printf("Ho perso!!!\n");
+			printf("Devo mandare %d messaggi di congratulazioni\n", numeroVincitori);
+			while(numeroVincitori > 0){
+				read(serverFd, buf, IP_ADDRESS_LENGTH);
+				read(serverFd, &tempPort, sizeof (in_port_t));
+				printf("%s:%d\n", buf, tempPort);
+				numeroVincitori--;
+			}
+			//deve leggere tutti gli ip e le porte dei vincitori
+			//deve inviare numVincitori messaggi sui socket
 		} else {
 			//non dovrebbe mai arrivare qui, nel caso, termina
 			abort();

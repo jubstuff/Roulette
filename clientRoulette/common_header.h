@@ -21,7 +21,7 @@
 #define MAXBUF 4096 /* max line length */
 #define MAX_BUDGET 500
 #define NICK_LENGTH 50
-
+#define IP_ADDRESS_LENGTH 15
 /*
  * Definizione dei tipi
  */
