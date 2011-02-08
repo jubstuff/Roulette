@@ -14,7 +14,7 @@ int main(int argc, char **argv) {
 
 	struct sockaddr_in serverData;
 	struct sockaddr_in clientData;
-	socklen_t clientAddrlen;
+	socklen_t clientAddrlen = sizeof(clientData); //importante per il corretto funzionamento della getsockaddrname
 	char serverAddress[IP_ADDRESS_LENGTH];
 	in_port_t serverPort;
 	in_port_t congratPort;
@@ -57,13 +57,21 @@ int main(int argc, char **argv) {
 		abort();
 	}
 
-	status = listen(clientFd, 5); //TODO quanti ce ne devono stare nella listen?
+/*
+        bzero(&clientData, sizeof(clientData));
+        clientData.sin_family = AF_INET;
+        clientData.sin_addr.s_addr = htonl(INADDR_ANY);
+        clientData.sin_port = htons(0);
+        bind(clientFd, (struct sockaddr *) &clientData, sizeof(clientData));
+*/
+
+        status = listen(clientFd, 5); //TODO quanti ce ne devono stare nella listen?
 	if (status != 0) {
 		abort();
 	}
-
+        
 	status = getsockname(clientFd, (struct sockaddr *) &clientData, &clientAddrlen);
-
+        printf("Porta assegnata: %d", ntohs(clientData.sin_port));
 
 	/*
 	 * Creazione socket e connessione al server

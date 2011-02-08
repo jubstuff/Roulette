@@ -44,7 +44,7 @@ void *player(void *arg) {
     printf("====Dati Giocatore====\n");
     printf("Nickname: %s\n", datiGiocatore->nickname);
     printf("Budget Iniziale: %d\n", datiGiocatore->budgetAttuale);
-    printf("Porta Congratulazioni: %d\n\n", datiGiocatore->portaMessaggiCongratulazioni);
+    printf("Porta Congratulazioni: %d\n\n", htons(datiGiocatore->portaMessaggiCongratulazioni));
 
     //write(datiGiocatore->datiConnessioneClient->clientFd, "[server] sei connesso", sizeof("[server] sei connesso"));
 
