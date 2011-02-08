@@ -183,10 +183,9 @@ void *gestorePuntateGiocatore(void *arg) {
     puntata_t *singolaPuntata;
     int tipoPuntata;
     int sommaPuntata;
-    char messaggio[] = "\n=Puntate aperte=\n";
-    ssize_t lenMessaggio = sizeof (messaggio);
-    write(argomento->clientFd, messaggio, lenMessaggio); //TODO check error
-
+    
+    write(argomento->clientFd, messaggioPuntateAperte, lenMessaggioPuntateAperte);
+    
     bzero(stringaPuntata, sizeof (stringaPuntata));
     while (1) {
         /* riceve una stringa dal client del tipo "int tipo:int somma" dove:

@@ -10,7 +10,6 @@ void *lettorePuntate(void *arg);
 int main(int argc, char **argv) {
 	int serverFd;
 	int clientFd;
-	int congratFd;
 	int status;
 
 	struct sockaddr_in serverData;
@@ -28,9 +27,6 @@ int main(int argc, char **argv) {
 	int flagFinePuntate;
 	int numeroPerdenti; //numero richieste da accettare
 	int numeroVincitori; //numero di messaggi da inviare
-
-        char messaggio[] = "\n=Puntate aperte=\n";
-        ssize_t lenMessaggio = sizeof(messaggio);
 
 	/* controllo numero di argomenti */
 	if (argc != 5) {
@@ -113,14 +109,13 @@ int main(int argc, char **argv) {
 		perror("Writing nickname on socket");
 		abort();
 	}
-	/*
-
-		read(serverFd,buf,sizeof("[server] sei connesso"));
-		printf("%s\n", buf);
-	 */
+	
 	while (1) {
-                read(serverFd, buf, lenMessaggio); //TODO check error
+                /* messaggio che le puntate sono aperte*/
+                read(serverFd, buf, sizeof("\n=Puntate aperte=\n")); //TODO check error
                 printf("%s", buf);
+                
+                /* crea il thread che gestisce l'acquisizione delle puntate*/
 		pthread_create(&tidLettorePuntate, NULL, lettorePuntate, (void *) serverFd); //TODO check error
 		//ricevi la segnalazione che le puntate sono chiuse
 		read(serverFd, &flagFinePuntate, sizeof (int));

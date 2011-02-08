@@ -24,6 +24,7 @@
 #define MAX_BUDGET 500
 #define NICK_LENGTH 50
 #define IP_ADDRESS_LENGTH 15
+
 /*
  * Definizione dei tipi
  */
@@ -55,6 +56,7 @@ typedef struct sessioneDiPuntate {
     pthread_cond_t attesaCroupier;
     int stato;
 } sessione_puntate_t;
+
 /**
  * sessione_gioco_t
  *
@@ -122,7 +124,7 @@ typedef struct vincitore {
  * Contiene l'analisi per una giocata fatta da tutti i giocatori connessi.
  * Viene riazzerata ad ogni puntata.
  */
-typedef struct analisiDiSessionePuntata{
+typedef struct analisiDiSessionePuntata {
     queue elencoVincitori;
     int numeroPerdenti;
     int numeroVincitori;
@@ -143,6 +145,9 @@ extern int numero_di_perdenti_in_questa_mano;
 sessione_gioco_t sessioneGiocoCorrente;
 sessione_puntate_t sessionePuntateCorrente;
 analisi_puntata_t analisiSessionePuntata;
+
+extern const char messaggioPuntateAperte[];
+extern ssize_t lenMessaggioPuntateAperte;
 
 /**
  * Stampa sullo standard error un messaggio contenente l'errore, il file che l'ha

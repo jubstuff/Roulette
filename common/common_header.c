@@ -1,6 +1,11 @@
 #include "common_header.h"
 
 int num_requests = 0;
+/**
+ * Costanti
+ */
+const char messaggioPuntateAperte[] = "\n=Puntate aperte=\n";
+ssize_t lenMessaggioPuntateAperte = sizeof (messaggioPuntateAperte);
 
 /**
  * Stampa sullo standard error un messaggio contenente l'errore, il file che l'ha
