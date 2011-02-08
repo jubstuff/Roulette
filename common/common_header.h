@@ -5,9 +5,9 @@
 #include <ctype.h>
 #include <errno.h> //ETIMEDOUT
 #include <fcntl.h>
-#include "player.h"
+#include "../serverRoulette/player.h"
 #include <pthread.h>
-#include "queue.h"
+#include "../serverRoulette/queue.h"
 #include <signal.h>
 #include <sys/socket.h>
 #include <sys/stat.h>
@@ -16,6 +16,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+
 #include <unistd.h>
 #include <wait.h>
 

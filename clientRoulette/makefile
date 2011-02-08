@@ -6,8 +6,8 @@ client-roulette : $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) -o client-roulette
 client.o : client.c
 	$(CC) $(CFLAGS) -c client.c
-common_header.o : common_header.c common_header.h
-	$(CC) $(CFLAGS) -c common_header.c
+common_header.o : ../common/common_header.c ../common/common_header.h
+	$(CC) $(CFLAGS) -c ../common/common_header.c
 client_header.o : client_header.c client_header.h
 	$(CC) $(CFLAGS) -c client_header.c
 queue.o : queue.c queue.h

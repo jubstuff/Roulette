@@ -5,7 +5,7 @@
 #define DEBUG 1
 
 
-#include "common_header.h"
+#include "../common/common_header.h"
 #include "croupier.h"
 
 

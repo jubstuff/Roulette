@@ -4,8 +4,8 @@ OBJS = common_header.o estrazione.o queue.o player.o croupier.o
 
 server-roulette : $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) -o server-roulette
-common_header.o : common_header.c common_header.h
-	$(CC) $(CFLAGS) -c common_header.c
+common_header.o : ../common/common_header.c ../common/common_header.h
+	$(CC) $(CFLAGS) -c ../common/common_header.c
 estrazione.o : estrazione.c
 	$(CC)  $(CFLAGS) -c estrazione.c
 player.o : player.c player.h
