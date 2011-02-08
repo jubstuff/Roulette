@@ -29,6 +29,9 @@ int main(int argc, char **argv) {
 	int numeroPerdenti; //numero richieste da accettare
 	int numeroVincitori; //numero di messaggi da inviare
 
+        char messaggio[] = "\n=Puntate aperte=\n";
+        ssize_t lenMessaggio = sizeof(messaggio);
+
 	/* controllo numero di argomenti */
 	if (argc != 5) {
 		printf("Utilizzo: %s <indirizzo server> <numero porta> <nickname> <somma allocata>\n", argv[0]);
@@ -116,6 +119,8 @@ int main(int argc, char **argv) {
 		printf("%s\n", buf);
 	 */
 	while (1) {
+                read(serverFd, buf, lenMessaggio); //TODO check error
+                printf("%s", buf);
 		pthread_create(&tidLettorePuntate, NULL, lettorePuntate, (void *) serverFd); //TODO check error
 		//ricevi la segnalazione che le puntate sono chiuse
 		read(serverFd, &flagFinePuntate, sizeof (int));
