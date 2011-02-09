@@ -56,15 +56,7 @@ int main(int argc, char **argv) {
 	if (clientFd < 0) {
 		abort();
 	}
-
-/*
-        bzero(&clientData, sizeof(clientData));
-        clientData.sin_family = AF_INET;
-        clientData.sin_addr.s_addr = htonl(INADDR_ANY);
-        clientData.sin_port = htons(0);
-        bind(clientFd, (struct sockaddr *) &clientData, sizeof(clientData));
-*/
-
+        //non si esegue la bind per far assegnare una porta random
         status = listen(clientFd, 5); //TODO quanti ce ne devono stare nella listen?
 	if (status != 0) {
 		abort();

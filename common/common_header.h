@@ -181,4 +181,53 @@ int roulette_mutex_unlock(pthread_mutex_t *mutex, char *msg);
 
 
 struct timespec calcola_intervallo(int intervallo);
+
+
+/******************************************************************************
+ * =WRAPPER FUNCTIONS=
+ */
+//socket
+int Socket(int domain, int type, int protocol);
+//bind
+void Bind(int sockfd, const struct sockaddr *addr, socklen_t addrlen);
+//listen
+void Listen(int sockfd, int backlog);
+//accept
+int Accept(int sockfd, struct sockaddr *addr, socklen_t *addrlen);
+//connect
+void Connect(int sockfd, const struct sockaddr *addr, socklen_t addrlen);
+//malloc
+void *Malloc(size_t size);
+//pthread_mutex_init
+void Pthread_mutex_init(pthread_mutex_t *mutex, const pthread_mutexattr_t *attr);
+//pthread_cond_init
+void Pthread_cond_init(pthread_cond_t *cond, const pthread_condattr_t *attr);
+//pthread_create
+int Pthread_create(pthread_t *thread, const pthread_attr_t *attr,
+        void *(*start_routine)(void*), void *arg);
+//pthread_cancel
+int Pthread_cancel(pthread_t thread);
+//pthread_mutex_lock
+int Pthread_mutex_lock(pthread_mutex_t *mutex);
+//pthread_mutex_unlock
+int Pthread_mutex_unlock(pthread_mutex_t *mutex);
+//pthread_cond_wait
+int Pthread_cond_wait(pthread_cond_t *cond,
+        pthread_mutex_t *mutex);
+//pthread_cond_broadcast
+int Pthread_cond_broadcast(pthread_cond_t *cond);
+//pthread_cond_signal
+int Pthread_cond_signal(pthread_cond_t *cond);
+//pthread_cond_timedwait
+int Pthread_cond_timedwait(pthread_cond_t *cond,
+        pthread_mutex_t *mutex,
+        const struct timespec *abstime);
+//write
+ssize_t Write(int fd, const void *buf, size_t count);
+//read
+ssize_t Read(int fd, void *buf, size_t count);
+
+
+
+
 #endif /* _COMMON_HEADER_H */
