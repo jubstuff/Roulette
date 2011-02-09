@@ -176,9 +176,6 @@ void gestisci_puntata_pari(int estratto, puntata_t *puntata, player_t *player);
 void gestisci_puntata_dispari(int estratto, puntata_t *puntata, player_t *player);
 void aumenta_budget(int moltiplicatore, puntata_t *puntata, player_t *player);
 
-int roulette_mutex_lock(pthread_mutex_t *mutex, char *msg);
-int roulette_mutex_unlock(pthread_mutex_t *mutex, char *msg);
-
 //puntata_t *inizializza_nodo_puntata(int numero_puntato, bet_t tipo_puntata, int somma_puntata);
 
 

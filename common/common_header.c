@@ -23,41 +23,6 @@ void err_abort(int code, char *text) {
     abort();
 }
 
-/**
- * roulette_mutex_lock
- * 
- * Effettua il lock sul mutex ed il check per errori
- * 
- * @param mutex mutex da bloccare
- * @param msg messaggio da visualizzare
- * @return il valore restituito pthread_mutex_lock
- */
-int roulette_mutex_lock(pthread_mutex_t *mutex, char *msg) {
-    int status;
-    status = pthread_mutex_lock(mutex);
-    if (status != 0) {
-        err_abort(status, msg);
-    }
-    return status;
-}
-
-/**
- * roulette_mutex_unlock
- *
- * Effettua l'unlock sul mutex ed il check per errori
- *
- * @param mutex mutex da sbloccare
- * @param msg messaggio da visualizzare
- * @return il valore restituito pthread_mutex_lock
- */
-int roulette_mutex_unlock(pthread_mutex_t *mutex, char *msg) {
-    int status;
-    status = pthread_mutex_unlock(mutex);
-    if (status != 0) {
-        err_abort(status, msg);
-    }
-    return status;
-}
 
 /**
  * Apre un socket, e si mette in ascolto su di esso
