@@ -6,6 +6,8 @@ int num_requests = 0;
  */
 const char messaggioPuntateAperte[] = "\n=Puntate aperte=\n";
 ssize_t lenMessaggioPuntateAperte = sizeof (messaggioPuntateAperte);
+const char messaggioPuntateChiuse[] = "\n=Puntate chiuse=\n";
+ssize_t lenMessaggioPuntateChiuse = sizeof (messaggioPuntateChiuse);
 
 /**
  * Stampa sullo standard error un messaggio contenente l'errore, il file che l'ha
@@ -198,6 +200,15 @@ void Connect(int sockfd, const struct sockaddr *addr, socklen_t addrlen) {
         err_abort(errno, "Errore nella connessione: riavvia il programma.");
     }
 }
+
+void Close(int fildes){
+    int status;
+    status = close(fildes);
+    if(status < 0){
+        err_abort(errno, "Errore nella close");
+    }
+}
+
 //TODO controllare questa
 void *Malloc(size_t size){
     void * ptr;
@@ -224,10 +235,93 @@ void Pthread_cond_init(pthread_cond_t *cond, const pthread_condattr_t *attr){
     }
 }
 
-int Pthread_create(pthread_t *thread, const pthread_attr_t *attr,
+void Pthread_create(pthread_t *thread, const pthread_attr_t *attr,
         void *(*start_routine)(void*), void *arg) {
-    pthread_create(thread, attr, start_routine, arg);
+    int status;
+    status = pthread_create(thread, attr, start_routine, arg);
+    if(status != 0){
+        err_abort(status, "Errore nella pthread_create");
+    }
 }
+
+void Pthread_cancel(pthread_t thread){
+    int status;
+    status = pthread_cancel(thread);
+    if(status != 0){
+        err_abort(status, "Errore nella pthread_cancel");
+    }
+}
+
+void Pthread_mutex_lock(pthread_mutex_t *mutex){
+    int status;
+    status = pthread_mutex_lock(mutex);
+    if(status != 0){
+        err_abort(status, "Errore nella pthread_mutex_lock");
+    }
+}
+
+void Pthread_mutex_unlock(pthread_mutex_t *mutex){
+    int status;
+    status = pthread_mutex_unlock(mutex);
+    if(status != 0){
+        err_abort(status, "Errore nella pthread_mutex_unlock");
+    }
+}
+
+void Pthread_cond_wait(pthread_cond_t *cond, pthread_mutex_t *mutex){
+    int status;
+    status = pthread_cond_wait(cond, mutex);
+    if(status != 0){
+        err_abort(status, "Errore nella pthread_cond_wait");
+    }
+}
+
+int Pthread_cond_timedwait(pthread_cond_t *cond, pthread_mutex_t *mutex,
+        const struct timespec *abstime){
+    int status;
+    status = Pthread_cond_timedwait(cond, mutex, abstime);
+    if (status == ETIMEDOUT) {
+        return status;
+    } else if (status != 0) {
+        err_abort(status, "Errore nella pthread_cond_timedwait");
+    }
+    return status;
+}
+
+void Pthread_cond_broadcast(pthread_cond_t *cond) {
+    int status;
+    status = pthread_cond_broadcast(cond);
+    if(status != 0){
+        err_abort(status, "Errore nella pthread_cond_broadcast");
+    }
+}
+
+void Pthread_cond_signal(pthread_cond_t *cond){
+    int status;
+    status = pthread_cond_signal(cond);
+    if(status != 0){
+        err_abort(status, "Errore nella pthread_cond_signal");
+    }
+}
+
+ssize_t Write(int fd, const void *buf, size_t count) {
+    ssize_t bytes_written;
+    bytes_written = write(fd, buf, count);
+    if(bytes_written < 0) {
+        err_abort(errno, "Errore nella write");
+    }
+    return bytes_written;
+}
+
+ssize_t Read(int fd, void *buf, size_t count) {
+    ssize_t bytes_read;
+    bytes_read = read(fd, buf, count);
+    if(bytes_read < 0){
+        err_abort(errno, "Errore nella read");
+    }
+    return bytes_read;
+}
+
 
 #ifdef ASDRUBALE_BARCA
 
