@@ -82,6 +82,7 @@ void *player(void *arg) {
 
         printf("[Player] Creo il gestore delle puntate\n");
         pthread_create(&tidGestorePuntateGiocatore, NULL, gestorePuntateGiocatore, (void *) argomentoGestorePuntate); //TODO check error
+
         /*
          * Aspetta che il croupier chiuda le puntate
          */
@@ -93,6 +94,7 @@ void *player(void *arg) {
         pthread_mutex_unlock(&sessionePuntateCorrente.mutex); //TODO check error
 
         pthread_cancel(tidGestorePuntateGiocatore); //TODO check error
+
         /*
          * collegare pacchetto di puntate alla lista del giocatore
          */
@@ -183,9 +185,10 @@ void *gestorePuntateGiocatore(void *arg) {
     puntata_t *singolaPuntata;
     int tipoPuntata;
     int sommaPuntata;
-    
+
+    //invia il messaggio di =puntate aperte= al client
     write(argomento->clientFd, messaggioPuntateAperte, lenMessaggioPuntateAperte);
-    
+
     bzero(stringaPuntata, sizeof (stringaPuntata));
     while (1) {
         /* riceve una stringa dal client del tipo "int tipo:int somma" dove:
