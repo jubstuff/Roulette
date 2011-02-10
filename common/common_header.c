@@ -9,6 +9,8 @@ ssize_t lenMessaggioPuntateAperte = sizeof (messaggioPuntateAperte);
 const char messaggioPuntateChiuse[] = "\n=Puntate chiuse=\n";
 ssize_t lenMessaggioPuntateChiuse = sizeof (messaggioPuntateChiuse);
 
+int numeroMinimoGiocatori = 2;
+
 /**
  * Stampa sullo standard error un messaggio contenente l'errore, il file che l'ha
  * causato, la riga e la spiegazione.

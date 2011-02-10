@@ -151,6 +151,8 @@ extern ssize_t lenMessaggioPuntateAperte;
 extern const char messaggioPuntateChiuse[];
 extern ssize_t lenMessaggioPuntateChiuse;
 
+extern int numeroMinimoGiocatori;
+
 /**
  * Stampa sullo standard error un messaggio contenente l'errore, il file che l'ha
  * causato, la riga e la spiegazione.

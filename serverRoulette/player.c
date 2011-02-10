@@ -54,7 +54,7 @@ void *player(void *arg) {
      * Se questo thread è il primo giocatore connesso, avvisa il croupier che
      * può iniziare la giocata
      */
-    if (sessioneGiocoCorrente.giocatoriConnessi == 1) {
+    if (sessioneGiocoCorrente.giocatoriConnessi == numeroMinimoGiocatori) {
         pthread_cond_signal(&sessioneGiocoCorrente.attesaAlmenoUnGiocatore); //TODO check error
     }
     pthread_mutex_unlock(&sessioneGiocoCorrente.mutex); //TODO check error
