@@ -10,10 +10,14 @@ void *lettorePuntate(void *arg);
 int main(int argc, char **argv) {
 	int serverFd;
 	int clientFd;
+	int perdenteFd;
+	int vincitoreFd;
 	int status;
+	size_t lenBufCongratulazioni;
 
 	struct sockaddr_in serverData;
 	struct sockaddr_in clientData;
+	struct sockaddr_in vincitoreData;
 	socklen_t clientAddrlen = sizeof(clientData); //importante per il corretto funzionamento della getsockaddrname
 	char serverAddress[IP_ADDRESS_LENGTH];
 	in_port_t serverPort;
@@ -23,8 +27,9 @@ int main(int argc, char **argv) {
 	int budget;
 	pthread_t tidLettorePuntate;
 	char buf[100];
+	char bufCongratulazioni[100];
 	in_port_t tempPort;
-	int flagFinePuntate;
+	int flagFinePuntate = -1;
 	int numeroPerdenti; //numero richieste da accettare
 	int numeroVincitori; //numero di messaggi da inviare
 
@@ -111,6 +116,7 @@ int main(int argc, char **argv) {
 	}
 	
 	while (1) {
+		flagFinePuntate = -1;
                 /* messaggio che le puntate sono aperte*/
                 read(serverFd, buf, sizeof("\n=Puntate aperte=\n")); //TODO check error
                 printf("%s", buf);
@@ -120,6 +126,8 @@ int main(int argc, char **argv) {
 		//ricevi la segnalazione che le puntate sono chiuse
 		read(serverFd, &flagFinePuntate, sizeof (int));
 		pthread_cancel(tidLettorePuntate);
+		
+		//(pipe) da qua già nel figlio...
 		if (flagFinePuntate == 1) {
 			//ho vinto
 
@@ -127,6 +135,24 @@ int main(int argc, char **argv) {
 			printf("Ho vinto!!\n");
 			printf("Devo aspettarmi %d messaggi di congratulazioni\n", numeroPerdenti);
 			//deve accettare numPerdenti messaggi sul socket
+			
+		
+			
+			//while(numPerdenti)
+			while(numeroPerdenti > 0) {
+				//TODO check errors
+				//accept
+				perdenteFd = accept(clientFd, NULL, NULL);
+				//read(sul clientFd,"nickname si congratula");
+				read(perdenteFd, &lenBufCongratulazioni, sizeof(size_t));
+				read(perdenteFd, bufCongratulazioni, lenBufCongratulazioni);
+				printf("%s\n", bufCongratulazioni);
+				close(perdenteFd);
+				numeroPerdenti--;
+			} 
+			
+			
+			
 		} else if (flagFinePuntate == 0) {
 			//ho perso
 
@@ -137,7 +163,32 @@ int main(int argc, char **argv) {
 			while(numeroVincitori > 0){
 				read(serverFd, buf, IP_ADDRESS_LENGTH);
 				read(serverFd, &tempPort, sizeof (in_port_t));
-				printf("%s:%d\n", buf, tempPort);
+				printf("%s:%d\n", buf, ntohs(tempPort));
+				
+                                
+                                //apre socket
+                                vincitoreFd = socket(AF_INET, SOCK_STREAM, 0); //TODO check error
+                                //dati di connessione del vincitore
+				bzero(&vincitoreData, sizeof(vincitoreData));
+				vincitoreData.sin_family = AF_INET;
+				vincitoreData.sin_port = htons(tempPort);
+                                inet_aton(buf, &vincitoreData.sin_addr);
+
+                                
+                                status = connect(vincitoreFd, (struct sockaddr *) &vincitoreData, sizeof (vincitoreData)); //TODO check error
+                                //scrive sul socket
+                                //TODO aggiungere nickname al messaggio di congratulazione
+                                bzero(&bufCongratulazioni[0], sizeof(bufCongratulazioni));
+                                strcpy(bufCongratulazioni, nickname);
+                                strcat(bufCongratulazioni, " si congratula.");
+                                lenBufCongratulazioni = sizeof(bufCongratulazioni);
+                                
+                                write(vincitoreFd, &lenBufCongratulazioni, sizeof(size_t)); //TODO check error
+                                write(vincitoreFd, bufCongratulazioni, sizeof(bufCongratulazioni)); //TODO check error
+				//chiude socket
+				close(vincitoreFd); //TODO check error
+                                
+                                
 				numeroVincitori--;
 			}
 			//deve leggere tutti gli ip e le porte dei vincitori
@@ -160,6 +211,11 @@ void *lettorePuntate(void *arg) {
 	int tipoPuntata;
 	int numeroPuntato;
 	int serverFd = (int) arg;
+	char ch;
+	
+	//svuoto il buffer di input
+	while (ch != EOF && (ch = getchar()) != '\n')
+		;
 
 	while ((bytesRead = read(STDIN_FILENO, puntata, MAXBUF)) > 0) {
 		puntata[bytesRead - 1] = '\0';

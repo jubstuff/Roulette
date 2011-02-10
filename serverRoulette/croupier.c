@@ -28,7 +28,7 @@ void *croupier(void *arg) {
         /*
          * Apri le puntate e risveglia tutti i giocatori in attesa di puntare
          */
-        printf("[Croupier] Apro le puntate\n");
+        printf("\n\n[Croupier] Apro le puntate\n");
         pthread_mutex_lock(&sessionePuntateCorrente.mutex); //TODO check error
         sessionePuntateCorrente.stato = 1;
         pthread_cond_broadcast(&sessionePuntateCorrente.aperte); //TODO check error
@@ -71,11 +71,14 @@ void *croupier(void *arg) {
         pthread_mutex_lock(&analisiSessionePuntata.mutex); //TODO check error
         queue_init(&(analisiSessionePuntata.elencoVincitori));
         analisiSessionePuntata.stato = 0;
+        analisiSessionePuntata.numeroVincitori = 0;
+        analisiSessionePuntata.numeroPerdenti = 0;
         pthread_mutex_unlock(&analisiSessionePuntata.mutex); //TODO check error
 
         pthread_mutex_lock(&sessioneGiocoCorrente.mutex); //TODO check error
         tempPlayer = (player_t *) sessioneGiocoCorrente.elencoGiocatori.head;
         while (tempPlayer != NULL) {
+            tempPlayer->vincitore = 0;
             tempPlayer->budgetPrecedente = tempPlayer->budgetAttuale;
             //scorri la lista delle puntate
             while ((puntata = (puntata_t *) queue_get(&tempPlayer->elencoPuntate)) != NULL) {
@@ -118,8 +121,10 @@ void *croupier(void *arg) {
                 //manda un messaggio
                 //disconnetti
                 //pulisci la memoria
+                tempPlayer->vincitore = 0;
                 contPerdenti++;
             } else {
+            	tempPlayer->vincitore = 0;
                 contPerdenti++;
             }
 
@@ -130,14 +135,16 @@ void *croupier(void *arg) {
         printf("Ci sono stati %d vincitori e %d perdenti.\n", contVincitori, contPerdenti);
         //memorizziamo il numero di vincitori e di perdenti
         pthread_mutex_lock(&analisiSessionePuntata.mutex); //TODO check error
-        /*
-                        vincitore_t *temp = (vincitore_t *)analisiSessionePuntata.elencoVincitori.head;
-                        while(temp != NULL){
-                                printf("Indirizzo: %s\n", inet_ntoa(temp->indirizzoIp.sin_addr));
-                                printf("Porta Congratulazioni: %d\n\n", temp->portaMessaggiCongratulazioni);
-                                temp = (vincitore_t *)temp->next;
-                        }
-         */
+        
+	//stampa l'elenco dei vincitori
+	printf("\n[Croupier] Stampo l'elenco dei vincitori.\n");
+        vincitore_t *temp = (vincitore_t *)analisiSessionePuntata.elencoVincitori.head;
+        while(temp != NULL){
+                printf("Indirizzo: %s\n", inet_ntoa(temp->indirizzoIp.sin_addr));
+                printf("Porta Congratulazioni: %d\n\n", htons(temp->portaMessaggiCongratulazioni));
+                temp = (vincitore_t *)temp->next;
+        }
+         
         analisiSessionePuntata.numeroVincitori = contVincitori;
         analisiSessionePuntata.numeroPerdenti = contPerdenti;
         analisiSessionePuntata.stato = 1;

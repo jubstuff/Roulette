@@ -12,7 +12,6 @@ void *player(void *arg) {
     argomento_gestore_puntate_t *argomentoGestorePuntate;
     ssize_t bytesRead;
     size_t nicknameLen;
-    int i;
     int flag = -1; //avvisa il client che le puntate sono chiuse
     int numeroVincitori;
     /*
@@ -70,6 +69,7 @@ void *player(void *arg) {
 
 
     while (1) {
+	flag = -1;
         /*
          * Aspetta che il croupier apra le puntate
          */
@@ -133,20 +133,20 @@ void *player(void *arg) {
 
         if (datiGiocatore->vincitore == 1) {
             //invia 1 per dire che ha vinto
-            flag = 1;
-            write(datiGiocatore->datiConnessioneClient->clientFd, &flag, sizeof (int)); //TODO check error
+            //flag = 1;
+            //write(datiGiocatore->datiConnessioneClient->clientFd, &flag, sizeof (int)); //TODO check error
+            printf("\n[Player] Sto inviando il flag 1 al client\n");
+            write(datiGiocatore->datiConnessioneClient->clientFd, &(datiGiocatore->vincitore), sizeof (int)); //TODO check error
             //invia il numero di perdenti al client
 
             pthread_mutex_lock(&analisiSessionePuntata.mutex); //TODO check error
             write(datiGiocatore->datiConnessioneClient->clientFd, &analisiSessionePuntata.numeroPerdenti, sizeof (int)); //TODO check error
             pthread_mutex_unlock(&analisiSessionePuntata.mutex); //TODO check error
-
-            //azzero il flag per la prossima puntata
-            datiGiocatore->vincitore = 0;
-        } else {
+        } else if(datiGiocatore->vincitore == 0) {
             //invia 0 per dire che ha perso
-            flag = 0;
-            write(datiGiocatore->datiConnessioneClient->clientFd, &flag, sizeof (int));
+            //flag = 0;
+            //write(datiGiocatore->datiConnessioneClient->clientFd, &flag, sizeof (int));
+            write(datiGiocatore->datiConnessioneClient->clientFd, &(datiGiocatore->vincitore), sizeof (int));
             //invia il numero dei vincitori
             pthread_mutex_lock(&analisiSessionePuntata.mutex); //TODO check error
             numeroVincitori = analisiSessionePuntata.numeroVincitori;
@@ -167,8 +167,6 @@ void *player(void *arg) {
                 temp = (vincitore_t *) temp->next;
             }
             pthread_mutex_unlock(&analisiSessionePuntata.mutex); //TODO check error
-
-
         }
         pthread_mutex_unlock(&sessioneGiocoCorrente.mutex); //TODO check error
 
