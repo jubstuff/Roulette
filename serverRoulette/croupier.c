@@ -19,7 +19,7 @@ void *croupier(void *arg) {
          * ASK ma anche se non ci sono puntate?
          */
         pthread_mutex_lock(&sessioneGiocoCorrente.mutex); //TODO check error
-        while (sessioneGiocoCorrente.giocatoriConnessi == 0) {
+        while (sessioneGiocoCorrente.giocatoriConnessi < numeroMinimoGiocatori) {
             pthread_cond_wait(&sessioneGiocoCorrente.attesaAlmenoUnGiocatore, &sessioneGiocoCorrente.mutex); //TODO check error
         }
         pthread_mutex_unlock(&sessioneGiocoCorrente.mutex); //TODO check error
@@ -29,6 +29,8 @@ void *croupier(void *arg) {
          * Apri le puntate e risveglia tutti i giocatori in attesa di puntare
          */
         printf("\n\n[Croupier] Apro le puntate\n");
+
+        
         pthread_mutex_lock(&sessionePuntateCorrente.mutex); //TODO check error
         sessionePuntateCorrente.stato = 1;
         pthread_cond_broadcast(&sessionePuntateCorrente.aperte); //TODO check error
@@ -45,6 +47,12 @@ void *croupier(void *arg) {
             pthread_mutex_lock(&sessioneGiocoCorrente.mutex); //TODO check error
             sessioneGiocoCorrente.giocatoriChePuntano = sessioneGiocoCorrente.giocatoriConnessi;
             pthread_mutex_unlock(&sessioneGiocoCorrente.mutex); //TODO check error
+            
+            //=============AGGIUNTO PER PROVA===================================
+            pthread_mutex_lock(&analisiSessionePuntata.mutex); //TODO check error
+            analisiSessionePuntata.stato = 0;
+            pthread_mutex_unlock(&analisiSessionePuntata.mutex); //TODO check error
+            //=============FINE AGGIUNTO PER PROVA==============================
 
             pthread_cond_broadcast(&sessionePuntateCorrente.chiuse); //TODO check error
         }
@@ -60,17 +68,21 @@ void *croupier(void *arg) {
         }
         pthread_mutex_unlock(&sessioneGiocoCorrente.mutex); //TODO check error
 
+        
+
+
         //numeroEstratto = rand() % 37;
         //TODO rimettere generazione casuale
         //Just:rendo il numero statico, per provare vittorie e perdite
         numeroEstratto = 33;
         printf("[Croupier] È stato estratto il numero %d\n", numeroEstratto);
+        //qui stava analisiSessione.stato = 0
         /*
          * processare la lista delle puntate
          */
         pthread_mutex_lock(&analisiSessionePuntata.mutex); //TODO check error
         queue_init(&(analisiSessionePuntata.elencoVincitori));
-        analisiSessionePuntata.stato = 0;
+//        analisiSessionePuntata.stato = 0;
         analisiSessionePuntata.numeroVincitori = 0;
         analisiSessionePuntata.numeroPerdenti = 0;
         pthread_mutex_unlock(&analisiSessionePuntata.mutex); //TODO check error
