@@ -29,11 +29,9 @@ int main(int argc, char **argv) {
     struct sockaddr_in self;
     struct sockaddr_in indirizzoClient;
     size_t lenIndirizzoClient;
-    int status; /* raccoglie i valori restituiti dalle system call */
     pthread_t playerTid, croupierTid;
 
     //TODO mettere queste inizializzazioni in una funzione
-    //TODO controllo errori sulle inizializzazioni
     /*
      * INIZIALIZZAZIONI
      */
@@ -86,22 +84,9 @@ int main(int argc, char **argv) {
         datiConnessioneClient->clientData = indirizzoClient;
         datiConnessioneClient->clientFd = clientFd;
 
-        status = pthread_create(&playerTid, NULL, player, (void *) datiConnessioneClient);
-        if (status != 0) {
-            err_abort(status, "Creazione thread");
-        }
+        Pthread_create(&playerTid, NULL, player, (void *) datiConnessioneClient);
     }
 
-    close(sockfd);
+    Close(sockfd);
     pthread_exit(NULL);
 }
-
-#ifndef DEBUG
-/* Crea 10 player thread */
-for (j = 0; j < 10; j++) {
-    status = pthread_create(&playerTid, NULL, player, (void *) j);
-    if (status != 0) {
-        err_abort(status, "Creazione thread");
-    }
-}
-#endif

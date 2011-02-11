@@ -1,6 +1,6 @@
 CC = gcc
 CFLAGS = -Wall -l pthread -g 
-OBJS = common_header.o queue.o client_header.o client.o
+OBJS = common_header.o client_header.o client.o
 
 client-roulette : $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) -o client-roulette
@@ -10,7 +10,5 @@ common_header.o : ../common/common_header.c ../common/common_header.h
 	$(CC) $(CFLAGS) -c ../common/common_header.c
 client_header.o : client_header.c client_header.h
 	$(CC) $(CFLAGS) -c client_header.c
-queue.o : queue.c queue.h
-	$(CC) $(CFLAGS) -c queue.c
 clean :
 	rm $(OBJS) client-roulette
