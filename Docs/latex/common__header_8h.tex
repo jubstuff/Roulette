@@ -1,0 +1,453 @@
+\hypertarget{common__header_8h}{
+\section{Riferimenti per il file common/common\_\-header.h}
+\label{common__header_8h}\index{common/common\_\-header.h@{common/common\_\-header.h}}
+}
+
+
+Include tutte le definizioni comuni al progetto.  
+
+
+{\ttfamily \#include $<$arpa/inet.h$>$}\par
+{\ttfamily \#include $<$ctype.h$>$}\par
+{\ttfamily \#include $<$errno.h$>$}\par
+{\ttfamily \#include $<$fcntl.h$>$}\par
+{\ttfamily \#include \char`\"{}../serverRoulette/player.h\char`\"{}}\par
+{\ttfamily \#include $<$pthread.h$>$}\par
+{\ttfamily \#include \char`\"{}../serverRoulette/queue.h\char`\"{}}\par
+{\ttfamily \#include $<$signal.h$>$}\par
+{\ttfamily \#include $<$sys/socket.h$>$}\par
+{\ttfamily \#include $<$sys/stat.h$>$}\par
+{\ttfamily \#include $<$sys/types.h$>$}\par
+{\ttfamily \#include $<$stdio.h$>$}\par
+{\ttfamily \#include $<$stdlib.h$>$}\par
+{\ttfamily \#include $<$string.h$>$}\par
+{\ttfamily \#include $<$time.h$>$}\par
+{\ttfamily \#include $<$unistd.h$>$}\par
+{\ttfamily \#include $<$wait.h$>$}\par
+{\ttfamily \#include \char`\"{}../serverRoulette/player.h\char`\"{}}\par
+\subsection*{Strutture dati}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structclient__tag}{client\_\-tag}
+\item 
+struct \hyperlink{structsessioneDiPuntate}{sessioneDiPuntate}
+\item 
+struct \hyperlink{structsessioneDiGioco}{sessioneDiGioco}
+\item 
+struct \hyperlink{structplayer}{player}
+\item 
+struct \hyperlink{structpuntate__node}{puntate\_\-node}
+\item 
+struct \hyperlink{structvincitore}{vincitore}
+\item 
+struct \hyperlink{structanalisiDiSessionePuntata}{analisiDiSessionePuntata}
+\end{DoxyCompactItemize}
+\subsection*{Definizioni}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{common__header_8h_ad7871643c05865c80f5d8050aead2b57}{MAXBUF}~4096
+\item 
+\#define \hyperlink{common__header_8h_adc84f0ef14ed8c672f496f139280a1ff}{MAX\_\-BUDGET}~500
+\item 
+\#define \hyperlink{common__header_8h_a4bac602d61231df3325cf77f23aa05db}{NICK\_\-LENGTH}~100
+\item 
+\#define \hyperlink{common__header_8h_aa7b44c9aa2f59f8e56950979bfafe4c6}{IP\_\-ADDRESS\_\-LENGTH}~15
+\end{DoxyCompactItemize}
+\subsection*{Ridefinizioni di tipo (typedef)}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct \hyperlink{structclient__tag}{client\_\-tag} \hyperlink{common__header_8h_a889dae78848cd7284a1ee3dd2501c85d}{client\_\-t}
+\item 
+typedef struct \hyperlink{structsessioneDiPuntate}{sessioneDiPuntate} \hyperlink{common__header_8h_ae49d27bebeffdafaec67e5d80e0a6d93}{sessione\_\-puntate\_\-t}
+\item 
+typedef struct \hyperlink{structsessioneDiGioco}{sessioneDiGioco} \hyperlink{common__header_8h_aeb5c5e94788356a09830114efd64d113}{sessione\_\-gioco\_\-t}
+\item 
+typedef struct \hyperlink{structplayer}{player} \hyperlink{common__header_8h_acc83da86654d65823ff6b815d2ad5bec}{player\_\-t}
+\item 
+typedef struct \hyperlink{structpuntate__node}{puntate\_\-node} \hyperlink{common__header_8h_a5bc1b6c5c94da0edb7ff09369a39193a}{puntata\_\-t}
+\item 
+typedef struct \hyperlink{structvincitore}{vincitore} \hyperlink{common__header_8h_ae70d612692e13203c487fba3d9bbb096}{vincitore\_\-t}
+\item 
+typedef struct \hyperlink{structanalisiDiSessionePuntata}{analisiDiSessionePuntata} \hyperlink{common__header_8h_a53d1230463d687ffd744e28ee0ab0709}{analisi\_\-puntata\_\-t}
+\end{DoxyCompactItemize}
+\subsection*{Funzioni}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{common__header_8h_a23c46484db25b3037102fdc173c9e164}{err\_\-abort} (int code, char $\ast$text)
+\item 
+int \hyperlink{common__header_8h_af80ccf9a719a63d3b221bbc9f5f9b30c}{open\_\-socket} (struct sockaddr\_\-in self, short int server\_\-port)
+\item 
+void \hyperlink{common__header_8h_a24615082f8148c638dd3bc16a1ae1ebf}{gestisci\_\-puntata\_\-numero} (int estratto, \hyperlink{structpuntate__node}{puntata\_\-t} $\ast$puntata, \hyperlink{structplayer}{player\_\-t} $\ast$\hyperlink{structplayer}{player})
+\item 
+void \hyperlink{common__header_8h_a9a062e74c343fb66b4c395755b577b7a}{gestisci\_\-puntata\_\-pari} (int estratto, \hyperlink{structpuntate__node}{puntata\_\-t} $\ast$puntata, \hyperlink{structplayer}{player\_\-t} $\ast$\hyperlink{structplayer}{player})
+\item 
+void \hyperlink{common__header_8h_a4426ec193b73ea2587e1e7fa7115027c}{gestisci\_\-puntata\_\-dispari} (int estratto, \hyperlink{structpuntate__node}{puntata\_\-t} $\ast$puntata, \hyperlink{structplayer}{player\_\-t} $\ast$\hyperlink{structplayer}{player})
+\item 
+void \hyperlink{common__header_8h_afd0f6fb0543833649223d0fc801b832e}{aumenta\_\-budget} (int moltiplicatore, \hyperlink{structpuntate__node}{puntata\_\-t} $\ast$puntata, \hyperlink{structplayer}{player\_\-t} $\ast$\hyperlink{structplayer}{player})
+\item 
+struct timespec \hyperlink{common__header_8h_a6e013de3c896f865446e7500f28447c7}{calcola\_\-intervallo} (int intervallo)
+\item 
+\hypertarget{common__header_8h_ab40b825366ecd47b1693784284633633}{
+int {\bfseries Socket} (int domain, int type, int protocol)}
+\label{common__header_8h_ab40b825366ecd47b1693784284633633}
+
+\item 
+\hypertarget{common__header_8h_a18b6504d0629fe26aebe7726d570d593}{
+void {\bfseries Bind} (int sockfd, const struct sockaddr $\ast$addr, socklen\_\-t addrlen)}
+\label{common__header_8h_a18b6504d0629fe26aebe7726d570d593}
+
+\item 
+\hypertarget{common__header_8h_a20f952ce9b39d5727a35a96883cf4025}{
+void {\bfseries Listen} (int sockfd, int backlog)}
+\label{common__header_8h_a20f952ce9b39d5727a35a96883cf4025}
+
+\item 
+\hypertarget{common__header_8h_a01855882d3cc0aa58978014fae447f48}{
+int {\bfseries Accept} (int sockfd, struct sockaddr $\ast$addr, socklen\_\-t $\ast$addrlen)}
+\label{common__header_8h_a01855882d3cc0aa58978014fae447f48}
+
+\item 
+\hypertarget{common__header_8h_a531e4d459b16689a6b5e48d7a7bad305}{
+void {\bfseries Connect} (int sockfd, const struct sockaddr $\ast$addr, socklen\_\-t addrlen)}
+\label{common__header_8h_a531e4d459b16689a6b5e48d7a7bad305}
+
+\item 
+\hypertarget{common__header_8h_ab54e1217d983e88c86ae6f802a1410f5}{
+void {\bfseries Close} (int fildes)}
+\label{common__header_8h_ab54e1217d983e88c86ae6f802a1410f5}
+
+\item 
+\hypertarget{common__header_8h_a718daa2ee90d164bb8224833535f0b3b}{
+void $\ast$ {\bfseries Malloc} (size\_\-t size)}
+\label{common__header_8h_a718daa2ee90d164bb8224833535f0b3b}
+
+\item 
+\hypertarget{common__header_8h_abcec9791bae09bea24be0a272064f0b2}{
+void {\bfseries Pthread\_\-mutex\_\-init} (pthread\_\-mutex\_\-t $\ast$mutex, const pthread\_\-mutexattr\_\-t $\ast$attr)}
+\label{common__header_8h_abcec9791bae09bea24be0a272064f0b2}
+
+\item 
+\hypertarget{common__header_8h_a63421c6a5b5ade7213fcb04508b8e9c6}{
+void {\bfseries Pthread\_\-cond\_\-init} (pthread\_\-cond\_\-t $\ast$cond, const pthread\_\-condattr\_\-t $\ast$attr)}
+\label{common__header_8h_a63421c6a5b5ade7213fcb04508b8e9c6}
+
+\item 
+\hypertarget{common__header_8h_a529fdfdc4590dc107e8f9aa5033ea94b}{
+void {\bfseries Pthread\_\-create} (pthread\_\-t $\ast$thread, const pthread\_\-attr\_\-t $\ast$attr, void $\ast$($\ast$start\_\-routine)(void $\ast$), void $\ast$arg)}
+\label{common__header_8h_a529fdfdc4590dc107e8f9aa5033ea94b}
+
+\item 
+\hypertarget{common__header_8h_adc14ea283bd09460a3df69982fe20137}{
+void {\bfseries Pthread\_\-cancel} (pthread\_\-t thread)}
+\label{common__header_8h_adc14ea283bd09460a3df69982fe20137}
+
+\item 
+\hypertarget{common__header_8h_ae069ec16890f7c7c974f5816ff6d1318}{
+void {\bfseries Pthread\_\-mutex\_\-lock} (pthread\_\-mutex\_\-t $\ast$mutex)}
+\label{common__header_8h_ae069ec16890f7c7c974f5816ff6d1318}
+
+\item 
+\hypertarget{common__header_8h_a8b68130d907d3f2638c342cafc31cc77}{
+void {\bfseries Pthread\_\-mutex\_\-unlock} (pthread\_\-mutex\_\-t $\ast$mutex)}
+\label{common__header_8h_a8b68130d907d3f2638c342cafc31cc77}
+
+\item 
+\hypertarget{common__header_8h_a4eef22974df3a36ba3b301f9bee20b3a}{
+void {\bfseries Pthread\_\-cond\_\-wait} (pthread\_\-cond\_\-t $\ast$cond, pthread\_\-mutex\_\-t $\ast$mutex)}
+\label{common__header_8h_a4eef22974df3a36ba3b301f9bee20b3a}
+
+\item 
+\hypertarget{common__header_8h_a551ea196dee03a3bb6521ee8afe30333}{
+int {\bfseries Pthread\_\-cond\_\-timedwait} (pthread\_\-cond\_\-t $\ast$cond, pthread\_\-mutex\_\-t $\ast$mutex, const struct timespec $\ast$abstime)}
+\label{common__header_8h_a551ea196dee03a3bb6521ee8afe30333}
+
+\item 
+\hypertarget{common__header_8h_af10fa90317ee2a0da3ad38b860f20799}{
+void {\bfseries Pthread\_\-cond\_\-broadcast} (pthread\_\-cond\_\-t $\ast$cond)}
+\label{common__header_8h_af10fa90317ee2a0da3ad38b860f20799}
+
+\item 
+\hypertarget{common__header_8h_ab3dd537c5f2e40656d2dfc37dec48aae}{
+void {\bfseries Pthread\_\-cond\_\-signal} (pthread\_\-cond\_\-t $\ast$cond)}
+\label{common__header_8h_ab3dd537c5f2e40656d2dfc37dec48aae}
+
+\item 
+\hypertarget{common__header_8h_a9428ea024e46af2e8a00c874c637ad01}{
+ssize\_\-t {\bfseries Write} (int fd, const void $\ast$buf, size\_\-t count)}
+\label{common__header_8h_a9428ea024e46af2e8a00c874c637ad01}
+
+\item 
+\hypertarget{common__header_8h_aa126411f5821a2671133529b6e139560}{
+ssize\_\-t {\bfseries Read} (int fd, void $\ast$buf, size\_\-t count)}
+\label{common__header_8h_aa126411f5821a2671133529b6e139560}
+
+\end{DoxyCompactItemize}
+\subsection*{Variabili}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{common__header_8h_aa2c81d3ffb928d2241675f5c9b94d1ae}{
+\hyperlink{structsessioneDiGioco}{sessione\_\-gioco\_\-t} {\bfseries sessioneGiocoCorrente}}
+\label{common__header_8h_aa2c81d3ffb928d2241675f5c9b94d1ae}
+
+\item 
+\hypertarget{common__header_8h_aa17b72f5e51d1a98d08dcab8243286f0}{
+\hyperlink{structsessioneDiPuntate}{sessione\_\-puntate\_\-t} {\bfseries sessionePuntateCorrente}}
+\label{common__header_8h_aa17b72f5e51d1a98d08dcab8243286f0}
+
+\item 
+\hypertarget{common__header_8h_ab346b8f5d31765d422e1aeaf8a8a3efb}{
+\hyperlink{structanalisiDiSessionePuntata}{analisi\_\-puntata\_\-t} {\bfseries analisiSessionePuntata}}
+\label{common__header_8h_ab346b8f5d31765d422e1aeaf8a8a3efb}
+
+\item 
+const char \hyperlink{common__header_8h_af38d3e64aae10f2f4f617376d4fc5411}{messaggioPuntateAperte} \mbox{[}$\,$\mbox{]}
+\item 
+\hypertarget{common__header_8h_a913cec2268e115e235392c9a230f26dc}{
+ssize\_\-t {\bfseries lenMessaggioPuntateAperte}}
+\label{common__header_8h_a913cec2268e115e235392c9a230f26dc}
+
+\item 
+\hypertarget{common__header_8h_aa5b737dbb18ee4c2d17428c361cfda70}{
+const char {\bfseries messaggioPuntateChiuse} \mbox{[}$\,$\mbox{]}}
+\label{common__header_8h_aa5b737dbb18ee4c2d17428c361cfda70}
+
+\item 
+\hypertarget{common__header_8h_a0fa9bf008521409e9f4b07a9ec799d42}{
+ssize\_\-t {\bfseries lenMessaggioPuntateChiuse}}
+\label{common__header_8h_a0fa9bf008521409e9f4b07a9ec799d42}
+
+\item 
+\hypertarget{common__header_8h_a4b4098f6de6ae0fb92838070d8e512a8}{
+int {\bfseries numeroMinimoGiocatori}}
+\label{common__header_8h_a4b4098f6de6ae0fb92838070d8e512a8}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Descrizione dettagliata}
+Include tutte le definizioni comuni al progetto. Gruppo 7 \begin{DoxyDate}{Data}
+Gennaio 2011 Detailed description of file. 
+\end{DoxyDate}
+
+
+\subsection{Documentazione delle definizioni}
+\hypertarget{common__header_8h_aa7b44c9aa2f59f8e56950979bfafe4c6}{
+\index{common\_\-header.h@{common\_\-header.h}!IP\_\-ADDRESS\_\-LENGTH@{IP\_\-ADDRESS\_\-LENGTH}}
+\index{IP\_\-ADDRESS\_\-LENGTH@{IP\_\-ADDRESS\_\-LENGTH}!common_header.h@{common\_\-header.h}}
+\subsubsection[{IP\_\-ADDRESS\_\-LENGTH}]{\setlength{\rightskip}{0pt plus 5cm}\#define IP\_\-ADDRESS\_\-LENGTH~15}}
+\label{common__header_8h_aa7b44c9aa2f59f8e56950979bfafe4c6}
+Lunghezza di un indirizzo IP in formato ASCII \hypertarget{common__header_8h_adc84f0ef14ed8c672f496f139280a1ff}{
+\index{common\_\-header.h@{common\_\-header.h}!MAX\_\-BUDGET@{MAX\_\-BUDGET}}
+\index{MAX\_\-BUDGET@{MAX\_\-BUDGET}!common_header.h@{common\_\-header.h}}
+\subsubsection[{MAX\_\-BUDGET}]{\setlength{\rightskip}{0pt plus 5cm}\#define MAX\_\-BUDGET~500}}
+\label{common__header_8h_adc84f0ef14ed8c672f496f139280a1ff}
+Massimo budget ammesso dal server //TODO integrarlo nella giocata \hypertarget{common__header_8h_ad7871643c05865c80f5d8050aead2b57}{
+\index{common\_\-header.h@{common\_\-header.h}!MAXBUF@{MAXBUF}}
+\index{MAXBUF@{MAXBUF}!common_header.h@{common\_\-header.h}}
+\subsubsection[{MAXBUF}]{\setlength{\rightskip}{0pt plus 5cm}\#define MAXBUF~4096}}
+\label{common__header_8h_ad7871643c05865c80f5d8050aead2b57}
+Massima lunghezza di un buffer di testo \hypertarget{common__header_8h_a4bac602d61231df3325cf77f23aa05db}{
+\index{common\_\-header.h@{common\_\-header.h}!NICK\_\-LENGTH@{NICK\_\-LENGTH}}
+\index{NICK\_\-LENGTH@{NICK\_\-LENGTH}!common_header.h@{common\_\-header.h}}
+\subsubsection[{NICK\_\-LENGTH}]{\setlength{\rightskip}{0pt plus 5cm}\#define NICK\_\-LENGTH~100}}
+\label{common__header_8h_a4bac602d61231df3325cf77f23aa05db}
+Lunghezza massima di un nickname per un giocatore 
+
+\subsection{Documentazione delle ridefinizioni di tipo (typedef)}
+\hypertarget{common__header_8h_a53d1230463d687ffd744e28ee0ab0709}{
+\index{common\_\-header.h@{common\_\-header.h}!analisi\_\-puntata\_\-t@{analisi\_\-puntata\_\-t}}
+\index{analisi\_\-puntata\_\-t@{analisi\_\-puntata\_\-t}!common_header.h@{common\_\-header.h}}
+\subsubsection[{analisi\_\-puntata\_\-t}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf analisiDiSessionePuntata}  {\bf analisi\_\-puntata\_\-t}}}
+\label{common__header_8h_a53d1230463d687ffd744e28ee0ab0709}
+analisi\_\-puntata\_\-t
+
+Contiene l'analisi per una giocata fatta da tutti i giocatori connessi. Viene riazzerata ad ogni puntata.
+
+
+\begin{DoxyParams}{Parametri}
+\item[{\em elencoVincitori}]Lista contenente tutti i vincitori della sessione di puntate corrente \item[{\em numeroPerdenti}]Numero di perdenti nella sessione di puntate corrente \item[{\em numeroVincitori}]Numero di vincitori nella sessione di puntate corrente \item[{\em stato}]Indica se il croupier ha analizzato la sessione di puntate. 0 se deve ancora analizzare la sessione, 1 se ha terminato l'analisi. \item[{\em mutex}]Mutex associato alla sessione di analisi \item[{\em attesaMessaggi}]Condition variable che indica l'attesa di un player per poter intraprendere la fase di scambio messaggi di congratulazioni \end{DoxyParams}
+\hypertarget{common__header_8h_a889dae78848cd7284a1ee3dd2501c85d}{
+\index{common\_\-header.h@{common\_\-header.h}!client\_\-t@{client\_\-t}}
+\index{client\_\-t@{client\_\-t}!common_header.h@{common\_\-header.h}}
+\subsubsection[{client\_\-t}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf client\_\-tag}  {\bf client\_\-t}}}
+\label{common__header_8h_a889dae78848cd7284a1ee3dd2501c85d}
+client\_\-t
+
+Contiene i dettagli di connessione per un singolo client connesso al server
+
+
+\begin{DoxyParams}{Parametri}
+\item[{\em clientData}]porta e indirizzo del client \item[{\em clientFd}]socket di comunicazione tra client e thread player \end{DoxyParams}
+\hypertarget{common__header_8h_acc83da86654d65823ff6b815d2ad5bec}{
+\index{common\_\-header.h@{common\_\-header.h}!player\_\-t@{player\_\-t}}
+\index{player\_\-t@{player\_\-t}!common_header.h@{common\_\-header.h}}
+\subsubsection[{player\_\-t}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf player}  {\bf player\_\-t}}}
+\label{common__header_8h_acc83da86654d65823ff6b815d2ad5bec}
+player\_\-t
+
+Nodo della lista sessioneDiGioco::elencoGiocatori. Contiene i dettagli su un giocatore connesso al server 
+\begin{DoxyParams}{Parametri}
+\item[{\em next}]Puntatore al successivo nodo nella lista \item[{\em budgetPrecedente}]Budget del giocatore prima dell'analisi della sessione di puntate da parte del croupier \item[{\em budgetAttuale}]Budget reale del giocatore, modificato durante l'analisi della sessione di puntate da parte del croupier \item[{\em nickname}]Nickname del giocatore \item[{\em portaMessaggiCongratulazioni}]Porta sulla quale il client del giocatore è posto in ascolto per accettare i messaggi di congratulazione \item[{\em datiConnessioneClient}]Contiene i dati di connessione del client, porta e indirizzo IP \item[{\em elencoPuntate}]Lista contenente tutte le puntate del giocatore per la sessione corrente \item[{\em vincitore}]Indica se il giocatore ha vinto la puntata corrente; 1 se ha vinto, 0 se ha perso \end{DoxyParams}
+\hypertarget{common__header_8h_a5bc1b6c5c94da0edb7ff09369a39193a}{
+\index{common\_\-header.h@{common\_\-header.h}!puntata\_\-t@{puntata\_\-t}}
+\index{puntata\_\-t@{puntata\_\-t}!common_header.h@{common\_\-header.h}}
+\subsubsection[{puntata\_\-t}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf puntate\_\-node}  {\bf puntata\_\-t}}}
+\label{common__header_8h_a5bc1b6c5c94da0edb7ff09369a39193a}
+puntata\_\-t
+
+Nodo della lista puntate. Contiene i dettagli della puntata. 
+\begin{DoxyParams}{Parametri}
+\item[{\em next}]Puntatore al successivo nodo nella lista \item[{\em numeroPuntato}]Se la puntata è di tipo numerico, contiene il numero puntato dal giocatore \item[{\em tipoPuntata}]Contiene il tipo di puntata. Può assumere i valori: -\/1 -\/$>$ Dispari; -\/2 -\/$>$ Pari; $>$=0 $<$=36 -\/$>$ Numero \item[{\em sommaPuntata}]Somma puntata dal giocatore \end{DoxyParams}
+\hypertarget{common__header_8h_aeb5c5e94788356a09830114efd64d113}{
+\index{common\_\-header.h@{common\_\-header.h}!sessione\_\-gioco\_\-t@{sessione\_\-gioco\_\-t}}
+\index{sessione\_\-gioco\_\-t@{sessione\_\-gioco\_\-t}!common_header.h@{common\_\-header.h}}
+\subsubsection[{sessione\_\-gioco\_\-t}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf sessioneDiGioco}  {\bf sessione\_\-gioco\_\-t}}}
+\label{common__header_8h_aeb5c5e94788356a09830114efd64d113}
+sessione\_\-gioco\_\-t
+
+Contiene le informazioni su una sessione di gioco della Roulette In ogni momento dell'esecuzione ne esiste una ed una sola istanza chiamata sessioneGiocoCorrente
+
+
+\begin{DoxyParams}{Parametri}
+\item[{\em elencoGiocatori}]Lista contenente tutti i giocatori connessi \item[{\em mutex}]Mutex associato alla sessione di gioco \item[{\em attesaRiempimentoListaPuntate}]Condition variable che indica l'attesa del croupier per il riempimento della lista puntate da parte dei player \item[{\em attesaAlmenoUnGiocatore}]Condition variable che indica l'attesa da parte del croupier per la connessione di un numero minimo di giocatori \item[{\em giocatoriConnessi}]Numero di giocatori connessi al server \item[{\em giocatoriChePuntano}]Numero di giocatori che partecipano alla puntata corrente \end{DoxyParams}
+\hypertarget{common__header_8h_ae49d27bebeffdafaec67e5d80e0a6d93}{
+\index{common\_\-header.h@{common\_\-header.h}!sessione\_\-puntate\_\-t@{sessione\_\-puntate\_\-t}}
+\index{sessione\_\-puntate\_\-t@{sessione\_\-puntate\_\-t}!common_header.h@{common\_\-header.h}}
+\subsubsection[{sessione\_\-puntate\_\-t}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf sessioneDiPuntate}  {\bf sessione\_\-puntate\_\-t}}}
+\label{common__header_8h_ae49d27bebeffdafaec67e5d80e0a6d93}
+sessione\_\-puntate\_\-t
+
+Contiene le informazioni sullo stato delle puntate della sessione corrente. In ogni momento dell'esecuzione ne esiste una ed una sola istanza chiamata sessionePuntateCorrente
+
+
+\begin{DoxyParams}{Parametri}
+\item[{\em mutex}]Mutex associato alla sessione delle puntate \item[{\em aperte}]Condition variable che indica l'attesa per l'apertura delle puntate \item[{\em chiuse}]Condition variable che indica l'attesa per la chiusura delle puntate \item[{\em attesaCroupier}]Condition variable utilizzata per simulare lo scadere del tempo \item[{\em stato}]Informa sullo stato delle puntate. 1 significa puntate aperte, 0 significa puntate chiuse \end{DoxyParams}
+\hypertarget{common__header_8h_ae70d612692e13203c487fba3d9bbb096}{
+\index{common\_\-header.h@{common\_\-header.h}!vincitore\_\-t@{vincitore\_\-t}}
+\index{vincitore\_\-t@{vincitore\_\-t}!common_header.h@{common\_\-header.h}}
+\subsubsection[{vincitore\_\-t}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf vincitore}  {\bf vincitore\_\-t}}}
+\label{common__header_8h_ae70d612692e13203c487fba3d9bbb096}
+vincitore\_\-t
+
+Elemento della lista vincitori. 
+\begin{DoxyParams}{Parametri}
+\item[{\em next}]Puntatore al successivo nodo nella lista \item[{\em portaMessaggiCongratulazioni}]Contiene la porta su cui il client associato è in ascolto per i messaggi di congratulazioni \item[{\em indirizzoIp}]Contiene l'indirizzo del client associato \end{DoxyParams}
+
+
+\subsection{Documentazione delle funzioni}
+\hypertarget{common__header_8h_afd0f6fb0543833649223d0fc801b832e}{
+\index{common\_\-header.h@{common\_\-header.h}!aumenta\_\-budget@{aumenta\_\-budget}}
+\index{aumenta\_\-budget@{aumenta\_\-budget}!common_header.h@{common\_\-header.h}}
+\subsubsection[{aumenta\_\-budget}]{\setlength{\rightskip}{0pt plus 5cm}void aumenta\_\-budget (
+\begin{DoxyParamCaption}
+\item[{int}]{ moltiplicatore, }
+\item[{{\bf puntata\_\-t} $\ast$}]{ puntata, }
+\item[{{\bf player\_\-t} $\ast$}]{ player}
+\end{DoxyParamCaption}
+)}}
+\label{common__header_8h_afd0f6fb0543833649223d0fc801b832e}
+Aumenta il budget del giocatore, dato un moltiplicatore 
+\begin{DoxyParams}{Parametri}
+\item[{\em moltiplicatore}]\item[{\em puntata}]\item[{\em player}]\end{DoxyParams}
+\hypertarget{common__header_8h_a6e013de3c896f865446e7500f28447c7}{
+\index{common\_\-header.h@{common\_\-header.h}!calcola\_\-intervallo@{calcola\_\-intervallo}}
+\index{calcola\_\-intervallo@{calcola\_\-intervallo}!common_header.h@{common\_\-header.h}}
+\subsubsection[{calcola\_\-intervallo}]{\setlength{\rightskip}{0pt plus 5cm}struct timespec calcola\_\-intervallo (
+\begin{DoxyParamCaption}
+\item[{int}]{ intervallo}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}read\mbox{]}}}}
+\label{common__header_8h_a6e013de3c896f865446e7500f28447c7}
+Calcola l'intervallo di attesa del croupier 
+\begin{DoxyParams}{Parametri}
+\item[{\em intervallo}]\end{DoxyParams}
+\begin{DoxyReturn}{Restituisce}
+la struttura timespec contenente il tempo di fine attesa 
+\end{DoxyReturn}
+\hypertarget{common__header_8h_a23c46484db25b3037102fdc173c9e164}{
+\index{common\_\-header.h@{common\_\-header.h}!err\_\-abort@{err\_\-abort}}
+\index{err\_\-abort@{err\_\-abort}!common_header.h@{common\_\-header.h}}
+\subsubsection[{err\_\-abort}]{\setlength{\rightskip}{0pt plus 5cm}void err\_\-abort (
+\begin{DoxyParamCaption}
+\item[{int}]{ code, }
+\item[{char $\ast$}]{ text}
+\end{DoxyParamCaption}
+)}}
+\label{common__header_8h_a23c46484db25b3037102fdc173c9e164}
+Stampa sullo standard error un messaggio contenente l'errore, il file che l'ha causato, la riga e la spiegazione.
+
+
+\begin{DoxyParams}{Parametri}
+\item[{\em code}]il codice d'errore (il valore di ritorno per le funzioni pthread, la variabile errno per le altre syscall) \item[{\em text}]Una stringa che spiega l'errore \end{DoxyParams}
+\hypertarget{common__header_8h_a4426ec193b73ea2587e1e7fa7115027c}{
+\index{common\_\-header.h@{common\_\-header.h}!gestisci\_\-puntata\_\-dispari@{gestisci\_\-puntata\_\-dispari}}
+\index{gestisci\_\-puntata\_\-dispari@{gestisci\_\-puntata\_\-dispari}!common_header.h@{common\_\-header.h}}
+\subsubsection[{gestisci\_\-puntata\_\-dispari}]{\setlength{\rightskip}{0pt plus 5cm}void gestisci\_\-puntata\_\-dispari (
+\begin{DoxyParamCaption}
+\item[{int}]{ estratto, }
+\item[{{\bf puntata\_\-t} $\ast$}]{ puntata, }
+\item[{{\bf player\_\-t} $\ast$}]{ player}
+\end{DoxyParamCaption}
+)}}
+\label{common__header_8h_a4426ec193b73ea2587e1e7fa7115027c}
+Controlla se una puntata del tipo D:$<$N$>$ è vincente 
+\begin{DoxyParams}{Parametri}
+\item[{\em estratto}]\item[{\em puntata}]\item[{\em player}]\end{DoxyParams}
+\hypertarget{common__header_8h_a24615082f8148c638dd3bc16a1ae1ebf}{
+\index{common\_\-header.h@{common\_\-header.h}!gestisci\_\-puntata\_\-numero@{gestisci\_\-puntata\_\-numero}}
+\index{gestisci\_\-puntata\_\-numero@{gestisci\_\-puntata\_\-numero}!common_header.h@{common\_\-header.h}}
+\subsubsection[{gestisci\_\-puntata\_\-numero}]{\setlength{\rightskip}{0pt plus 5cm}void gestisci\_\-puntata\_\-numero (
+\begin{DoxyParamCaption}
+\item[{int}]{ estratto, }
+\item[{{\bf puntata\_\-t} $\ast$}]{ puntata, }
+\item[{{\bf player\_\-t} $\ast$}]{ player}
+\end{DoxyParamCaption}
+)}}
+\label{common__header_8h_a24615082f8148c638dd3bc16a1ae1ebf}
+Controlla se una puntata del tipo $<$N$>$:$<$M$>$ è vincente 
+\begin{DoxyParams}{Parametri}
+\item[{\em estratto}]\item[{\em puntata}]\item[{\em player}]\end{DoxyParams}
+\hypertarget{common__header_8h_a9a062e74c343fb66b4c395755b577b7a}{
+\index{common\_\-header.h@{common\_\-header.h}!gestisci\_\-puntata\_\-pari@{gestisci\_\-puntata\_\-pari}}
+\index{gestisci\_\-puntata\_\-pari@{gestisci\_\-puntata\_\-pari}!common_header.h@{common\_\-header.h}}
+\subsubsection[{gestisci\_\-puntata\_\-pari}]{\setlength{\rightskip}{0pt plus 5cm}void gestisci\_\-puntata\_\-pari (
+\begin{DoxyParamCaption}
+\item[{int}]{ estratto, }
+\item[{{\bf puntata\_\-t} $\ast$}]{ puntata, }
+\item[{{\bf player\_\-t} $\ast$}]{ player}
+\end{DoxyParamCaption}
+)}}
+\label{common__header_8h_a9a062e74c343fb66b4c395755b577b7a}
+Controlla se una puntata del tipo P:$<$N$>$ è vincente 
+\begin{DoxyParams}{Parametri}
+\item[{\em estratto}]\item[{\em puntata}]\item[{\em player}]\end{DoxyParams}
+\hypertarget{common__header_8h_af80ccf9a719a63d3b221bbc9f5f9b30c}{
+\index{common\_\-header.h@{common\_\-header.h}!open\_\-socket@{open\_\-socket}}
+\index{open\_\-socket@{open\_\-socket}!common_header.h@{common\_\-header.h}}
+\subsubsection[{open\_\-socket}]{\setlength{\rightskip}{0pt plus 5cm}int open\_\-socket (
+\begin{DoxyParamCaption}
+\item[{struct sockaddr\_\-in}]{ self, }
+\item[{short int}]{ server\_\-port}
+\end{DoxyParamCaption}
+)}}
+\label{common__header_8h_af80ccf9a719a63d3b221bbc9f5f9b30c}
+Apre un socket descriptor, gli assegna un nome e si mette in ascolto.
+
+
+\begin{DoxyParams}{Parametri}
+\item[{\em self}]struttura che conterrà le informazioni relative al server \item[{\em server\_\-port}]porta sulla quale mettere in ascolto il server\end{DoxyParams}
+Apre un socket, e si mette in ascolto su di esso 
+\begin{DoxyParams}{Parametri}
+\item[{\em self}]\item[{\em server\_\-port}]\end{DoxyParams}
+\begin{DoxyReturn}{Restituisce}
+il socket aperto 
+\end{DoxyReturn}
+
+
+\subsection{Documentazione delle variabili}
+\hypertarget{common__header_8h_af38d3e64aae10f2f4f617376d4fc5411}{
+\index{common\_\-header.h@{common\_\-header.h}!messaggioPuntateAperte@{messaggioPuntateAperte}}
+\index{messaggioPuntateAperte@{messaggioPuntateAperte}!common_header.h@{common\_\-header.h}}
+\subsubsection[{messaggioPuntateAperte}]{\setlength{\rightskip}{0pt plus 5cm}const char {\bf messaggioPuntateAperte}\mbox{[}$\,$\mbox{]}}}
+\label{common__header_8h_af38d3e64aae10f2f4f617376d4fc5411}
+Costanti 

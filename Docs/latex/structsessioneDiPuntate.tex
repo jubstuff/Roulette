@@ -1,0 +1,51 @@
+\hypertarget{structsessioneDiPuntate}{
+\section{Riferimenti per la struct sessioneDiPuntate}
+\label{structsessioneDiPuntate}\index{sessioneDiPuntate@{sessioneDiPuntate}}
+}
+
+
+{\ttfamily \#include $<$common\_\-header.h$>$}
+
+\subsection*{Campi}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{structsessioneDiPuntate_a0e0ecc3fc63fb11c966cc40a1b01516b}{
+pthread\_\-mutex\_\-t {\bfseries mutex}}
+\label{structsessioneDiPuntate_a0e0ecc3fc63fb11c966cc40a1b01516b}
+
+\item 
+\hypertarget{structsessioneDiPuntate_a483a18bd757244302c44bf95e8e0e218}{
+pthread\_\-cond\_\-t {\bfseries aperte}}
+\label{structsessioneDiPuntate_a483a18bd757244302c44bf95e8e0e218}
+
+\item 
+\hypertarget{structsessioneDiPuntate_a51eedb9500c475edb7f37264f54df5a4}{
+pthread\_\-cond\_\-t {\bfseries chiuse}}
+\label{structsessioneDiPuntate_a51eedb9500c475edb7f37264f54df5a4}
+
+\item 
+\hypertarget{structsessioneDiPuntate_afaf6d58ca7c5c43d30e9a0033d0db6d9}{
+pthread\_\-cond\_\-t {\bfseries attesaCroupier}}
+\label{structsessioneDiPuntate_afaf6d58ca7c5c43d30e9a0033d0db6d9}
+
+\item 
+\hypertarget{structsessioneDiPuntate_a46969519be0a35e43fcc24b1e3e65ccb}{
+int {\bfseries stato}}
+\label{structsessioneDiPuntate_a46969519be0a35e43fcc24b1e3e65ccb}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Descrizione dettagliata}
+sessione\_\-puntate\_\-t
+
+Contiene le informazioni sullo stato delle puntate della sessione corrente. In ogni momento dell'esecuzione ne esiste una ed una sola istanza chiamata sessionePuntateCorrente
+
+
+\begin{DoxyParams}{Parametri}
+\item[{\em mutex}]Mutex associato alla sessione delle puntate \item[{\em aperte}]Condition variable che indica l'attesa per l'apertura delle puntate \item[{\em chiuse}]Condition variable che indica l'attesa per la chiusura delle puntate \item[{\em attesaCroupier}]Condition variable utilizzata per simulare lo scadere del tempo \item[{\em stato}]Informa sullo stato delle puntate. 1 significa puntate aperte, 0 significa puntate chiuse \end{DoxyParams}
+
+
+La documentazione per questa struct è stata generata a partire dal seguente file:\begin{DoxyCompactItemize}
+\item 
+common/\hyperlink{common__header_8h}{common\_\-header.h}\end{DoxyCompactItemize}

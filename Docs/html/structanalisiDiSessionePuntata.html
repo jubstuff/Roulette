@@ -1,0 +1,108 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>Roulette: Riferimenti per la struct analisiDiSessionePuntata</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javaScript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body onload='searchBox.OnSelectItem(0);'>
+<!-- Generato da Doxygen 1.7.1 -->
+<script type="text/javascript"><!--
+var searchBox = new SearchBox("searchBox", "search",false,'Cerca');
+--></script>
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul class="tablist">
+      <li><a href="index.html"><span>Pagina&nbsp;Principale</span></a></li>
+      <li class="current"><a href="annotated.html"><span>Strutture&nbsp;dati</span></a></li>
+      <li><a href="files.html"><span>File</span></a></li>
+      <li id="searchli">
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="Cerca" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div class="tabs2">
+    <ul class="tablist">
+      <li><a href="annotated.html"><span>Strutture&nbsp;dati</span></a></li>
+      <li><a href="classes.html"><span>Indice&nbsp;delle&nbsp;strutture&nbsp;dati</span></a></li>
+    </ul>
+  </div>
+</div>
+<div class="header">
+  <div class="summary">
+<a href="#pub-attribs">Campi</a>  </div>
+  <div class="headertitle">
+<h1>Riferimenti per la struct analisiDiSessionePuntata</h1>  </div>
+</div>
+<div class="contents">
+<!-- doxytag: class="analisiDiSessionePuntata" -->
+<p><code>#include &lt;<a class="el" href="common__header_8h_source.html">common_header.h</a>&gt;</code></p>
+<table class="memberdecls">
+<tr><td colspan="2"><h2><a name="pub-attribs"></a>
+Campi</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4c23557187a3d6b8c854f186820b7392"></a><!-- doxytag: member="analisiDiSessionePuntata::elencoVincitori" ref="a4c23557187a3d6b8c854f186820b7392" args="" -->
+<a class="el" href="structqueue.html">queue</a>&nbsp;</td><td class="memItemRight" valign="bottom"><b>elencoVincitori</b></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4a6cb03059088a14e3a4a78f22373d1d"></a><!-- doxytag: member="analisiDiSessionePuntata::numeroPerdenti" ref="a4a6cb03059088a14e3a4a78f22373d1d" args="" -->
+int&nbsp;</td><td class="memItemRight" valign="bottom"><b>numeroPerdenti</b></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1fe7bd47ed6d8d3ed45d054d30e12a87"></a><!-- doxytag: member="analisiDiSessionePuntata::numeroVincitori" ref="a1fe7bd47ed6d8d3ed45d054d30e12a87" args="" -->
+int&nbsp;</td><td class="memItemRight" valign="bottom"><b>numeroVincitori</b></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a100c945c813d21020ba719a70e6be936"></a><!-- doxytag: member="analisiDiSessionePuntata::stato" ref="a100c945c813d21020ba719a70e6be936" args="" -->
+int&nbsp;</td><td class="memItemRight" valign="bottom"><b>stato</b></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aac8b1425ee3c6d685dcde4c8465845c1"></a><!-- doxytag: member="analisiDiSessionePuntata::mutex" ref="aac8b1425ee3c6d685dcde4c8465845c1" args="" -->
+pthread_mutex_t&nbsp;</td><td class="memItemRight" valign="bottom"><b>mutex</b></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8a75b218e6660ccebd4cea7fcb0da6e3"></a><!-- doxytag: member="analisiDiSessionePuntata::attesaMessaggi" ref="a8a75b218e6660ccebd4cea7fcb0da6e3" args="" -->
+pthread_cond_t&nbsp;</td><td class="memItemRight" valign="bottom"><b>attesaMessaggi</b></td></tr>
+</table>
+<hr/><a name="_details"></a><h2>Descrizione dettagliata</h2>
+<p>analisi_puntata_t</p>
+<p>Contiene l'analisi per una giocata fatta da tutti i giocatori connessi. Viene riazzerata ad ogni puntata.</p>
+<dl><dt><b>Parametri:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>elencoVincitori</em>&nbsp;</td><td>Lista contenente tutti i vincitori della sessione di puntate corrente </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>numeroPerdenti</em>&nbsp;</td><td>Numero di perdenti nella sessione di puntate corrente </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>numeroVincitori</em>&nbsp;</td><td>Numero di vincitori nella sessione di puntate corrente </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>stato</em>&nbsp;</td><td>Indica se il croupier ha analizzato la sessione di puntate. 0 se deve ancora analizzare la sessione, 1 se ha terminato l'analisi. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>mutex</em>&nbsp;</td><td>Mutex associato alla sessione di analisi </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>attesaMessaggi</em>&nbsp;</td><td>Condition variable che indica l'attesa di un player per poter intraprendere la fase di scambio messaggi di congratulazioni </td></tr>
+  </table>
+  </dd>
+</dl>
+<hr/>La documentazione per questa struct è stata generata a partire dal seguente file:<ul>
+<li>common/<a class="el" href="common__header_8h_source.html">common_header.h</a></li>
+</ul>
+</div>
+<!--- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&nbsp;</span>Tutto</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&nbsp;</span>Strutture dati</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&nbsp;</span>File</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&nbsp;</span>Funzioni</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&nbsp;</span>Variabili</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&nbsp;</span>Ridefinizioni di tipo (typedef)</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&nbsp;</span>Definizioni</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<hr class="footer"/><address class="footer"><small>Generato il Fri Feb 11 2011 20:09:01 per Roulette da&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.1 </small></address>
+</body>
+</html>

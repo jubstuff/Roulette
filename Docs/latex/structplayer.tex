@@ -1,0 +1,64 @@
+\hypertarget{structplayer}{
+\section{Riferimenti per la struct player}
+\label{structplayer}\index{player@{player}}
+}
+
+
+{\ttfamily \#include $<$common\_\-header.h$>$}
+
+\subsection*{Campi}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{structplayer_ac2fc0874452fcd3ece3f49f4e6af86e1}{
+struct \hyperlink{structnode__tag}{node} $\ast$ {\bfseries next}}
+\label{structplayer_ac2fc0874452fcd3ece3f49f4e6af86e1}
+
+\item 
+\hypertarget{structplayer_a38dfd5ea1080e59383ef4411668be3b7}{
+int {\bfseries budgetPrecedente}}
+\label{structplayer_a38dfd5ea1080e59383ef4411668be3b7}
+
+\item 
+\hypertarget{structplayer_ae864c587a021f8709b78a9ce951ef08c}{
+int {\bfseries budgetAttuale}}
+\label{structplayer_ae864c587a021f8709b78a9ce951ef08c}
+
+\item 
+\hypertarget{structplayer_a5f154bd385a6d68e34cfbdecdc9ec381}{
+char {\bfseries nickname} \mbox{[}NICK\_\-LENGTH\mbox{]}}
+\label{structplayer_a5f154bd385a6d68e34cfbdecdc9ec381}
+
+\item 
+\hypertarget{structplayer_ad66cafc37729691af7e90f0ef142fea1}{
+in\_\-port\_\-t {\bfseries portaMessaggiCongratulazioni}}
+\label{structplayer_ad66cafc37729691af7e90f0ef142fea1}
+
+\item 
+\hypertarget{structplayer_a08526fd17ddb3c3366ca0efe1b4457c8}{
+\hyperlink{structclient__tag}{client\_\-t} $\ast$ {\bfseries datiConnessioneClient}}
+\label{structplayer_a08526fd17ddb3c3366ca0efe1b4457c8}
+
+\item 
+\hypertarget{structplayer_abcd55a6a32bf6df52be2a14ae14e82d0}{
+\hyperlink{structqueue}{queue} {\bfseries elencoPuntate}}
+\label{structplayer_abcd55a6a32bf6df52be2a14ae14e82d0}
+
+\item 
+\hypertarget{structplayer_aa1d1040515e9607aaa5670ce5ec9e8f2}{
+int {\bfseries vincitore}}
+\label{structplayer_aa1d1040515e9607aaa5670ce5ec9e8f2}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Descrizione dettagliata}
+player\_\-t
+
+Nodo della lista sessioneDiGioco::elencoGiocatori. Contiene i dettagli su un giocatore connesso al server 
+\begin{DoxyParams}{Parametri}
+\item[{\em next}]Puntatore al successivo nodo nella lista \item[{\em budgetPrecedente}]Budget del giocatore prima dell'analisi della sessione di puntate da parte del croupier \item[{\em budgetAttuale}]Budget reale del giocatore, modificato durante l'analisi della sessione di puntate da parte del croupier \item[{\em nickname}]Nickname del giocatore \item[{\em portaMessaggiCongratulazioni}]Porta sulla quale il client del giocatore è posto in ascolto per accettare i messaggi di congratulazione \item[{\em datiConnessioneClient}]Contiene i dati di connessione del client, porta e indirizzo IP \item[{\em elencoPuntate}]Lista contenente tutte le puntate del giocatore per la sessione corrente \item[{\em vincitore}]Indica se il giocatore ha vinto la puntata corrente; 1 se ha vinto, 0 se ha perso \end{DoxyParams}
+
+
+La documentazione per questa struct è stata generata a partire dal seguente file:\begin{DoxyCompactItemize}
+\item 
+common/\hyperlink{common__header_8h}{common\_\-header.h}\end{DoxyCompactItemize}

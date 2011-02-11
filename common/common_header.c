@@ -1,6 +1,6 @@
 #include "common_header.h"
 
-int num_requests = 0;
+//int num_requests = 0;
 /**
  * Costanti
  */
@@ -34,12 +34,8 @@ void err_abort(int code, char *text) {
  */
 int open_socket(struct sockaddr_in self, short int server_port) {
     int sockfd;
-    int status;
     /* apro il socket */
-    sockfd = socket(AF_INET, SOCK_STREAM, 0);
-    if (sockfd < 0) {
-        err_abort(errno, "Creazione socket");
-    }
+    sockfd = Socket(AF_INET, SOCK_STREAM, 0);
 
     /* preparo la struct con le informazioni del server */
     bzero(&self, sizeof (self));
@@ -49,15 +45,9 @@ int open_socket(struct sockaddr_in self, short int server_port) {
     self.sin_addr.s_addr = htonl(INADDR_ANY);
 
     /* collego il socket */
-    status = bind(sockfd, (struct sockaddr *) &self, sizeof (self));
-    if (status != 0) {
-        err_abort(errno, "Bind socket");
-    }
+    Bind(sockfd, (struct sockaddr *) &self, sizeof (self));
     /* pone il server in ascolto */
-    status = listen(sockfd, 5); //TODO quanti ce ne devono stare nella listen?
-    if (status != 0) {
-        err_abort(errno, "Error in listening to socket");
-    }
+    Listen(sockfd, 5); //TODO quanti ce ne devono stare nella listen?
     return sockfd;
 }
 
@@ -288,85 +278,3 @@ ssize_t Read(int fd, void *buf, size_t count) {
     }
     return bytes_read;
 }
-
-
-#ifdef ASDRUBALE_BARCA
-
-/**
- * Processa la lista dei giocatori, contando il numero di vincitori e perdenti,
- * e aumentando il budget dei vincitori
- *
- * LOCKING PROTOCOL questa funzione necessita dei mutex puntate e player bloccati
- * @param estratto numero estratto dalla roulette
- */
-void gestisci_puntate(int estratto) {
-    puntata_t *puntata;
-    queue *q = &(players_list.giocatori);
-    int vincitore = 0;
-    int contatore = 0;
-    player_t *player = (player_t *) (q->head);
-    int numero_di_perdenti_in_questa_mano = 0;
-    int numero_di_vincitori_in_questa_mano = 0;
-    int budget_giocatore_prima_del_controllo = 0;
-
-    printf("CROUPIER Il numero estratto è %d\n", estratto);
-    while (player != NULL) {
-        printf("===GIOCATORE %d===\n", contatore);
-        budget_giocatore_prima_del_controllo = player->money;
-        while ((puntata = (puntata_t *) queue_get(&(player->lista_puntate_personale.puntate))) != NULL) {
-            switch (puntata->tipo) {
-                case NUMBER:
-                    gestisci_puntata_numero(estratto, puntata, player);
-                    break;
-                case EVEN:
-                    gestisci_puntata_pari(estratto, puntata, player);
-                    break;
-                case ODD:
-                    gestisci_puntata_dispari(estratto, puntata, player);
-                    break;
-                default:
-                    break;
-            }
-        }
-        vincitore = (player->money > budget_giocatore_prima_del_controllo) ? 1 : 0;
-        contatore++;
-        if (vincitore) {
-            //TODO aggiungi alla lista dei vincitori
-            numero_di_vincitori_in_questa_mano++;
-        } else {
-            numero_di_perdenti_in_questa_mano++;
-        }
-        if (player->money == 0) {
-            //TODO aggiungi alla lista dei giocatori da eliminare dal gioco
-        }
-
-        player = (player_t *) player->next;
-    }
-    printf("CROUPIER In questa mano ci sono stati %d vincitori e %d perdenti\n",
-            numero_di_vincitori_in_questa_mano, numero_di_perdenti_in_questa_mano);
-    sleep(10);
-    //TODO inviare il numero di perdenti a tutti i client
-    //TODO inviare gli indirizzi IP dei vincitori a tutti i client
-}
-
-/**
- * Inizializza un nodo della lista puntate
- * @param numero_puntato
- * @param tipo_puntata
- * @param somma_puntata
- * @return
- */
-puntata_t *inizializza_nodo_puntata(int numero_puntato, bet_t tipo_puntata, int somma_puntata) {
-    puntata_t *mybet;
-    mybet = (puntata_t *) malloc(sizeof (puntata_t));
-    if (!mybet) {
-        err_abort(errno, "Errore malloc!");
-    }
-    mybet->numero = numero_puntato;
-    mybet->tipo = tipo_puntata;
-    mybet->somma_puntata = somma_puntata;
-    return mybet;
-}
-
-#endif
-

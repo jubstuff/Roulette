@@ -1,0 +1,56 @@
+\hypertarget{structanalisiDiSessionePuntata}{
+\section{Riferimenti per la struct analisiDiSessionePuntata}
+\label{structanalisiDiSessionePuntata}\index{analisiDiSessionePuntata@{analisiDiSessionePuntata}}
+}
+
+
+{\ttfamily \#include $<$common\_\-header.h$>$}
+
+\subsection*{Campi}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{structanalisiDiSessionePuntata_a4c23557187a3d6b8c854f186820b7392}{
+\hyperlink{structqueue}{queue} {\bfseries elencoVincitori}}
+\label{structanalisiDiSessionePuntata_a4c23557187a3d6b8c854f186820b7392}
+
+\item 
+\hypertarget{structanalisiDiSessionePuntata_a4a6cb03059088a14e3a4a78f22373d1d}{
+int {\bfseries numeroPerdenti}}
+\label{structanalisiDiSessionePuntata_a4a6cb03059088a14e3a4a78f22373d1d}
+
+\item 
+\hypertarget{structanalisiDiSessionePuntata_a1fe7bd47ed6d8d3ed45d054d30e12a87}{
+int {\bfseries numeroVincitori}}
+\label{structanalisiDiSessionePuntata_a1fe7bd47ed6d8d3ed45d054d30e12a87}
+
+\item 
+\hypertarget{structanalisiDiSessionePuntata_a100c945c813d21020ba719a70e6be936}{
+int {\bfseries stato}}
+\label{structanalisiDiSessionePuntata_a100c945c813d21020ba719a70e6be936}
+
+\item 
+\hypertarget{structanalisiDiSessionePuntata_aac8b1425ee3c6d685dcde4c8465845c1}{
+pthread\_\-mutex\_\-t {\bfseries mutex}}
+\label{structanalisiDiSessionePuntata_aac8b1425ee3c6d685dcde4c8465845c1}
+
+\item 
+\hypertarget{structanalisiDiSessionePuntata_a8a75b218e6660ccebd4cea7fcb0da6e3}{
+pthread\_\-cond\_\-t {\bfseries attesaMessaggi}}
+\label{structanalisiDiSessionePuntata_a8a75b218e6660ccebd4cea7fcb0da6e3}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Descrizione dettagliata}
+analisi\_\-puntata\_\-t
+
+Contiene l'analisi per una giocata fatta da tutti i giocatori connessi. Viene riazzerata ad ogni puntata.
+
+
+\begin{DoxyParams}{Parametri}
+\item[{\em elencoVincitori}]Lista contenente tutti i vincitori della sessione di puntate corrente \item[{\em numeroPerdenti}]Numero di perdenti nella sessione di puntate corrente \item[{\em numeroVincitori}]Numero di vincitori nella sessione di puntate corrente \item[{\em stato}]Indica se il croupier ha analizzato la sessione di puntate. 0 se deve ancora analizzare la sessione, 1 se ha terminato l'analisi. \item[{\em mutex}]Mutex associato alla sessione di analisi \item[{\em attesaMessaggi}]Condition variable che indica l'attesa di un player per poter intraprendere la fase di scambio messaggi di congratulazioni \end{DoxyParams}
+
+
+La documentazione per questa struct è stata generata a partire dal seguente file:\begin{DoxyCompactItemize}
+\item 
+common/\hyperlink{common__header_8h}{common\_\-header.h}\end{DoxyCompactItemize}

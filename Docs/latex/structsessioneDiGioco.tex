@@ -1,0 +1,56 @@
+\hypertarget{structsessioneDiGioco}{
+\section{Riferimenti per la struct sessioneDiGioco}
+\label{structsessioneDiGioco}\index{sessioneDiGioco@{sessioneDiGioco}}
+}
+
+
+{\ttfamily \#include $<$common\_\-header.h$>$}
+
+\subsection*{Campi}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{structsessioneDiGioco_a74bc416fee8465dbeb8919b9708f1618}{
+\hyperlink{structqueue}{queue} {\bfseries elencoGiocatori}}
+\label{structsessioneDiGioco_a74bc416fee8465dbeb8919b9708f1618}
+
+\item 
+\hypertarget{structsessioneDiGioco_a74e75157c7bc6988fc32151e9c85f954}{
+pthread\_\-mutex\_\-t {\bfseries mutex}}
+\label{structsessioneDiGioco_a74e75157c7bc6988fc32151e9c85f954}
+
+\item 
+\hypertarget{structsessioneDiGioco_a659e596125d0250d135f3967851efe8e}{
+pthread\_\-cond\_\-t {\bfseries attesaRiempimentoListaPuntate}}
+\label{structsessioneDiGioco_a659e596125d0250d135f3967851efe8e}
+
+\item 
+\hypertarget{structsessioneDiGioco_ae675ab05219ffaba988d15be3e4d9319}{
+pthread\_\-cond\_\-t {\bfseries attesaAlmenoUnGiocatore}}
+\label{structsessioneDiGioco_ae675ab05219ffaba988d15be3e4d9319}
+
+\item 
+\hypertarget{structsessioneDiGioco_a4d2b996fc68699180d23e6e3b7738565}{
+int {\bfseries giocatoriConnessi}}
+\label{structsessioneDiGioco_a4d2b996fc68699180d23e6e3b7738565}
+
+\item 
+\hypertarget{structsessioneDiGioco_a14c97e048c966c43a2586def759ed0fc}{
+int {\bfseries giocatoriChePuntano}}
+\label{structsessioneDiGioco_a14c97e048c966c43a2586def759ed0fc}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Descrizione dettagliata}
+sessione\_\-gioco\_\-t
+
+Contiene le informazioni su una sessione di gioco della Roulette In ogni momento dell'esecuzione ne esiste una ed una sola istanza chiamata sessioneGiocoCorrente
+
+
+\begin{DoxyParams}{Parametri}
+\item[{\em elencoGiocatori}]Lista contenente tutti i giocatori connessi \item[{\em mutex}]Mutex associato alla sessione di gioco \item[{\em attesaRiempimentoListaPuntate}]Condition variable che indica l'attesa del croupier per il riempimento della lista puntate da parte dei player \item[{\em attesaAlmenoUnGiocatore}]Condition variable che indica l'attesa da parte del croupier per la connessione di un numero minimo di giocatori \item[{\em giocatoriConnessi}]Numero di giocatori connessi al server \item[{\em giocatoriChePuntano}]Numero di giocatori che partecipano alla puntata corrente \end{DoxyParams}
+
+
+La documentazione per questa struct è stata generata a partire dal seguente file:\begin{DoxyCompactItemize}
+\item 
+common/\hyperlink{common__header_8h}{common\_\-header.h}\end{DoxyCompactItemize}

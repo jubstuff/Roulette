@@ -161,6 +161,7 @@ int main(int argc, char **argv) {
                     //concatenare in un buffer risultato tutti i messaggi
                     strcat(bufRisultato, bufCongratulazioni);
                     strcat(bufRisultato, "\n");
+                    //TODO riazzerare la stringa risultato
                     Close(perdenteFd);
                     numeroPerdenti--;
                 }

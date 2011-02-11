@@ -1,3 +1,12 @@
+/**
+ * @file   common_header.h
+ * @Author Gruppo 7
+ * @date   Gennaio 2011
+ * @brief  Include tutte le definizioni comuni al progetto
+ *
+ */
+
+
 #ifndef _COMMON_HEADER_H
 #define _COMMON_HEADER_H
 
@@ -16,13 +25,24 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-
 #include <unistd.h>
 #include <wait.h>
 
-#define MAXBUF 4096 /* max line length */
+/**
+ * Massima lunghezza di un buffer di testo
+ */
+#define MAXBUF 4096
+/**
+ * Massimo budget ammesso dal server //TODO integrarlo nella giocata
+ */
 #define MAX_BUDGET 500
-#define NICK_LENGTH 50
+/**
+ * Lunghezza massima di un nickname per un giocatore
+ */
+#define NICK_LENGTH 100
+/**
+ * Lunghezza di un indirizzo IP in formato ASCII
+ */
 #define IP_ADDRESS_LENGTH 15
 
 /*
@@ -33,10 +53,13 @@
  * client_t
  *
  * Contiene i dettagli di connessione per un singolo client connesso al server
+ *
+ * @param clientData porta e indirizzo del client
+ * @param clientFd socket di comunicazione tra client e thread player
  */
 typedef struct client_tag {
-    struct sockaddr_in clientData; // porta,indirizzo del client
-    int clientFd; // socket del client
+    struct sockaddr_in clientData;
+    int clientFd;
 } client_t;
 
 /**
@@ -46,8 +69,13 @@ typedef struct client_tag {
  * In ogni momento dell'esecuzione ne esiste una ed una sola istanza chiamata
  * sessionePuntateCorrente
  *
+ * @param mutex Mutex associato alla sessione delle puntate
+ * @param aperte Condition variable che indica l'attesa per l'apertura delle puntate
+ * @param chiuse Condition variable che indica l'attesa per la chiusura delle puntate
+ * @param attesaCroupier Condition variable utilizzata per simulare lo scadere del tempo 
  * @param stato Informa sullo stato delle puntate. 1 significa puntate aperte,
  * 0 significa puntate chiuse
+ *
  */
 typedef struct sessioneDiPuntate {
     pthread_mutex_t mutex;
@@ -63,6 +91,16 @@ typedef struct sessioneDiPuntate {
  * Contiene le informazioni su una sessione di gioco della Roulette
  * In ogni momento dell'esecuzione ne esiste una ed una sola istanza chiamata
  * sessioneGiocoCorrente
+ *
+ * @param elencoGiocatori Lista contenente tutti i giocatori connessi
+ * @param mutex Mutex associato alla sessione di gioco
+ * @param attesaRiempimentoListaPuntate Condition variable che indica l'attesa
+ * del croupier per il riempimento della lista puntate da parte dei player
+ * @param attesaAlmenoUnGiocatore Condition variable che indica l'attesa da
+ * parte del croupier per la connessione di un numero minimo di giocatori
+ * @param giocatoriConnessi Numero di giocatori connessi al server
+ * @param giocatoriChePuntano Numero di giocatori che partecipano alla puntata
+ * corrente
  */
 typedef struct sessioneDiGioco {
     queue elencoGiocatori;
@@ -76,9 +114,22 @@ typedef struct sessioneDiGioco {
 /**
  * player_t
  *
+ * Nodo della lista sessioneDiGioco#elencoGiocatori.
  * Contiene i dettagli su un giocatore connesso al server
- * @param vincitore Indica se il giocatore ha vinto la puntata corrente.
- *                  1 se ha vinto, 0 se ha perso
+ * @param next Puntatore al successivo nodo nella lista
+ * @param budgetPrecedente Budget del giocatore prima dell'analisi della sessione
+ * di puntate da parte del croupier
+ * @param budgetAttuale Budget reale del giocatore, modificato durante l'analisi
+ * della sessione di puntate da parte del croupier
+ * @param nickname Nickname del giocatore
+ * @param portaMessaggiCongratulazioni Porta sulla quale il client del giocatore
+ * è posto in ascolto per accettare i messaggi di congratulazione
+ * @param datiConnessioneClient Contiene i dati di connessione del client, porta
+ * e indirizzo IP
+ * @param elencoPuntate Lista contenente tutte le puntate del giocatore per la
+ * sessione corrente
+ * @param vincitore Indica se il giocatore ha vinto la puntata corrente;
+ * 1 se ha vinto, 0 se ha perso
  */
 typedef struct player {
     struct node *next;
@@ -94,11 +145,15 @@ typedef struct player {
 /**
  * puntata_t
  *
- * Elemento della lista puntate. Contiene i dettagli della puntata.
- * Il tipo puntata può assumere valori
- * -1 => Dispari
- * -2 => Pari
- * >=0 => Numero
+ * Nodo della lista puntate. Contiene i dettagli della puntata.
+ * @param next Puntatore al successivo nodo nella lista
+ * @param numeroPuntato Se la puntata è di tipo numerico, contiene il numero 
+ * puntato dal giocatore
+ * @param tipoPuntata Contiene il tipo di puntata. Può assumere i valori:
+ * -1 -> Dispari;
+ * -2 -> Pari;
+ * >=0 <=36 -> Numero
+ * @param sommaPuntata Somma puntata dal giocatore
  */
 typedef struct puntate_node {
     struct node *next;
@@ -110,7 +165,11 @@ typedef struct puntate_node {
 /**
  * vincitore_t
  * 
- * Elemento della lista vincitori. 
+ * Elemento della lista vincitori.
+ * @param next Puntatore al successivo nodo nella lista
+ * @param portaMessaggiCongratulazioni Contiene la porta su cui il client
+ * associato è in ascolto per i messaggi di congratulazioni
+ * @param indirizzoIp Contiene l'indirizzo del client associato
  */
 typedef struct vincitore {
     struct node *next;
@@ -123,6 +182,16 @@ typedef struct vincitore {
  *
  * Contiene l'analisi per una giocata fatta da tutti i giocatori connessi.
  * Viene riazzerata ad ogni puntata.
+ *
+ * @param elencoVincitori Lista contenente tutti i vincitori della sessione di 
+ * puntate corrente
+ * @param numeroPerdenti Numero di perdenti nella sessione di puntate corrente
+ * @param numeroVincitori Numero di vincitori nella sessione di puntate corrente
+ * @param stato Indica se il croupier ha analizzato la sessione di puntate.
+ * 0 se deve ancora analizzare la sessione, 1 se ha terminato l'analisi.
+ * @param mutex Mutex associato alla sessione di analisi
+ * @param attesaMessaggi Condition variable che indica l'attesa di un player per
+ * poter intraprendere la fase di scambio messaggi di congratulazioni
  */
 typedef struct analisiDiSessionePuntata {
     queue elencoVincitori;
@@ -136,11 +205,11 @@ typedef struct analisiDiSessionePuntata {
 /*
  * Definizione variabili
  */
-
-extern int num_requests;
-extern int stato_puntate;
-extern int numero_di_vincitori_in_questa_mano;
-extern int numero_di_perdenti_in_questa_mano;
+//TODO eliminare queste variabili se sono inutili
+//extern int num_requests;
+//extern int stato_puntate;
+//extern int numero_di_vincitori_in_questa_mano;
+//extern int numero_di_perdenti_in_questa_mano;
 
 sessione_gioco_t sessioneGiocoCorrente;
 sessione_puntate_t sessionePuntateCorrente;
