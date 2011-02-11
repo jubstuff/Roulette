@@ -14,6 +14,6 @@
  * Pari/Dispari oppure su un numero
  * */
 int parse_bet(char *puntataStr, int *sommaPuntata, int *tipoPuntata, int *numeroPuntato);
-
+char *tipoPuntataTestuale(int tipo);
 #endif	/* CLIENT_HEADER_H */
 

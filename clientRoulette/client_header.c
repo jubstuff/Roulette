@@ -72,4 +72,16 @@ int parse_bet(char *puntataStr, int *sommaPuntata, int *tipoPuntata, int *numero
 		error_flag = EBADSYNTAX;
 	}
 	return error_flag;
-}	
+}
+
+char *tipoPuntataTestuale(int tipo) {
+    if(tipo == -1) {
+        return "Dispari";
+    } else if(tipo == -2) {
+        return "Pari";
+    } else if(tipo >= 0 && tipo <= 36) {
+        return "Numero";
+    } else {
+        return "Puntata non valida";
+    }
+}
