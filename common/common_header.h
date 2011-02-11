@@ -6,7 +6,6 @@
  *
  */
 
-
 #ifndef _COMMON_HEADER_H
 #define _COMMON_HEADER_H
 
@@ -150,9 +149,9 @@ typedef struct player {
  * @param numeroPuntato Se la puntata è di tipo numerico, contiene il numero 
  * puntato dal giocatore
  * @param tipoPuntata Contiene il tipo di puntata. Può assumere i valori:
- * -1 -> Dispari;
- * -2 -> Pari;
- * >=0 <=36 -> Numero
+ *  - -1 -> Dispari;
+ *  - -2 -> Pari;
+ *  - >=0 <=36 -> Numero
  * @param sommaPuntata Somma puntata dal giocatore
  */
 typedef struct puntate_node {
@@ -210,19 +209,68 @@ typedef struct analisiDiSessionePuntata {
 //extern int stato_puntate;
 //extern int numero_di_vincitori_in_questa_mano;
 //extern int numero_di_perdenti_in_questa_mano;
-
+/**
+ * sessioneGiocoCorrente
+ *
+ * Gestisce la sessione di gioco corrente
+ */
 sessione_gioco_t sessioneGiocoCorrente;
+
+/**
+ * sessionePuntateCorrente
+ * 
+ * Gestisce la sessione di puntate corrente
+ */
 sessione_puntate_t sessionePuntateCorrente;
+
+/**
+ * analisiSessionePuntata
+ *
+ * Gestisce l'analisi della sessione di puntate corrente
+ */
 analisi_puntata_t analisiSessionePuntata;
 
+/**
+ * messaggioPuntateAperte
+ *
+ * Messaggio che il thread player invia al client per indicare l'apertura delle
+ * puntate
+ */
 extern const char messaggioPuntateAperte[];
+
+/**
+ * lenMessaggioPuntateAperte
+ *
+ * Dimensione del messaggio di puntate aperte
+ */
 extern ssize_t lenMessaggioPuntateAperte;
+
+/**
+ * messaggioPuntateChiuse
+ *
+ * Messaggio che il thread player invia al client per indicare la chiusura delle
+ * puntate
+ */
 extern const char messaggioPuntateChiuse[];
+
+/**
+ * lenMessaggioPuntateChiuse
+ *
+ * Dimensione del messaggio di puntate chiuse
+ */
 extern ssize_t lenMessaggioPuntateChiuse;
 
+/**
+ * numeroMinimoGiocatori
+ *
+ * Numero minimo di giocatori connessi che il server attende per iniziare il
+ * gioco
+ */
 extern int numeroMinimoGiocatori;
 
 /**
+ * err_abort
+ * 
  * Stampa sullo standard error un messaggio contenente l'errore, il file che l'ha
  * causato, la riga e la spiegazione.
  *
@@ -233,6 +281,8 @@ extern int numeroMinimoGiocatori;
 void err_abort(int code, char *text);
 
 /**
+ * open_socket
+ * 
  * Apre un socket descriptor, gli assegna un nome e si mette in ascolto.
  *
  * @param self struttura che conterrà le informazioni relative al server
@@ -240,62 +290,279 @@ void err_abort(int code, char *text);
  */
 int open_socket(struct sockaddr_in self, short int server_port);
 
-
-//void gestisci_puntate(int estratto);
+/**
+ * gestisci_puntata_numero
+ *
+ * Gestisce una puntata di tipo numerico, aumentando il budget del giocatore
+ * nel caso in cui sia vincente.
+ * 
+ * @param estratto Numero estratto nella sessione di gioco corrente
+ * @param puntata Puntata effettuata dal giocatore
+ * @param player Giocatore che ha effettuato la puntata
+ */
 void gestisci_puntata_numero(int estratto, puntata_t *puntata, player_t *player);
+
+/**
+ * gestisci_puntata_pari
+ *
+ * Gestisce una puntata di tipo pari, aumentando il budget del giocatore
+ * nel caso in cui sia vincente.
+ *
+ * @param estratto Numero estratto nella sessione di gioco corrente
+ * @param puntata Puntata effettuata dal giocatore
+ * @param player Giocatore che ha effettuato la puntata
+ */
 void gestisci_puntata_pari(int estratto, puntata_t *puntata, player_t *player);
+
+/**
+ * gestisci_puntata_dispari
+ *
+ * Gestisce una puntata di tipo dispari, aumentando il budget del giocatore
+ * nel caso in cui sia vincente.
+ *
+ * @param estratto Numero estratto nella sessione di gioco corrente
+ * @param puntata Puntata effettuata dal giocatore
+ * @param player Giocatore che ha effettuato la puntata
+ */
 void gestisci_puntata_dispari(int estratto, puntata_t *puntata, player_t *player);
+
+/**
+ * aumenta_budget
+ * 
+ * Aumenta il budget del giocatore di un dato moltiplicatore
+ * 
+ * @param moltiplicatore Moltiplicatore del budget
+ * @param puntata Puntata //TODO possibile passare un int invece di tutta la puntata
+ * @param player //TODO possibile passare il budget invece del giocatore
+ */
 void aumenta_budget(int moltiplicatore, puntata_t *puntata, player_t *player);
 
-//puntata_t *inizializza_nodo_puntata(int numero_puntato, bet_t tipo_puntata, int somma_puntata);
-
-
+/**
+ * Calcola l'intervallo di attesa del croupier
+ * @param intervallo
+ * @return la struttura timespec contenente il tempo di fine attesa
+ */
 struct timespec calcola_intervallo(int intervallo);
 
-
-/******************************************************************************
+/*
  * =WRAPPER FUNCTIONS=
  */
-//socket
+/**
+ * Socket
+ *
+ * Wrapper function per la system call socket. Termina il programma se si
+ * verifica un errore
+ *
+ * @param domain
+ * @param type
+ * @param protocol
+ * @return
+ */
 int Socket(int domain, int type, int protocol);
-//bind
+
+/**
+ * Bind
+ *
+ * Wrapper function per la system call bind. Termina il programma se si
+ * verifica un errore
+ *
+ * @param sockfd
+ * @param addr
+ * @param addrlen
+ */
 void Bind(int sockfd, const struct sockaddr *addr, socklen_t addrlen);
-//listen
+
+/**
+ * Listen
+ *
+ * Wrapper function per la system call listen. Termina il programma se si
+ * verifica un errore
+ *
+ * @param sockfd
+ * @param addr
+ * @param addrlen
+ */
 void Listen(int sockfd, int backlog);
-//accept
+
+/**
+ * Accept
+ *
+ * Wrapper function per la system call accept. Termina il programma se si
+ * verifica un errore
+ *
+ * @param sockfd
+ * @param addr
+ * @param addrlen
+ */
 int Accept(int sockfd, struct sockaddr *addr, socklen_t *addrlen);
-//connect
+
+/**
+ * Connect
+ *
+ * Wrapper function per la system call connect. Termina il programma se si
+ * verifica un errore
+ * 
+ * @param sockfd
+ * @param addr
+ * @param addrlen
+ */
 void Connect(int sockfd, const struct sockaddr *addr, socklen_t addrlen);
-//close
+
+/**
+ * Close
+ *
+ * Wrapper function per la system call close. Termina il programma se si
+ * verifica un errore
+ *
+ * @param fildes
+ */
 void Close(int fildes);
-//malloc
+
+/**
+ * Malloc
+ *
+ * Wrapper function per la system call malloc. Termina il programma se si
+ * verifica un errore
+ *
+ * @param mutex
+ * @param attr
+ */
 void *Malloc(size_t size);
-//pthread_mutex_init
+
+/**
+ * Pthread_mutex_init
+ * 
+ * Wrapper function per la system call pthread_mutex_init. Termina il programma
+ * se si verifica un errore
+ *
+ * @param thread
+ * @param attr
+ * @param start_routine
+ * @param arg
+ */
 void Pthread_mutex_init(pthread_mutex_t *mutex, const pthread_mutexattr_t *attr);
-//pthread_cond_init
+
+/**
+ * Pthread_cond_init
+ *
+ * Wrapper function per la system call pthread_cond_init. Termina il programma
+ * se si verifica un errore
+ *
+ * @param cond
+ * @param attr
+ */
 void Pthread_cond_init(pthread_cond_t *cond, const pthread_condattr_t *attr);
-//pthread_create
+
+/**
+ * Pthread_create
+ *
+ * Wrapper function per la system call pthread_create. Termina il programma
+ * se si verifica un errore
+ *
+ * @param thread
+ */
 void Pthread_create(pthread_t *thread, const pthread_attr_t *attr,
         void *(*start_routine)(void*), void *arg);
-//pthread_cancel
+
+/**
+ * Pthread_cancel
+ *
+ * Wrapper function per la system call pthread_cancel. Termina il programma
+ * se si verifica un errore
+ *
+ * @param thread
+ */
 void Pthread_cancel(pthread_t thread);
-//pthread_mutex_lock
+
+/**
+ * Pthread_mutex_lock
+ *
+ * Wrapper function per la system call pthread_mutex_lock. Termina il programma
+ * se si verifica un errore
+ *
+ * @param mutex
+ */
 void Pthread_mutex_lock(pthread_mutex_t *mutex);
-//pthread_mutex_unlock
+
+/**
+ * Pthread_mutex_unlock
+ *
+ * Wrapper function per la system call pthread_mutex_unlock. Termina il programma
+ * se si verifica un errore
+ *
+ * @param mutex
+ */
 void Pthread_mutex_unlock(pthread_mutex_t *mutex);
-//pthread_cond_wait
+
+/**
+ * Pthread_cond_wait
+ *
+ * Wrapper function per la system call pthread_cond_wait. Termina il programma
+ * se si verifica un errore
+ *
+ * @param cond
+ * @param mutex
+ */
 void Pthread_cond_wait(pthread_cond_t *cond, pthread_mutex_t *mutex);
-//pthread_cond_timedwait
+
+/**
+ * Pthread_cond_timedwait
+ *
+ * Wrapper function per la system call pthread_cond_timedwait. Termina il programma
+ * se si verifica un errore
+ *
+ * @param cond
+ */
 int Pthread_cond_timedwait(pthread_cond_t *cond, pthread_mutex_t *mutex,
         const struct timespec *abstime);
-//pthread_cond_broadcast
+
+/**
+ * Phtread_cond_broadcast
+ *
+ * Wrapper function per la system call pthread_cond_broadcast. Termina il programma
+ * se si verifica un errore
+ *
+ * @param cond
+ */
 void Pthread_cond_broadcast(pthread_cond_t *cond);
-//pthread_cond_signal
+
+/**
+ * Pthread_cond_signal
+ *
+ * Wrapper function per la system call pthread_cond_signal. Termina il programma
+ * se si verifica un errore
+ *
+ * @param cond
+ */
 void Pthread_cond_signal(pthread_cond_t *cond);
-//write
+
+/**
+ * Write
+ *
+ * Wrapper function per la system call write. Termina il programma
+ * se si verifica un errore
+ *
+ * @param fd
+ * @param buf
+ * @param count
+ * @return
+ */
 ssize_t Write(int fd, const void *buf, size_t count);
-//read
+
+/**
+ * Read
+ *
+ * Wrapper function per la system call read. Termina il programma
+ * se si verifica un errore
+ *
+ * @param fd
+ * @param buf
+ * @param count
+ * @return
+ *
+ */
 ssize_t Read(int fd, void *buf, size_t count);
+
 //TODO getsockname
 //TODO inet_aton
 //TODO htons

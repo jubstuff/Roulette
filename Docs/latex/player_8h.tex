@@ -1,0 +1,86 @@
+\hypertarget{player_8h}{
+\section{Riferimenti per il file serverRoulette/player.h}
+\label{player_8h}\index{serverRoulette/player.h@{serverRoulette/player.h}}
+}
+
+
+Include la definizione del routine per il thread player e i suoi sotto-\/thread.  
+
+
+{\ttfamily \#include \char`\"{}queue.h\char`\"{}}\par
+\subsection*{Strutture dati}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structargomento}{argomento}
+\end{DoxyCompactItemize}
+\subsection*{Ridefinizioni di tipo (typedef)}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct \hyperlink{structargomento}{argomento} \hyperlink{player_8h_aee01c2ff0baf7432cd5b4a347b504276}{argomento\_\-gestore\_\-puntate\_\-t}
+\end{DoxyCompactItemize}
+\subsection*{Funzioni}
+\begin{DoxyCompactItemize}
+\item 
+void $\ast$ \hyperlink{player_8h_a13159318714fa10e07617baebb333033}{player} (void $\ast$arg)
+\item 
+void $\ast$ \hyperlink{player_8h_aa321c980c6ebd52cca997c698138df22}{gestorePuntateGiocatore} (void $\ast$arg)
+\end{DoxyCompactItemize}
+
+
+\subsection{Descrizione dettagliata}
+Include la definizione del routine per il thread player e i suoi sotto-\/thread. Gruppo 7 \begin{DoxyDate}{Data}
+Gennaio 2011 
+\end{DoxyDate}
+
+
+\subsection{Documentazione delle ridefinizioni di tipo (typedef)}
+\hypertarget{player_8h_aee01c2ff0baf7432cd5b4a347b504276}{
+\index{player.h@{player.h}!argomento\_\-gestore\_\-puntate\_\-t@{argomento\_\-gestore\_\-puntate\_\-t}}
+\index{argomento\_\-gestore\_\-puntate\_\-t@{argomento\_\-gestore\_\-puntate\_\-t}!player.h@{player.h}}
+\subsubsection[{argomento\_\-gestore\_\-puntate\_\-t}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf argomento}  {\bf argomento\_\-gestore\_\-puntate\_\-t}}}
+\label{player_8h_aee01c2ff0baf7432cd5b4a347b504276}
+argomento
+
+argomento del gestore delle puntate nel server.
+
+
+\begin{DoxyParams}{Parametri}
+\item[{\em listaPuntatePrivata}]Contiene la lista di puntate temporanea ricevuta dal gestore \item[{\em clientFd}]Il socket di comunicazione con il client associato al thread player \end{DoxyParams}
+
+
+\subsection{Documentazione delle funzioni}
+\hypertarget{player_8h_aa321c980c6ebd52cca997c698138df22}{
+\index{player.h@{player.h}!gestorePuntateGiocatore@{gestorePuntateGiocatore}}
+\index{gestorePuntateGiocatore@{gestorePuntateGiocatore}!player.h@{player.h}}
+\subsubsection[{gestorePuntateGiocatore}]{\setlength{\rightskip}{0pt plus 5cm}void$\ast$ gestorePuntateGiocatore (
+\begin{DoxyParamCaption}
+\item[{void $\ast$}]{ arg}
+\end{DoxyParamCaption}
+)}}
+\label{player_8h_aa321c980c6ebd52cca997c698138df22}
+
+\begin{DoxyParams}{Parametri}
+\item[{\em arg}]Argomento per il gestore di puntate. Di tipo argomento\_\-gestore\_\-puntate\_\-t \end{DoxyParams}
+\begin{DoxyReturn}{Restituisce}
+
+\end{DoxyReturn}
+\hypertarget{player_8h_a13159318714fa10e07617baebb333033}{
+\index{player.h@{player.h}!player@{player}}
+\index{player@{player}!player.h@{player.h}}
+\subsubsection[{player}]{\setlength{\rightskip}{0pt plus 5cm}void$\ast$ {\bf player} (
+\begin{DoxyParamCaption}
+\item[{void $\ast$}]{ arg}
+\end{DoxyParamCaption}
+)}}
+\label{player_8h_a13159318714fa10e07617baebb333033}
+player
+
+Routine per il thread player 
+\begin{DoxyParams}{Parametri}
+\item[{\em arg}]Argomento del player thread. //TODO inserire cosa ci sta \end{DoxyParams}
+\begin{DoxyReturn}{Restituisce}
+
+\end{DoxyReturn}
+FUNZIONE player
+
+============================================================================ 

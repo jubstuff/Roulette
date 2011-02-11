@@ -1,0 +1,118 @@
+\hypertarget{queue_8h}{
+\section{Riferimenti per il file serverRoulette/queue.h}
+\label{queue_8h}\index{serverRoulette/queue.h@{serverRoulette/queue.h}}
+}
+
+
+Include la definizione della struttura dati queue.  
+
+
+\subsection*{Strutture dati}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structnode__tag}{node\_\-tag}
+\item 
+struct \hyperlink{structqueue}{queue}
+\end{DoxyCompactItemize}
+\subsection*{Ridefinizioni di tipo (typedef)}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct \hyperlink{structnode__tag}{node\_\-tag} \hyperlink{queue_8h_a6d26d010577ced13dca331b94e1c8764}{node}
+\item 
+typedef struct \hyperlink{structqueue}{queue} \hyperlink{queue_8h_ae3925075f052290340ee4c1eb2a484e6}{queue}
+\end{DoxyCompactItemize}
+\subsection*{Funzioni}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{queue_8h_aca8dec1547e4309337e3a8aa90711d7b}{queue\_\-init} (\hyperlink{structqueue}{queue} $\ast$myroot)
+\item 
+void \hyperlink{queue_8h_a963114e8540b1790eeba813066b4ddf6}{queue\_\-put} (\hyperlink{structqueue}{queue} $\ast$myroot, \hyperlink{structnode__tag}{node} $\ast$mynode)
+\item 
+\hyperlink{structnode__tag}{node} $\ast$ \hyperlink{queue_8h_aaeb93fdc18868cbb811248f0f58e5f29}{queue\_\-get} (\hyperlink{structqueue}{queue} $\ast$myroot)
+\end{DoxyCompactItemize}
+
+
+\subsection{Descrizione dettagliata}
+Include la definizione della struttura dati queue. Gruppo 7 \begin{DoxyDate}{Data}
+Gennaio 2011 
+\end{DoxyDate}
+
+
+\subsection{Documentazione delle ridefinizioni di tipo (typedef)}
+\hypertarget{queue_8h_a6d26d010577ced13dca331b94e1c8764}{
+\index{queue.h@{queue.h}!node@{node}}
+\index{node@{node}!queue.h@{queue.h}}
+\subsubsection[{node}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf node\_\-tag}  {\bf node}}}
+\label{queue_8h_a6d26d010577ced13dca331b94e1c8764}
+\hyperlink{structnode__tag}{node\_\-tag}
+
+Un nodo di una lista. Rappresenta il caso base, ovvero un nodo contenente solo il puntatore al nodo successivo. Verrà utilizzato come \char`\"{}superclasse\char`\"{} per tutti gli altri tipi di nodo
+
+
+\begin{DoxyParams}{Parametri}
+\item[{\em next}]Puntatore al nodo successivo \end{DoxyParams}
+\hypertarget{queue_8h_ae3925075f052290340ee4c1eb2a484e6}{
+\index{queue.h@{queue.h}!queue@{queue}}
+\index{queue@{queue}!queue.h@{queue.h}}
+\subsubsection[{queue}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf queue}  {\bf queue}}}
+\label{queue_8h_ae3925075f052290340ee4c1eb2a484e6}
+queue
+
+Struttura dati contenente due nodi. Uno rappresenterà la testa, l'altro la coda della lista.
+
+
+\begin{DoxyParams}{Parametri}
+\item[{\em head}]Testa della coda \item[{\em tail}]Coda \end{DoxyParams}
+
+
+\subsection{Documentazione delle funzioni}
+\hypertarget{queue_8h_aaeb93fdc18868cbb811248f0f58e5f29}{
+\index{queue.h@{queue.h}!queue\_\-get@{queue\_\-get}}
+\index{queue\_\-get@{queue\_\-get}!queue.h@{queue.h}}
+\subsubsection[{queue\_\-get}]{\setlength{\rightskip}{0pt plus 5cm}{\bf node}$\ast$ queue\_\-get (
+\begin{DoxyParamCaption}
+\item[{{\bf queue} $\ast$}]{ myroot}
+\end{DoxyParamCaption}
+)}}
+\label{queue_8h_aaeb93fdc18868cbb811248f0f58e5f29}
+queue\_\-get
+
+Rimuove un nodo dalla coda 
+\begin{DoxyParams}{Parametri}
+\item[{\em myroot}]Coda da cui rimuovere il nodo \end{DoxyParams}
+\begin{DoxyReturn}{Restituisce}
+Puntatore al nodo rimosso 
+\end{DoxyReturn}
+\hypertarget{queue_8h_aca8dec1547e4309337e3a8aa90711d7b}{
+\index{queue.h@{queue.h}!queue\_\-init@{queue\_\-init}}
+\index{queue\_\-init@{queue\_\-init}!queue.h@{queue.h}}
+\subsubsection[{queue\_\-init}]{\setlength{\rightskip}{0pt plus 5cm}void queue\_\-init (
+\begin{DoxyParamCaption}
+\item[{{\bf queue} $\ast$}]{ myroot}
+\end{DoxyParamCaption}
+)}}
+\label{queue_8h_aca8dec1547e4309337e3a8aa90711d7b}
+queue\_\-init
+
+Inizializza testa e coda a NULL
+
+
+\begin{DoxyParams}{Parametri}
+\item[{\em myroot}]queue da inizializzare\end{DoxyParams}
+Queue init \hypertarget{queue_8h_a963114e8540b1790eeba813066b4ddf6}{
+\index{queue.h@{queue.h}!queue\_\-put@{queue\_\-put}}
+\index{queue\_\-put@{queue\_\-put}!queue.h@{queue.h}}
+\subsubsection[{queue\_\-put}]{\setlength{\rightskip}{0pt plus 5cm}void queue\_\-put (
+\begin{DoxyParamCaption}
+\item[{{\bf queue} $\ast$}]{ myroot, }
+\item[{{\bf node} $\ast$}]{ mynode}
+\end{DoxyParamCaption}
+)}}
+\label{queue_8h_a963114e8540b1790eeba813066b4ddf6}
+queue\_\-put
+
+Inserisce un nodo nella coda
+
+
+\begin{DoxyParams}{Parametri}
+\item[{\em myroot}]Coda a cui aggiungere il nodo \item[{\em mynode}]Nodo da aggiungere \end{DoxyParams}

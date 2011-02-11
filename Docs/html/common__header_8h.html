@@ -62,7 +62,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Cerca');
 <code>#include &lt;ctype.h&gt;</code><br/>
 <code>#include &lt;errno.h&gt;</code><br/>
 <code>#include &lt;fcntl.h&gt;</code><br/>
-<code>#include &quot;../serverRoulette/player.h&quot;</code><br/>
+<code>#include &quot;<a class="el" href="player_8h_source.html">../serverRoulette/player.h</a>&quot;</code><br/>
 <code>#include &lt;pthread.h&gt;</code><br/>
 <code>#include &quot;../serverRoulette/queue.h&quot;</code><br/>
 <code>#include &lt;signal.h&gt;</code><br/>
@@ -113,66 +113,40 @@ Funzioni</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="common__header_8h.html#a4426ec193b73ea2587e1e7fa7115027c">gestisci_puntata_dispari</a> (int estratto, <a class="el" href="structpuntate__node.html">puntata_t</a> *puntata, <a class="el" href="structplayer.html">player_t</a> *<a class="el" href="structplayer.html">player</a>)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="common__header_8h.html#afd0f6fb0543833649223d0fc801b832e">aumenta_budget</a> (int moltiplicatore, <a class="el" href="structpuntate__node.html">puntata_t</a> *puntata, <a class="el" href="structplayer.html">player_t</a> *<a class="el" href="structplayer.html">player</a>)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">struct timespec&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="common__header_8h.html#a6e013de3c896f865446e7500f28447c7">calcola_intervallo</a> (int intervallo)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab40b825366ecd47b1693784284633633"></a><!-- doxytag: member="common_header.h::Socket" ref="ab40b825366ecd47b1693784284633633" args="(int domain, int type, int protocol)" -->
-int&nbsp;</td><td class="memItemRight" valign="bottom"><b>Socket</b> (int domain, int type, int protocol)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a18b6504d0629fe26aebe7726d570d593"></a><!-- doxytag: member="common_header.h::Bind" ref="a18b6504d0629fe26aebe7726d570d593" args="(int sockfd, const struct sockaddr *addr, socklen_t addrlen)" -->
-void&nbsp;</td><td class="memItemRight" valign="bottom"><b>Bind</b> (int sockfd, const struct sockaddr *addr, socklen_t addrlen)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a20f952ce9b39d5727a35a96883cf4025"></a><!-- doxytag: member="common_header.h::Listen" ref="a20f952ce9b39d5727a35a96883cf4025" args="(int sockfd, int backlog)" -->
-void&nbsp;</td><td class="memItemRight" valign="bottom"><b>Listen</b> (int sockfd, int backlog)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a01855882d3cc0aa58978014fae447f48"></a><!-- doxytag: member="common_header.h::Accept" ref="a01855882d3cc0aa58978014fae447f48" args="(int sockfd, struct sockaddr *addr, socklen_t *addrlen)" -->
-int&nbsp;</td><td class="memItemRight" valign="bottom"><b>Accept</b> (int sockfd, struct sockaddr *addr, socklen_t *addrlen)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a531e4d459b16689a6b5e48d7a7bad305"></a><!-- doxytag: member="common_header.h::Connect" ref="a531e4d459b16689a6b5e48d7a7bad305" args="(int sockfd, const struct sockaddr *addr, socklen_t addrlen)" -->
-void&nbsp;</td><td class="memItemRight" valign="bottom"><b>Connect</b> (int sockfd, const struct sockaddr *addr, socklen_t addrlen)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab54e1217d983e88c86ae6f802a1410f5"></a><!-- doxytag: member="common_header.h::Close" ref="ab54e1217d983e88c86ae6f802a1410f5" args="(int fildes)" -->
-void&nbsp;</td><td class="memItemRight" valign="bottom"><b>Close</b> (int fildes)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a718daa2ee90d164bb8224833535f0b3b"></a><!-- doxytag: member="common_header.h::Malloc" ref="a718daa2ee90d164bb8224833535f0b3b" args="(size_t size)" -->
-void *&nbsp;</td><td class="memItemRight" valign="bottom"><b>Malloc</b> (size_t size)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="abcec9791bae09bea24be0a272064f0b2"></a><!-- doxytag: member="common_header.h::Pthread_mutex_init" ref="abcec9791bae09bea24be0a272064f0b2" args="(pthread_mutex_t *mutex, const pthread_mutexattr_t *attr)" -->
-void&nbsp;</td><td class="memItemRight" valign="bottom"><b>Pthread_mutex_init</b> (pthread_mutex_t *mutex, const pthread_mutexattr_t *attr)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a63421c6a5b5ade7213fcb04508b8e9c6"></a><!-- doxytag: member="common_header.h::Pthread_cond_init" ref="a63421c6a5b5ade7213fcb04508b8e9c6" args="(pthread_cond_t *cond, const pthread_condattr_t *attr)" -->
-void&nbsp;</td><td class="memItemRight" valign="bottom"><b>Pthread_cond_init</b> (pthread_cond_t *cond, const pthread_condattr_t *attr)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a529fdfdc4590dc107e8f9aa5033ea94b"></a><!-- doxytag: member="common_header.h::Pthread_create" ref="a529fdfdc4590dc107e8f9aa5033ea94b" args="(pthread_t *thread, const pthread_attr_t *attr, void *(*start_routine)(void *), void *arg)" -->
-void&nbsp;</td><td class="memItemRight" valign="bottom"><b>Pthread_create</b> (pthread_t *thread, const pthread_attr_t *attr, void *(*start_routine)(void *), void *arg)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="adc14ea283bd09460a3df69982fe20137"></a><!-- doxytag: member="common_header.h::Pthread_cancel" ref="adc14ea283bd09460a3df69982fe20137" args="(pthread_t thread)" -->
-void&nbsp;</td><td class="memItemRight" valign="bottom"><b>Pthread_cancel</b> (pthread_t thread)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae069ec16890f7c7c974f5816ff6d1318"></a><!-- doxytag: member="common_header.h::Pthread_mutex_lock" ref="ae069ec16890f7c7c974f5816ff6d1318" args="(pthread_mutex_t *mutex)" -->
-void&nbsp;</td><td class="memItemRight" valign="bottom"><b>Pthread_mutex_lock</b> (pthread_mutex_t *mutex)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8b68130d907d3f2638c342cafc31cc77"></a><!-- doxytag: member="common_header.h::Pthread_mutex_unlock" ref="a8b68130d907d3f2638c342cafc31cc77" args="(pthread_mutex_t *mutex)" -->
-void&nbsp;</td><td class="memItemRight" valign="bottom"><b>Pthread_mutex_unlock</b> (pthread_mutex_t *mutex)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4eef22974df3a36ba3b301f9bee20b3a"></a><!-- doxytag: member="common_header.h::Pthread_cond_wait" ref="a4eef22974df3a36ba3b301f9bee20b3a" args="(pthread_cond_t *cond, pthread_mutex_t *mutex)" -->
-void&nbsp;</td><td class="memItemRight" valign="bottom"><b>Pthread_cond_wait</b> (pthread_cond_t *cond, pthread_mutex_t *mutex)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a551ea196dee03a3bb6521ee8afe30333"></a><!-- doxytag: member="common_header.h::Pthread_cond_timedwait" ref="a551ea196dee03a3bb6521ee8afe30333" args="(pthread_cond_t *cond, pthread_mutex_t *mutex, const struct timespec *abstime)" -->
-int&nbsp;</td><td class="memItemRight" valign="bottom"><b>Pthread_cond_timedwait</b> (pthread_cond_t *cond, pthread_mutex_t *mutex, const struct timespec *abstime)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af10fa90317ee2a0da3ad38b860f20799"></a><!-- doxytag: member="common_header.h::Pthread_cond_broadcast" ref="af10fa90317ee2a0da3ad38b860f20799" args="(pthread_cond_t *cond)" -->
-void&nbsp;</td><td class="memItemRight" valign="bottom"><b>Pthread_cond_broadcast</b> (pthread_cond_t *cond)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab3dd537c5f2e40656d2dfc37dec48aae"></a><!-- doxytag: member="common_header.h::Pthread_cond_signal" ref="ab3dd537c5f2e40656d2dfc37dec48aae" args="(pthread_cond_t *cond)" -->
-void&nbsp;</td><td class="memItemRight" valign="bottom"><b>Pthread_cond_signal</b> (pthread_cond_t *cond)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9428ea024e46af2e8a00c874c637ad01"></a><!-- doxytag: member="common_header.h::Write" ref="a9428ea024e46af2e8a00c874c637ad01" args="(int fd, const void *buf, size_t count)" -->
-ssize_t&nbsp;</td><td class="memItemRight" valign="bottom"><b>Write</b> (int fd, const void *buf, size_t count)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa126411f5821a2671133529b6e139560"></a><!-- doxytag: member="common_header.h::Read" ref="aa126411f5821a2671133529b6e139560" args="(int fd, void *buf, size_t count)" -->
-ssize_t&nbsp;</td><td class="memItemRight" valign="bottom"><b>Read</b> (int fd, void *buf, size_t count)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="common__header_8h.html#ab40b825366ecd47b1693784284633633">Socket</a> (int domain, int type, int protocol)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="common__header_8h.html#a18b6504d0629fe26aebe7726d570d593">Bind</a> (int sockfd, const struct sockaddr *addr, socklen_t addrlen)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="common__header_8h.html#a20f952ce9b39d5727a35a96883cf4025">Listen</a> (int sockfd, int backlog)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="common__header_8h.html#a01855882d3cc0aa58978014fae447f48">Accept</a> (int sockfd, struct sockaddr *addr, socklen_t *addrlen)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="common__header_8h.html#a531e4d459b16689a6b5e48d7a7bad305">Connect</a> (int sockfd, const struct sockaddr *addr, socklen_t addrlen)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="common__header_8h.html#ab54e1217d983e88c86ae6f802a1410f5">Close</a> (int fildes)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="common__header_8h.html#a718daa2ee90d164bb8224833535f0b3b">Malloc</a> (size_t size)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="common__header_8h.html#abcec9791bae09bea24be0a272064f0b2">Pthread_mutex_init</a> (pthread_mutex_t *mutex, const pthread_mutexattr_t *attr)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="common__header_8h.html#a63421c6a5b5ade7213fcb04508b8e9c6">Pthread_cond_init</a> (pthread_cond_t *cond, const pthread_condattr_t *attr)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="common__header_8h.html#a529fdfdc4590dc107e8f9aa5033ea94b">Pthread_create</a> (pthread_t *thread, const pthread_attr_t *attr, void *(*start_routine)(void *), void *arg)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="common__header_8h.html#adc14ea283bd09460a3df69982fe20137">Pthread_cancel</a> (pthread_t thread)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="common__header_8h.html#ae069ec16890f7c7c974f5816ff6d1318">Pthread_mutex_lock</a> (pthread_mutex_t *mutex)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="common__header_8h.html#a8b68130d907d3f2638c342cafc31cc77">Pthread_mutex_unlock</a> (pthread_mutex_t *mutex)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="common__header_8h.html#a4eef22974df3a36ba3b301f9bee20b3a">Pthread_cond_wait</a> (pthread_cond_t *cond, pthread_mutex_t *mutex)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="common__header_8h.html#a551ea196dee03a3bb6521ee8afe30333">Pthread_cond_timedwait</a> (pthread_cond_t *cond, pthread_mutex_t *mutex, const struct timespec *abstime)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="common__header_8h.html#af10fa90317ee2a0da3ad38b860f20799">Pthread_cond_broadcast</a> (pthread_cond_t *cond)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="common__header_8h.html#ab3dd537c5f2e40656d2dfc37dec48aae">Pthread_cond_signal</a> (pthread_cond_t *cond)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">ssize_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="common__header_8h.html#a9428ea024e46af2e8a00c874c637ad01">Write</a> (int fd, const void *buf, size_t count)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">ssize_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="common__header_8h.html#aa126411f5821a2671133529b6e139560">Read</a> (int fd, void *buf, size_t count)</td></tr>
 <tr><td colspan="2"><h2><a name="var-members"></a>
 Variabili</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa2c81d3ffb928d2241675f5c9b94d1ae"></a><!-- doxytag: member="common_header.h::sessioneGiocoCorrente" ref="aa2c81d3ffb928d2241675f5c9b94d1ae" args="" -->
-<a class="el" href="structsessioneDiGioco.html">sessione_gioco_t</a>&nbsp;</td><td class="memItemRight" valign="bottom"><b>sessioneGiocoCorrente</b></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa17b72f5e51d1a98d08dcab8243286f0"></a><!-- doxytag: member="common_header.h::sessionePuntateCorrente" ref="aa17b72f5e51d1a98d08dcab8243286f0" args="" -->
-<a class="el" href="structsessioneDiPuntate.html">sessione_puntate_t</a>&nbsp;</td><td class="memItemRight" valign="bottom"><b>sessionePuntateCorrente</b></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab346b8f5d31765d422e1aeaf8a8a3efb"></a><!-- doxytag: member="common_header.h::analisiSessionePuntata" ref="ab346b8f5d31765d422e1aeaf8a8a3efb" args="" -->
-<a class="el" href="structanalisiDiSessionePuntata.html">analisi_puntata_t</a>&nbsp;</td><td class="memItemRight" valign="bottom"><b>analisiSessionePuntata</b></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsessioneDiGioco.html">sessione_gioco_t</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="common__header_8h.html#aa2c81d3ffb928d2241675f5c9b94d1ae">sessioneGiocoCorrente</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsessioneDiPuntate.html">sessione_puntate_t</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="common__header_8h.html#aa17b72f5e51d1a98d08dcab8243286f0">sessionePuntateCorrente</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="structanalisiDiSessionePuntata.html">analisi_puntata_t</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="common__header_8h.html#ab346b8f5d31765d422e1aeaf8a8a3efb">analisiSessionePuntata</a></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">const char&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="common__header_8h.html#af38d3e64aae10f2f4f617376d4fc5411">messaggioPuntateAperte</a> []</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a913cec2268e115e235392c9a230f26dc"></a><!-- doxytag: member="common_header.h::lenMessaggioPuntateAperte" ref="a913cec2268e115e235392c9a230f26dc" args="" -->
-ssize_t&nbsp;</td><td class="memItemRight" valign="bottom"><b>lenMessaggioPuntateAperte</b></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa5b737dbb18ee4c2d17428c361cfda70"></a><!-- doxytag: member="common_header.h::messaggioPuntateChiuse" ref="aa5b737dbb18ee4c2d17428c361cfda70" args="[]" -->
-const char&nbsp;</td><td class="memItemRight" valign="bottom"><b>messaggioPuntateChiuse</b> []</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0fa9bf008521409e9f4b07a9ec799d42"></a><!-- doxytag: member="common_header.h::lenMessaggioPuntateChiuse" ref="a0fa9bf008521409e9f4b07a9ec799d42" args="" -->
-ssize_t&nbsp;</td><td class="memItemRight" valign="bottom"><b>lenMessaggioPuntateChiuse</b></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4b4098f6de6ae0fb92838070d8e512a8"></a><!-- doxytag: member="common_header.h::numeroMinimoGiocatori" ref="a4b4098f6de6ae0fb92838070d8e512a8" args="" -->
-int&nbsp;</td><td class="memItemRight" valign="bottom"><b>numeroMinimoGiocatori</b></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">ssize_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="common__header_8h.html#a913cec2268e115e235392c9a230f26dc">lenMessaggioPuntateAperte</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">const char&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="common__header_8h.html#aa5b737dbb18ee4c2d17428c361cfda70">messaggioPuntateChiuse</a> []</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">ssize_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="common__header_8h.html#a0fa9bf008521409e9f4b07a9ec799d42">lenMessaggioPuntateChiuse</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="common__header_8h.html#a4b4098f6de6ae0fb92838070d8e512a8">numeroMinimoGiocatori</a></td></tr>
 </table>
 <hr/><a name="_details"></a><h2>Descrizione dettagliata</h2>
 <p>Include tutte le definizioni comuni al progetto. </p>
 <p>Gruppo 7 </p>
-<dl class="date"><dt><b>Data:</b></dt><dd>Gennaio 2011 Detailed description of file. </dd></dl>
+<dl class="date"><dt><b>Data:</b></dt><dd>Gennaio 2011 </dd></dl>
 <hr/><h2>Documentazione delle definizioni</h2>
 <a class="anchor" id="aa7b44c9aa2f59f8e56950979bfafe4c6"></a><!-- doxytag: member="common_header.h::IP_ADDRESS_LENGTH" ref="aa7b44c9aa2f59f8e56950979bfafe4c6" args="" -->
 <div class="memitem">
@@ -323,7 +297,13 @@ int&nbsp;</td><td class="memItemRight" valign="bottom"><b>numeroMinimoGiocatori<
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>next</em>&nbsp;</td><td>Puntatore al successivo nodo nella lista </td></tr>
     <tr><td valign="top"></td><td valign="top"><em>numeroPuntato</em>&nbsp;</td><td>Se la puntata è di tipo numerico, contiene il numero puntato dal giocatore </td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>tipoPuntata</em>&nbsp;</td><td>Contiene il tipo di puntata. Può assumere i valori: -1 -&gt; Dispari; -2 -&gt; Pari; &gt;=0 &lt;=36 -&gt; Numero </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>tipoPuntata</em>&nbsp;</td><td>Contiene il tipo di puntata. Può assumere i valori:</p>
+<ul>
+<li>-1 -&gt; Dispari;</li>
+<li>-2 -&gt; Pari;</li>
+<li>&gt;=0 &lt;=36 -&gt; Numero </li>
+</ul>
+</td></tr>
     <tr><td valign="top"></td><td valign="top"><em>sommaPuntata</em>&nbsp;</td><td>Somma puntata dal giocatore </td></tr>
   </table>
   </dd>
@@ -406,6 +386,49 @@ int&nbsp;</td><td class="memItemRight" valign="bottom"><b>numeroMinimoGiocatori<
 </div>
 </div>
 <hr/><h2>Documentazione delle funzioni</h2>
+<a class="anchor" id="a01855882d3cc0aa58978014fae447f48"></a><!-- doxytag: member="common_header.h::Accept" ref="a01855882d3cc0aa58978014fae447f48" args="(int sockfd, struct sockaddr *addr, socklen_t *addrlen)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int Accept </td>
+          <td>(</td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>sockfd</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">struct sockaddr *&nbsp;</td>
+          <td class="paramname"> <em>addr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">socklen_t *&nbsp;</td>
+          <td class="paramname"> <em>addrlen</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Accept</p>
+<p>Wrapper function per la system call accept. Termina il programma se si verifica un errore</p>
+<dl><dt><b>Parametri:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>sockfd</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>addr</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>addrlen</em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a class="anchor" id="afd0f6fb0543833649223d0fc801b832e"></a><!-- doxytag: member="common_header.h::aumenta_budget" ref="afd0f6fb0543833649223d0fc801b832e" args="(int moltiplicatore, puntata_t *puntata, player_t *player)" -->
 <div class="memitem">
 <div class="memproto">
@@ -436,12 +459,65 @@ int&nbsp;</td><td class="memItemRight" valign="bottom"><b>numeroMinimoGiocatori<
       </table>
 </div>
 <div class="memdoc">
+<p>aumenta_budget</p>
+<p>Aumenta il budget del giocatore di un dato moltiplicatore</p>
+<dl><dt><b>Parametri:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>moltiplicatore</em>&nbsp;</td><td>Moltiplicatore del budget </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>puntata</em>&nbsp;</td><td>Puntata //TODO possibile passare un int invece di tutta la puntata </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>player</em>&nbsp;</td><td>//TODO possibile passare il budget invece del giocatore</td></tr>
+  </table>
+  </dd>
+</dl>
 <p>Aumenta il budget del giocatore, dato un moltiplicatore </p>
 <dl><dt><b>Parametri:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>moltiplicatore</em>&nbsp;</td><td></td></tr>
     <tr><td valign="top"></td><td valign="top"><em>puntata</em>&nbsp;</td><td></td></tr>
     <tr><td valign="top"></td><td valign="top"><em>player</em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a18b6504d0629fe26aebe7726d570d593"></a><!-- doxytag: member="common_header.h::Bind" ref="a18b6504d0629fe26aebe7726d570d593" args="(int sockfd, const struct sockaddr *addr, socklen_t addrlen)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Bind </td>
+          <td>(</td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>sockfd</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const struct sockaddr *&nbsp;</td>
+          <td class="paramname"> <em>addr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">socklen_t&nbsp;</td>
+          <td class="paramname"> <em>addrlen</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Bind</p>
+<p>Wrapper function per la system call bind. Termina il programma se si verifica un errore</p>
+<dl><dt><b>Parametri:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>sockfd</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>addr</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>addrlen</em>&nbsp;</td><td></td></tr>
   </table>
   </dd>
 </dl>
@@ -474,6 +550,75 @@ int&nbsp;</td><td class="memItemRight" valign="bottom"><b>numeroMinimoGiocatori<
 
 </div>
 </div>
+<a class="anchor" id="ab54e1217d983e88c86ae6f802a1410f5"></a><!-- doxytag: member="common_header.h::Close" ref="ab54e1217d983e88c86ae6f802a1410f5" args="(int fildes)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Close </td>
+          <td>(</td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>fildes</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Close</p>
+<p>Wrapper function per la system call close. Termina il programma se si verifica un errore</p>
+<dl><dt><b>Parametri:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>fildes</em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a531e4d459b16689a6b5e48d7a7bad305"></a><!-- doxytag: member="common_header.h::Connect" ref="a531e4d459b16689a6b5e48d7a7bad305" args="(int sockfd, const struct sockaddr *addr, socklen_t addrlen)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Connect </td>
+          <td>(</td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>sockfd</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const struct sockaddr *&nbsp;</td>
+          <td class="paramname"> <em>addr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">socklen_t&nbsp;</td>
+          <td class="paramname"> <em>addrlen</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Connect</p>
+<p>Wrapper function per la system call connect. Termina il programma se si verifica un errore</p>
+<dl><dt><b>Parametri:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>sockfd</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>addr</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>addrlen</em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a class="anchor" id="a23c46484db25b3037102fdc173c9e164"></a><!-- doxytag: member="common_header.h::err_abort" ref="a23c46484db25b3037102fdc173c9e164" args="(int code, char *text)" -->
 <div class="memitem">
 <div class="memproto">
@@ -498,6 +643,15 @@ int&nbsp;</td><td class="memItemRight" valign="bottom"><b>numeroMinimoGiocatori<
       </table>
 </div>
 <div class="memdoc">
+<p>err_abort</p>
+<p>Stampa sullo standard error un messaggio contenente l'errore, il file che l'ha causato, la riga e la spiegazione.</p>
+<dl><dt><b>Parametri:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>code</em>&nbsp;</td><td>il codice d'errore (il valore di ritorno per le funzioni pthread, la variabile errno per le altre syscall) </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>text</em>&nbsp;</td><td>Una stringa che spiega l'errore</td></tr>
+  </table>
+  </dd>
+</dl>
 <p>Stampa sullo standard error un messaggio contenente l'errore, il file che l'ha causato, la riga e la spiegazione.</p>
 <dl><dt><b>Parametri:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
@@ -539,6 +693,16 @@ int&nbsp;</td><td class="memItemRight" valign="bottom"><b>numeroMinimoGiocatori<
       </table>
 </div>
 <div class="memdoc">
+<p>gestisci_puntata_dispari</p>
+<p>Gestisce una puntata di tipo dispari, aumentando il budget del giocatore nel caso in cui sia vincente.</p>
+<dl><dt><b>Parametri:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>estratto</em>&nbsp;</td><td>Numero estratto nella sessione di gioco corrente </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>puntata</em>&nbsp;</td><td>Puntata effettuata dal giocatore </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>player</em>&nbsp;</td><td>Giocatore che ha effettuato la puntata</td></tr>
+  </table>
+  </dd>
+</dl>
 <p>Controlla se una puntata del tipo D:&lt;N&gt; è vincente </p>
 <dl><dt><b>Parametri:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
@@ -581,6 +745,16 @@ int&nbsp;</td><td class="memItemRight" valign="bottom"><b>numeroMinimoGiocatori<
       </table>
 </div>
 <div class="memdoc">
+<p>gestisci_puntata_numero</p>
+<p>Gestisce una puntata di tipo numerico, aumentando il budget del giocatore nel caso in cui sia vincente.</p>
+<dl><dt><b>Parametri:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>estratto</em>&nbsp;</td><td>Numero estratto nella sessione di gioco corrente </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>puntata</em>&nbsp;</td><td>Puntata effettuata dal giocatore </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>player</em>&nbsp;</td><td>Giocatore che ha effettuato la puntata</td></tr>
+  </table>
+  </dd>
+</dl>
 <p>Controlla se una puntata del tipo &lt;N&gt;:&lt;M&gt; è vincente </p>
 <dl><dt><b>Parametri:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
@@ -623,12 +797,86 @@ int&nbsp;</td><td class="memItemRight" valign="bottom"><b>numeroMinimoGiocatori<
       </table>
 </div>
 <div class="memdoc">
+<p>gestisci_puntata_pari</p>
+<p>Gestisce una puntata di tipo pari, aumentando il budget del giocatore nel caso in cui sia vincente.</p>
+<dl><dt><b>Parametri:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>estratto</em>&nbsp;</td><td>Numero estratto nella sessione di gioco corrente </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>puntata</em>&nbsp;</td><td>Puntata effettuata dal giocatore </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>player</em>&nbsp;</td><td>Giocatore che ha effettuato la puntata</td></tr>
+  </table>
+  </dd>
+</dl>
 <p>Controlla se una puntata del tipo P:&lt;N&gt; è vincente </p>
 <dl><dt><b>Parametri:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>estratto</em>&nbsp;</td><td></td></tr>
     <tr><td valign="top"></td><td valign="top"><em>puntata</em>&nbsp;</td><td></td></tr>
     <tr><td valign="top"></td><td valign="top"><em>player</em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a20f952ce9b39d5727a35a96883cf4025"></a><!-- doxytag: member="common_header.h::Listen" ref="a20f952ce9b39d5727a35a96883cf4025" args="(int sockfd, int backlog)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Listen </td>
+          <td>(</td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>sockfd</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>backlog</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Listen</p>
+<p>Wrapper function per la system call listen. Termina il programma se si verifica un errore</p>
+<dl><dt><b>Parametri:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>sockfd</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>addr</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>addrlen</em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a718daa2ee90d164bb8224833535f0b3b"></a><!-- doxytag: member="common_header.h::Malloc" ref="a718daa2ee90d164bb8224833535f0b3b" args="(size_t size)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void* Malloc </td>
+          <td>(</td>
+          <td class="paramtype">size_t&nbsp;</td>
+          <td class="paramname"> <em>size</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Malloc</p>
+<p>Wrapper function per la system call malloc. Termina il programma se si verifica un errore</p>
+<dl><dt><b>Parametri:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>mutex</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>attr</em>&nbsp;</td><td></td></tr>
   </table>
   </dd>
 </dl>
@@ -659,6 +907,7 @@ int&nbsp;</td><td class="memItemRight" valign="bottom"><b>numeroMinimoGiocatori<
       </table>
 </div>
 <div class="memdoc">
+<p>open_socket</p>
 <p>Apre un socket descriptor, gli assegna un nome e si mette in ascolto.</p>
 <dl><dt><b>Parametri:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
@@ -679,7 +928,512 @@ int&nbsp;</td><td class="memItemRight" valign="bottom"><b>numeroMinimoGiocatori<
 
 </div>
 </div>
+<a class="anchor" id="adc14ea283bd09460a3df69982fe20137"></a><!-- doxytag: member="common_header.h::Pthread_cancel" ref="adc14ea283bd09460a3df69982fe20137" args="(pthread_t thread)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Pthread_cancel </td>
+          <td>(</td>
+          <td class="paramtype">pthread_t&nbsp;</td>
+          <td class="paramname"> <em>thread</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Pthread_cancel</p>
+<p>Wrapper function per la system call pthread_cancel. Termina il programma se si verifica un errore</p>
+<dl><dt><b>Parametri:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>thread</em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="af10fa90317ee2a0da3ad38b860f20799"></a><!-- doxytag: member="common_header.h::Pthread_cond_broadcast" ref="af10fa90317ee2a0da3ad38b860f20799" args="(pthread_cond_t *cond)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Pthread_cond_broadcast </td>
+          <td>(</td>
+          <td class="paramtype">pthread_cond_t *&nbsp;</td>
+          <td class="paramname"> <em>cond</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Phtread_cond_broadcast</p>
+<p>Wrapper function per la system call pthread_cond_broadcast. Termina il programma se si verifica un errore</p>
+<dl><dt><b>Parametri:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>cond</em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a63421c6a5b5ade7213fcb04508b8e9c6"></a><!-- doxytag: member="common_header.h::Pthread_cond_init" ref="a63421c6a5b5ade7213fcb04508b8e9c6" args="(pthread_cond_t *cond, const pthread_condattr_t *attr)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Pthread_cond_init </td>
+          <td>(</td>
+          <td class="paramtype">pthread_cond_t *&nbsp;</td>
+          <td class="paramname"> <em>cond</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const pthread_condattr_t *&nbsp;</td>
+          <td class="paramname"> <em>attr</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Pthread_cond_init</p>
+<p>Wrapper function per la system call pthread_cond_init. Termina il programma se si verifica un errore</p>
+<dl><dt><b>Parametri:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>cond</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>attr</em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="ab3dd537c5f2e40656d2dfc37dec48aae"></a><!-- doxytag: member="common_header.h::Pthread_cond_signal" ref="ab3dd537c5f2e40656d2dfc37dec48aae" args="(pthread_cond_t *cond)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Pthread_cond_signal </td>
+          <td>(</td>
+          <td class="paramtype">pthread_cond_t *&nbsp;</td>
+          <td class="paramname"> <em>cond</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Pthread_cond_signal</p>
+<p>Wrapper function per la system call pthread_cond_signal. Termina il programma se si verifica un errore</p>
+<dl><dt><b>Parametri:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>cond</em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a551ea196dee03a3bb6521ee8afe30333"></a><!-- doxytag: member="common_header.h::Pthread_cond_timedwait" ref="a551ea196dee03a3bb6521ee8afe30333" args="(pthread_cond_t *cond, pthread_mutex_t *mutex, const struct timespec *abstime)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int Pthread_cond_timedwait </td>
+          <td>(</td>
+          <td class="paramtype">pthread_cond_t *&nbsp;</td>
+          <td class="paramname"> <em>cond</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">pthread_mutex_t *&nbsp;</td>
+          <td class="paramname"> <em>mutex</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const struct timespec *&nbsp;</td>
+          <td class="paramname"> <em>abstime</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Pthread_cond_timedwait</p>
+<p>Wrapper function per la system call pthread_cond_timedwait. Termina il programma se si verifica un errore</p>
+<dl><dt><b>Parametri:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>cond</em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a4eef22974df3a36ba3b301f9bee20b3a"></a><!-- doxytag: member="common_header.h::Pthread_cond_wait" ref="a4eef22974df3a36ba3b301f9bee20b3a" args="(pthread_cond_t *cond, pthread_mutex_t *mutex)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Pthread_cond_wait </td>
+          <td>(</td>
+          <td class="paramtype">pthread_cond_t *&nbsp;</td>
+          <td class="paramname"> <em>cond</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">pthread_mutex_t *&nbsp;</td>
+          <td class="paramname"> <em>mutex</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Pthread_cond_wait</p>
+<p>Wrapper function per la system call pthread_cond_wait. Termina il programma se si verifica un errore</p>
+<dl><dt><b>Parametri:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>cond</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>mutex</em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a529fdfdc4590dc107e8f9aa5033ea94b"></a><!-- doxytag: member="common_header.h::Pthread_create" ref="a529fdfdc4590dc107e8f9aa5033ea94b" args="(pthread_t *thread, const pthread_attr_t *attr, void *(*start_routine)(void *), void *arg)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Pthread_create </td>
+          <td>(</td>
+          <td class="paramtype">pthread_t *&nbsp;</td>
+          <td class="paramname"> <em>thread</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const pthread_attr_t *&nbsp;</td>
+          <td class="paramname"> <em>attr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void *(*)(void *)&nbsp;</td>
+          <td class="paramname"> <em>start_routine</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void *&nbsp;</td>
+          <td class="paramname"> <em>arg</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Pthread_create</p>
+<p>Wrapper function per la system call pthread_create. Termina il programma se si verifica un errore</p>
+<dl><dt><b>Parametri:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>thread</em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="abcec9791bae09bea24be0a272064f0b2"></a><!-- doxytag: member="common_header.h::Pthread_mutex_init" ref="abcec9791bae09bea24be0a272064f0b2" args="(pthread_mutex_t *mutex, const pthread_mutexattr_t *attr)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Pthread_mutex_init </td>
+          <td>(</td>
+          <td class="paramtype">pthread_mutex_t *&nbsp;</td>
+          <td class="paramname"> <em>mutex</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const pthread_mutexattr_t *&nbsp;</td>
+          <td class="paramname"> <em>attr</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Pthread_mutex_init</p>
+<p>Wrapper function per la system call pthread_mutex_init. Termina il programma se si verifica un errore</p>
+<dl><dt><b>Parametri:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>thread</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>attr</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>start_routine</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>arg</em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="ae069ec16890f7c7c974f5816ff6d1318"></a><!-- doxytag: member="common_header.h::Pthread_mutex_lock" ref="ae069ec16890f7c7c974f5816ff6d1318" args="(pthread_mutex_t *mutex)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Pthread_mutex_lock </td>
+          <td>(</td>
+          <td class="paramtype">pthread_mutex_t *&nbsp;</td>
+          <td class="paramname"> <em>mutex</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Pthread_mutex_lock</p>
+<p>Wrapper function per la system call pthread_mutex_lock. Termina il programma se si verifica un errore</p>
+<dl><dt><b>Parametri:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>mutex</em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a8b68130d907d3f2638c342cafc31cc77"></a><!-- doxytag: member="common_header.h::Pthread_mutex_unlock" ref="a8b68130d907d3f2638c342cafc31cc77" args="(pthread_mutex_t *mutex)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Pthread_mutex_unlock </td>
+          <td>(</td>
+          <td class="paramtype">pthread_mutex_t *&nbsp;</td>
+          <td class="paramname"> <em>mutex</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Pthread_mutex_unlock</p>
+<p>Wrapper function per la system call pthread_mutex_unlock. Termina il programma se si verifica un errore</p>
+<dl><dt><b>Parametri:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>mutex</em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="aa126411f5821a2671133529b6e139560"></a><!-- doxytag: member="common_header.h::Read" ref="aa126411f5821a2671133529b6e139560" args="(int fd, void *buf, size_t count)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ssize_t Read </td>
+          <td>(</td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>fd</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void *&nbsp;</td>
+          <td class="paramname"> <em>buf</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&nbsp;</td>
+          <td class="paramname"> <em>count</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Read</p>
+<p>Wrapper function per la system call read. Termina il programma se si verifica un errore</p>
+<dl><dt><b>Parametri:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>fd</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>buf</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>count</em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Restituisce:</b></dt><dd></dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ab40b825366ecd47b1693784284633633"></a><!-- doxytag: member="common_header.h::Socket" ref="ab40b825366ecd47b1693784284633633" args="(int domain, int type, int protocol)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int Socket </td>
+          <td>(</td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>domain</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>type</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>protocol</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Socket</p>
+<p>Wrapper function per la system call socket. Termina il programma se si verifica un errore</p>
+<dl><dt><b>Parametri:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>domain</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>type</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>protocol</em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Restituisce:</b></dt><dd></dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a9428ea024e46af2e8a00c874c637ad01"></a><!-- doxytag: member="common_header.h::Write" ref="a9428ea024e46af2e8a00c874c637ad01" args="(int fd, const void *buf, size_t count)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ssize_t Write </td>
+          <td>(</td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>fd</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const void *&nbsp;</td>
+          <td class="paramname"> <em>buf</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&nbsp;</td>
+          <td class="paramname"> <em>count</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Write</p>
+<p>Wrapper function per la system call write. Termina il programma se si verifica un errore</p>
+<dl><dt><b>Parametri:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>fd</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>buf</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>count</em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Restituisce:</b></dt><dd></dd></dl>
+
+</div>
+</div>
 <hr/><h2>Documentazione delle variabili</h2>
+<a class="anchor" id="ab346b8f5d31765d422e1aeaf8a8a3efb"></a><!-- doxytag: member="common_header.h::analisiSessionePuntata" ref="ab346b8f5d31765d422e1aeaf8a8a3efb" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structanalisiDiSessionePuntata.html">analisi_puntata_t</a> <a class="el" href="common__header_8h.html#ab346b8f5d31765d422e1aeaf8a8a3efb">analisiSessionePuntata</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>analisiSessionePuntata</p>
+<p>Gestisce l'analisi della sessione di puntate corrente </p>
+
+</div>
+</div>
+<a class="anchor" id="a913cec2268e115e235392c9a230f26dc"></a><!-- doxytag: member="common_header.h::lenMessaggioPuntateAperte" ref="a913cec2268e115e235392c9a230f26dc" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ssize_t <a class="el" href="common__header_8h.html#a913cec2268e115e235392c9a230f26dc">lenMessaggioPuntateAperte</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>lenMessaggioPuntateAperte</p>
+<p>Dimensione del messaggio di puntate aperte </p>
+
+</div>
+</div>
+<a class="anchor" id="a0fa9bf008521409e9f4b07a9ec799d42"></a><!-- doxytag: member="common_header.h::lenMessaggioPuntateChiuse" ref="a0fa9bf008521409e9f4b07a9ec799d42" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ssize_t <a class="el" href="common__header_8h.html#a0fa9bf008521409e9f4b07a9ec799d42">lenMessaggioPuntateChiuse</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>lenMessaggioPuntateChiuse</p>
+<p>Dimensione del messaggio di puntate chiuse </p>
+
+</div>
+</div>
 <a class="anchor" id="af38d3e64aae10f2f4f617376d4fc5411"></a><!-- doxytag: member="common_header.h::messaggioPuntateAperte" ref="af38d3e64aae10f2f4f617376d4fc5411" args="[]" -->
 <div class="memitem">
 <div class="memproto">
@@ -690,7 +1444,69 @@ int&nbsp;</td><td class="memItemRight" valign="bottom"><b>numeroMinimoGiocatori<
       </table>
 </div>
 <div class="memdoc">
+<p>messaggioPuntateAperte</p>
+<p>Messaggio che il thread player invia al client per indicare l'apertura delle puntate</p>
 <p>Costanti </p>
+
+</div>
+</div>
+<a class="anchor" id="aa5b737dbb18ee4c2d17428c361cfda70"></a><!-- doxytag: member="common_header.h::messaggioPuntateChiuse" ref="aa5b737dbb18ee4c2d17428c361cfda70" args="[]" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const char <a class="el" href="common__header_8h.html#aa5b737dbb18ee4c2d17428c361cfda70">messaggioPuntateChiuse</a>[]</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>messaggioPuntateChiuse</p>
+<p>Messaggio che il thread player invia al client per indicare la chiusura delle puntate </p>
+
+</div>
+</div>
+<a class="anchor" id="a4b4098f6de6ae0fb92838070d8e512a8"></a><!-- doxytag: member="common_header.h::numeroMinimoGiocatori" ref="a4b4098f6de6ae0fb92838070d8e512a8" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int <a class="el" href="common__header_8h.html#a4b4098f6de6ae0fb92838070d8e512a8">numeroMinimoGiocatori</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>numeroMinimoGiocatori</p>
+<p>Numero minimo di giocatori connessi che il server attende per iniziare il gioco </p>
+
+</div>
+</div>
+<a class="anchor" id="aa2c81d3ffb928d2241675f5c9b94d1ae"></a><!-- doxytag: member="common_header.h::sessioneGiocoCorrente" ref="aa2c81d3ffb928d2241675f5c9b94d1ae" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structsessioneDiGioco.html">sessione_gioco_t</a> <a class="el" href="common__header_8h.html#aa2c81d3ffb928d2241675f5c9b94d1ae">sessioneGiocoCorrente</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>sessioneGiocoCorrente</p>
+<p>Gestisce la sessione di gioco corrente </p>
+
+</div>
+</div>
+<a class="anchor" id="aa17b72f5e51d1a98d08dcab8243286f0"></a><!-- doxytag: member="common_header.h::sessionePuntateCorrente" ref="aa17b72f5e51d1a98d08dcab8243286f0" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structsessioneDiPuntate.html">sessione_puntate_t</a> <a class="el" href="common__header_8h.html#aa17b72f5e51d1a98d08dcab8243286f0">sessionePuntateCorrente</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>sessionePuntateCorrente</p>
+<p>Gestisce la sessione di puntate corrente </p>
 
 </div>
 </div>
@@ -709,7 +1525,7 @@ int&nbsp;</td><td class="memItemRight" valign="bottom"><b>numeroMinimoGiocatori<
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generato il Fri Feb 11 2011 20:09:01 per Roulette da&nbsp;
+<hr class="footer"/><address class="footer"><small>Generato il Fri Feb 11 2011 21:29:48 per Roulette da&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.1 </small></address>
 </body>

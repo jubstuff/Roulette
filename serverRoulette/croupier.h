@@ -1,13 +1,20 @@
-/* 
- * File:   croupier.h
- * Author: just
+/**
+ * @file   croupier.h
+ * @Author Gruppo 7
+ * @date   Gennaio 2011
+ * @brief  Include la definizione del routine per il thread croupier
  *
- * Created on 1 dicembre 2010, 15.14
  */
 
 #ifndef CROUPIER_H
 #define	CROUPIER_H
-
+/**
+ * croupier
+ *
+ * Routine per il thread croupier
+ * @param arg Argomento del croupier thread. //TODO inserire cosa ci sta
+ * @return
+ */
 void *croupier(void *arg);
 
 #endif	/* CROUPIER_H */
