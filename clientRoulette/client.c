@@ -99,22 +99,19 @@ int main(int argc, char **argv) {
     Write(serverFd, (void *) (&nicknameLen), sizeof (size_t));
         
     /* invio il nickname al server */
-    if (write(serverFd, nickname, sizeof (nickname)) < 0) {
-        perror("Writing nickname on socket");
-        abort();
-    }
+    Write(serverFd, nickname, sizeof (nickname));
 
     while (1) {
         flagFinePuntate = -1;
         /* messaggio che le puntate sono aperte*/
-        read(serverFd, buf, sizeof ("\n=Puntate aperte=\n")); //TODO check error
+        Read(serverFd, buf, sizeof ("\n=Puntate aperte=\n"));
         printf("%s", buf);
 
         /* crea il thread che gestisce l'acquisizione delle puntate*/
-        pthread_create(&tidLettorePuntate, NULL, lettorePuntate, (void *) serverFd); //TODO check error
+        Pthread_create(&tidLettorePuntate, NULL, lettorePuntate, (void *) serverFd);
         //ricevi la segnalazione che le puntate sono chiuse
-        read(serverFd, &flagFinePuntate, sizeof (int));
-        pthread_cancel(tidLettorePuntate);
+        Read(serverFd, &flagFinePuntate, sizeof (int));
+        Pthread_cancel(tidLettorePuntate);
 
         //creazione pipe
 
@@ -127,29 +124,29 @@ int main(int argc, char **argv) {
             exit(1);
         } else if (pid > 0) {
             //padre
-            close(fd[1]);
+            Close(fd[1]);
             //riceve dal figlio tramite fd[0]
             if (flagFinePuntate == 1) {
-                //------------//TODO check errors-----------
+                
                 //buffer più grande
-                read(fd[0], &lenBufRisultato, sizeof (size_t));
-                read(fd[0], bufRisultato, lenBufRisultato);
+                Read(fd[0], &lenBufRisultato, sizeof (size_t));
+                Read(fd[0], bufRisultato, lenBufRisultato);
                 //il padre stampa a video il messaggio di congratulazione
                 printf("%s\n", bufRisultato);
-                //-----------------------
+                
             }
             wait(NULL); //TODO check error
 
         } else {
             //figlio
-            close(fd[0]);
+            Close(fd[0]);
             //manda al padre tramite fd[1]
 
             //(pipe) da qua già nel figlio...
             if (flagFinePuntate == 1) {
                 //ho vinto
                 //leggo numero di perdenti
-                read(serverFd, &numeroPerdenti, sizeof (int));
+                Read(serverFd, &numeroPerdenti, sizeof (int));
 
                 printf("Ho vinto!!\n");
                 printf("Devo aspettarmi %d messaggi di congratulazioni\n", numeroPerdenti);
@@ -157,14 +154,14 @@ int main(int argc, char **argv) {
                 //deve accettare numPerdenti messaggi sul socket
                 while (numeroPerdenti > 0) {
                     //accept
-                    perdenteFd = accept(clientFd, NULL, NULL); //TODO check errors
+                    perdenteFd = Accept(clientFd, NULL, NULL);
                     //read(sul clientFd,"nickname si congratula");
-                    read(perdenteFd, &lenBufCongratulazioni, sizeof (size_t));
-                    read(perdenteFd, bufCongratulazioni, lenBufCongratulazioni);
+                    Read(perdenteFd, &lenBufCongratulazioni, sizeof (size_t));
+                    Read(perdenteFd, bufCongratulazioni, lenBufCongratulazioni);
                     //concatenare in un buffer risultato tutti i messaggi
                     strcat(bufRisultato, bufCongratulazioni);
                     strcat(bufRisultato, "\n");
-                    close(perdenteFd);
+                    Close(perdenteFd);
                     numeroPerdenti--;
                 }
                 //printf("%s\n", bufCongratulazioni);
@@ -172,25 +169,25 @@ int main(int argc, char **argv) {
                 //-----------------------
                 //comunica al padre tramite pipe il messaggio di congratulazione
                 lenBufRisultato = sizeof (bufRisultato);
-                write(fd[1], &lenBufRisultato, sizeof (size_t)); //TODO check error
-                write(fd[1], bufRisultato, sizeof (bufRisultato)); //TODO check error
+                Write(fd[1], &lenBufRisultato, sizeof (size_t));
+                Write(fd[1], bufRisultato, sizeof (bufRisultato));
                 //-----------------------
 
             } else if (flagFinePuntate == 0) {
                 //ho perso
 
                 //deve ricevere numvincitori
-                read(serverFd, &numeroVincitori, sizeof (int));
+                Read(serverFd, &numeroVincitori, sizeof (int));
                 printf("Ho perso!!!\n");
                 printf("Devo mandare %d messaggi di congratulazioni\n", numeroVincitori);
                 while (numeroVincitori > 0) {
                     //legge indirizzo IP e porta di ogni vincitore
-                    read(serverFd, buf, IP_ADDRESS_LENGTH);
-                    read(serverFd, &tempPort, sizeof (in_port_t));
+                    Read(serverFd, buf, IP_ADDRESS_LENGTH);
+                    Read(serverFd, &tempPort, sizeof (in_port_t));
                     printf("%s:%d\n", buf, tempPort);
 
                     //apre socket
-                    vincitoreFd = Socket(AF_INET, SOCK_STREAM, 0); //TODO check error
+                    vincitoreFd = Socket(AF_INET, SOCK_STREAM, 0); 
                     //dati di connessione del vincitore
                     bzero(&vincitoreData, sizeof (vincitoreData));
                     vincitoreData.sin_family = AF_INET;
@@ -198,17 +195,17 @@ int main(int argc, char **argv) {
                     inet_aton(buf, &vincitoreData.sin_addr);
 
 
-                    status = connect(vincitoreFd, (struct sockaddr *) &vincitoreData, sizeof (vincitoreData)); //TODO check error
+                    Connect(vincitoreFd, (struct sockaddr *) &vincitoreData, sizeof (vincitoreData));
                     //scrive sul socket
                     bzero(&bufCongratulazioni[0], sizeof (bufCongratulazioni));
                     strcpy(bufCongratulazioni, nickname);
                     strcat(bufCongratulazioni, " si congratula.");
                     lenBufCongratulazioni = sizeof (bufCongratulazioni);
 
-                    write(vincitoreFd, &lenBufCongratulazioni, sizeof (size_t)); //TODO check error
-                    write(vincitoreFd, bufCongratulazioni, sizeof (bufCongratulazioni)); //TODO check error
+                    Write(vincitoreFd, &lenBufCongratulazioni, sizeof (size_t));
+                    Write(vincitoreFd, bufCongratulazioni, sizeof (bufCongratulazioni));
                     //chiude socket
-                    close(vincitoreFd); //TODO check error
+                    Close(vincitoreFd);
 
 
                     numeroVincitori--;
@@ -227,7 +224,7 @@ int main(int argc, char **argv) {
 
         //qui finisce il figlio della Pipe
     }//while(1)
-    close(serverFd);
+    Close(serverFd);
     pthread_exit(NULL);
 }
 
@@ -239,7 +236,7 @@ void *lettorePuntate(void *arg) {
     int numeroPuntato;
     int serverFd = (int) arg;
 
-    while ((bytesRead = read(STDIN_FILENO, puntata, MAXBUF)) > 0) {
+    while ((bytesRead = Read(STDIN_FILENO, puntata, MAXBUF)) > 0) {
         puntata[bytesRead - 1] = '\0';
         if ((strcmp(puntata, "exit") == 0)) {
             printf("Esco\n");
@@ -252,14 +249,10 @@ void *lettorePuntate(void *arg) {
                 printf("È stato puntato il numero %d\n", numeroPuntato);
             }
 
-            if (write(serverFd, &tipoPuntata, sizeof (int)) < 0) {
-                perror("Writing money on socket");
-                abort();
-            }
-            if (write(serverFd, &sommaPuntata, sizeof (int)) < 0) {
-                perror("Writing money on socket");
-                abort();
-            }
+            Write(serverFd, &tipoPuntata, sizeof (int));
+                
+            Write(serverFd, &sommaPuntata, sizeof (int));
+                
         }
     }
     pthread_exit(NULL);
