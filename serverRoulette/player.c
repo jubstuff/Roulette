@@ -29,6 +29,7 @@ void *player(void *arg) {
         Pthread_cond_wait(&sessionePuntateCorrente.chiuse, &sessionePuntateCorrente.mutex);
     }
     Pthread_mutex_unlock(&sessionePuntateCorrente.mutex);
+    
 
     /*
      * Recupera dati dal client e inserisci un nuovo giocatore nella lista
@@ -44,11 +45,19 @@ void *player(void *arg) {
     datiGiocatore->portaMessaggiCongratulazioni = ntohs(datiGiocatore->portaMessaggiCongratulazioni);
     datiGiocatore->budgetPrecedente = 0;
     datiGiocatore->vincitore = 0;
-    
+
     printf("====Dati Giocatore====\n");
     printf("Nickname: %s\n", datiGiocatore->nickname);
     printf("Budget Iniziale: %d\n", datiGiocatore->budgetAttuale);
     printf("Porta Congratulazioni: %d\n\n", htons(datiGiocatore->portaMessaggiCongratulazioni));
+
+
+    /*
+     * Se le puntate sono chiuse, ma è in atto l'analisi della puntate, non
+     * devo ancora connettermi
+     * TODO controllare che funzioni, altrimenti eliminare
+     */
+
 
     Pthread_mutex_lock(&sessioneGiocoCorrente.mutex);
     queue_put(&sessioneGiocoCorrente.elencoGiocatori, (node *) datiGiocatore);
@@ -71,7 +80,7 @@ void *player(void *arg) {
     argomentoGestorePuntate->clientFd = datiGiocatore->datiConnessioneClient->clientFd;
 
     while (1) {
-	flag = -1;
+        flag = -1; //TODO rimuovere??
         /*
          * Aspetta che il croupier apra le puntate
          */
@@ -144,7 +153,7 @@ void *player(void *arg) {
             Pthread_mutex_lock(&analisiSessionePuntata.mutex);
             Write(datiGiocatore->datiConnessioneClient->clientFd, &analisiSessionePuntata.numeroPerdenti, sizeof (int));
             Pthread_mutex_unlock(&analisiSessionePuntata.mutex);
-        } else if(datiGiocatore->vincitore == 0) {
+        } else if (datiGiocatore->vincitore == 0) {
             //invia 0 per dire che ha perso
             //flag = 0;
             //write(datiGiocatore->datiConnessioneClient->clientFd, &flag, sizeof (int));

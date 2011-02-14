@@ -18,6 +18,8 @@ void *croupier(void *arg) {
     player_t *tempPlayer = NULL;
     puntata_t *puntata = NULL;
     vincitore_t *singoloVincitore = NULL;
+    int partecipantiAllaPuntata = 0;
+    int nonPartecipantiAllaPuntata = 0;
     printf("Preparo il tavolo da gioco.\n");
 
     while (1) {
@@ -29,7 +31,7 @@ void *croupier(void *arg) {
         while (sessioneGiocoCorrente.giocatoriConnessi < numeroMinimoGiocatori) {
             Pthread_cond_wait(&sessioneGiocoCorrente.attesaAlmenoUnGiocatore, &sessioneGiocoCorrente.mutex);
         }
-        sessioneGiocoCorrente.giocatoriChePuntano = sessioneGiocoCorrente.giocatoriConnessi;
+        
         Pthread_mutex_unlock(&sessioneGiocoCorrente.mutex);
 
         intervalloGiocate = calcola_intervallo(intervalloInSecondi);
@@ -52,12 +54,15 @@ void *croupier(void *arg) {
              * Memorizza il numero di giocatori che hanno partecipato all'ultima
              * sessione di puntata e avvisa che le puntate sono chiuse
              */
-            //Pthread_mutex_lock(&sessioneGiocoCorrente.mutex);
+            Pthread_mutex_lock(&sessioneGiocoCorrente.mutex);
             //TODO attenzione qui: il numero dei giocatori che puntano è uguale
             //al numero dei giocatori connessi **all'inizio** della puntata, non
             //in generale!!!
-            //sessioneGiocoCorrente.giocatoriChePuntano = sessioneGiocoCorrente.giocatoriConnessi;
-            //Pthread_mutex_unlock(&sessioneGiocoCorrente.mutex);
+            sessioneGiocoCorrente.giocatoriChePuntano = sessioneGiocoCorrente.giocatoriConnessi;
+            //questo è per il controllo interno del croupier sui giocatori
+            //che si sono connessi dopo l'inizio della puntata corrente
+            partecipantiAllaPuntata = sessioneGiocoCorrente.giocatoriConnessi;
+            Pthread_mutex_unlock(&sessioneGiocoCorrente.mutex);
             
             //=============AGGIUNTO PER PROVA===================================
             Pthread_mutex_lock(&analisiSessionePuntata.mutex);
@@ -152,6 +157,11 @@ void *croupier(void *arg) {
             }
 
             tempPlayer = (player_t *) tempPlayer->next;
+        }
+        
+        if(sessioneGiocoCorrente.giocatoriConnessi > partecipantiAllaPuntata) {
+            nonPartecipantiAllaPuntata = sessioneGiocoCorrente.giocatoriConnessi - partecipantiAllaPuntata;
+            contPerdenti = contPerdenti - (nonPartecipantiAllaPuntata);
         }
         Pthread_mutex_unlock(&sessioneGiocoCorrente.mutex);
 
