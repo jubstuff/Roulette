@@ -1,0 +1,89 @@
+\hypertarget{client__header_8c}{
+\section{Riferimenti per il file clientRoulette/client\_\-header.c}
+\label{client__header_8c}\index{clientRoulette/client\_\-header.c@{clientRoulette/client\_\-header.c}}
+}
+
+
+Include tutte le definizioni per il client della Roulette.  
+
+
+{\ttfamily \#include \char`\"{}client\_\-header.h\char`\"{}}\par
+{\ttfamily \#include $<$stdio.h$>$}\par
+{\ttfamily \#include $<$ctype.h$>$}\par
+\subsection*{Definizioni}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{client__header_8c_adcb807d07c827e1dedb724c173448a1d}{
+\#define {\bfseries ENUMRANGE}~-\/1}
+\label{client__header_8c_adcb807d07c827e1dedb724c173448a1d}
+
+\item 
+\hypertarget{client__header_8c_a47d70c94869921b38ce33b0943dc6332}{
+\#define {\bfseries ECHARINV}~-\/2}
+\label{client__header_8c_a47d70c94869921b38ce33b0943dc6332}
+
+\item 
+\hypertarget{client__header_8c_aedbf20597fbc56fa9c9847882a26ebae}{
+\#define {\bfseries EBADSYNTAX}~-\/3}
+\label{client__header_8c_aedbf20597fbc56fa9c9847882a26ebae}
+
+\item 
+\hypertarget{client__header_8c_a5d53239c66d66243dbed7671c6f9e708}{
+\#define {\bfseries NO\_\-NUMBER}~-\/4}
+\label{client__header_8c_a5d53239c66d66243dbed7671c6f9e708}
+
+\end{DoxyCompactItemize}
+\subsection*{Funzioni}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{client__header_8c_ad34fbc512102348b43cef9fad9fa4d68}{parse\_\-bet} (char $\ast$puntataStr, int $\ast$sommaPuntata, int $\ast$tipoPuntata, int $\ast$numeroPuntato)
+\item 
+char $\ast$ \hyperlink{client__header_8c_a3978dc9b388b3ccbabd77843aa74e9eb}{tipoPuntataTestuale} (int tipo)
+\end{DoxyCompactItemize}
+
+
+\subsection{Descrizione dettagliata}
+Include tutte le definizioni per il client della Roulette. Gruppo 7 \begin{DoxyDate}{Data}
+Gennaio 2011 
+\end{DoxyDate}
+
+
+\subsection{Documentazione delle funzioni}
+\hypertarget{client__header_8c_ad34fbc512102348b43cef9fad9fa4d68}{
+\index{client\_\-header.c@{client\_\-header.c}!parse\_\-bet@{parse\_\-bet}}
+\index{parse\_\-bet@{parse\_\-bet}!client_header.c@{client\_\-header.c}}
+\subsubsection[{parse\_\-bet}]{\setlength{\rightskip}{0pt plus 5cm}int parse\_\-bet (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{ puntataStr, }
+\item[{int $\ast$}]{ sommaPuntata, }
+\item[{int $\ast$}]{ tipoPuntata, }
+\item[{int $\ast$}]{ numeroPuntato}
+\end{DoxyParamCaption}
+)}}
+\label{client__header_8c_ad34fbc512102348b43cef9fad9fa4d68}
+parse\_\-bet
+
+Analizza una puntata. Riconosce se è stata fatta una puntata di tipo Pari/Dispari oppure su un numero \hypertarget{client__header_8c_a3978dc9b388b3ccbabd77843aa74e9eb}{
+\index{client\_\-header.c@{client\_\-header.c}!tipoPuntataTestuale@{tipoPuntataTestuale}}
+\index{tipoPuntataTestuale@{tipoPuntataTestuale}!client_header.c@{client\_\-header.c}}
+\subsubsection[{tipoPuntataTestuale}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ tipoPuntataTestuale (
+\begin{DoxyParamCaption}
+\item[{int}]{ tipo}
+\end{DoxyParamCaption}
+)}}
+\label{client__header_8c_a3978dc9b388b3ccbabd77843aa74e9eb}
+tipoPuntataTestuale
+
+Restituisce la stringa relativa al tipo di puntata
+
+
+\begin{DoxyParams}{Parametri}
+\item[{\em tipo}]Può assumere i valori:
+\begin{DoxyItemize}
+\item -\/1 -\/$>$ Dispari
+\item -\/2 -\/$>$ Pari
+\item $>$=0 $<$=36 -\/$>$ Numerico 
+\end{DoxyItemize}\end{DoxyParams}
+\begin{DoxyReturn}{Restituisce}
+La stringa corrispondente al tipo di puntata 
+\end{DoxyReturn}

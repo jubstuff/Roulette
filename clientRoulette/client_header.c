@@ -1,11 +1,13 @@
+/**
+ * @file   client_header.c
+ * @Author Gruppo 7
+ * @date   Gennaio 2011
+ * @brief  Include tutte le definizioni per il client della Roulette
+ *
+ */
 #include "client_header.h"
 #include <stdio.h>
 #include <ctype.h>
-
-#define ENUMRANGE -1
-#define ECHARINV -2
-#define EBADSYNTAX -3
-#define NO_NUMBER -4
 
 /**
  * parse_bet

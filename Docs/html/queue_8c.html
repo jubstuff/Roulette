@@ -1,0 +1,179 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>Roulette: Riferimenti per il file serverRoulette/queue.c</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javaScript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body onload='searchBox.OnSelectItem(0);'>
+<!-- Generato da Doxygen 1.7.1 -->
+<script type="text/javascript"><!--
+var searchBox = new SearchBox("searchBox", "search",false,'Cerca');
+--></script>
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul class="tablist">
+      <li><a href="index.html"><span>Pagina&nbsp;Principale</span></a></li>
+      <li><a href="annotated.html"><span>Strutture&nbsp;dati</span></a></li>
+      <li class="current"><a href="files.html"><span>File</span></a></li>
+      <li id="searchli">
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="Cerca" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div class="tabs2">
+    <ul class="tablist">
+      <li><a href="files.html"><span>Elenco&nbsp;dei&nbsp;file</span></a></li>
+      <li><a href="globals.html"><span>Elementi&nbsp;globali</span></a></li>
+    </ul>
+  </div>
+</div>
+<div class="header">
+  <div class="summary">
+<a href="#func-members">Funzioni</a>  </div>
+  <div class="headertitle">
+<h1>Riferimenti per il file serverRoulette/queue.c</h1>  </div>
+</div>
+<div class="contents">
+
+<p>Include la definizione della struttura dati queue.  
+<a href="#_details">Continua...</a></p>
+<code>#include &lt;stdio.h&gt;</code><br/>
+<code>#include &quot;<a class="el" href="queue_8h_source.html">queue.h</a>&quot;</code><br/>
+<table class="memberdecls">
+<tr><td colspan="2"><h2><a name="func-members"></a>
+Funzioni</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="queue_8c.html#aca8dec1547e4309337e3a8aa90711d7b">queue_init</a> (<a class="el" href="structqueue.html">queue</a> *myroot)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="queue_8c.html#a963114e8540b1790eeba813066b4ddf6">queue_put</a> (<a class="el" href="structqueue.html">queue</a> *myroot, <a class="el" href="structnode__tag.html">node</a> *mynode)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="structnode__tag.html">node</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="queue_8c.html#aaeb93fdc18868cbb811248f0f58e5f29">queue_get</a> (<a class="el" href="structqueue.html">queue</a> *myroot)</td></tr>
+</table>
+<hr/><a name="_details"></a><h2>Descrizione dettagliata</h2>
+<p>Include la definizione della struttura dati queue. </p>
+<p>Gruppo 7 </p>
+<dl class="date"><dt><b>Data:</b></dt><dd>Gennaio 2011 </dd></dl>
+<hr/><h2>Documentazione delle funzioni</h2>
+<a class="anchor" id="aaeb93fdc18868cbb811248f0f58e5f29"></a><!-- doxytag: member="queue.c::queue_get" ref="aaeb93fdc18868cbb811248f0f58e5f29" args="(queue *myroot)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structnode__tag.html">node</a>* queue_get </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structqueue.html">queue</a> *&nbsp;</td>
+          <td class="paramname"> <em>myroot</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>queue_get</p>
+<p>Rimuove un nodo dalla coda </p>
+<dl><dt><b>Parametri:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>myroot</em>&nbsp;</td><td>Coda da cui rimuovere il nodo </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Restituisce:</b></dt><dd>Puntatore al nodo rimosso </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="aca8dec1547e4309337e3a8aa90711d7b"></a><!-- doxytag: member="queue.c::queue_init" ref="aca8dec1547e4309337e3a8aa90711d7b" args="(queue *myroot)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void queue_init </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structqueue.html">queue</a> *&nbsp;</td>
+          <td class="paramname"> <em>myroot</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>queue_init</p>
+<p>Inizializza testa e coda a NULL</p>
+<dl><dt><b>Parametri:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>myroot</em>&nbsp;</td><td>queue da inizializzare </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a963114e8540b1790eeba813066b4ddf6"></a><!-- doxytag: member="queue.c::queue_put" ref="a963114e8540b1790eeba813066b4ddf6" args="(queue *myroot, node *mynode)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void queue_put </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structqueue.html">queue</a> *&nbsp;</td>
+          <td class="paramname"> <em>myroot</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structnode__tag.html">node</a> *&nbsp;</td>
+          <td class="paramname"> <em>mynode</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>queue_put</p>
+<p>Inserisce un nodo nella coda</p>
+<dl><dt><b>Parametri:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>myroot</em>&nbsp;</td><td>Coda a cui aggiungere il nodo </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>mynode</em>&nbsp;</td><td>Nodo da aggiungere </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+</div>
+<!--- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&nbsp;</span>Tutto</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&nbsp;</span>Strutture dati</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&nbsp;</span>File</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&nbsp;</span>Funzioni</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&nbsp;</span>Variabili</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&nbsp;</span>Ridefinizioni di tipo (typedef)</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&nbsp;</span>Definizioni</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<hr class="footer"/><address class="footer"><small>Generato il Mon Feb 14 2011 11:36:19 per Roulette da&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.1 </small></address>
+</body>
+</html>

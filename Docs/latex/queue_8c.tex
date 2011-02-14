@@ -1,0 +1,79 @@
+\hypertarget{queue_8c}{
+\section{Riferimenti per il file serverRoulette/queue.c}
+\label{queue_8c}\index{serverRoulette/queue.c@{serverRoulette/queue.c}}
+}
+
+
+Include la definizione della struttura dati queue.  
+
+
+{\ttfamily \#include $<$stdio.h$>$}\par
+{\ttfamily \#include \char`\"{}queue.h\char`\"{}}\par
+\subsection*{Funzioni}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{queue_8c_aca8dec1547e4309337e3a8aa90711d7b}{queue\_\-init} (\hyperlink{structqueue}{queue} $\ast$myroot)
+\item 
+void \hyperlink{queue_8c_a963114e8540b1790eeba813066b4ddf6}{queue\_\-put} (\hyperlink{structqueue}{queue} $\ast$myroot, \hyperlink{structnode__tag}{node} $\ast$mynode)
+\item 
+\hyperlink{structnode__tag}{node} $\ast$ \hyperlink{queue_8c_aaeb93fdc18868cbb811248f0f58e5f29}{queue\_\-get} (\hyperlink{structqueue}{queue} $\ast$myroot)
+\end{DoxyCompactItemize}
+
+
+\subsection{Descrizione dettagliata}
+Include la definizione della struttura dati queue. Gruppo 7 \begin{DoxyDate}{Data}
+Gennaio 2011 
+\end{DoxyDate}
+
+
+\subsection{Documentazione delle funzioni}
+\hypertarget{queue_8c_aaeb93fdc18868cbb811248f0f58e5f29}{
+\index{queue.c@{queue.c}!queue\_\-get@{queue\_\-get}}
+\index{queue\_\-get@{queue\_\-get}!queue.c@{queue.c}}
+\subsubsection[{queue\_\-get}]{\setlength{\rightskip}{0pt plus 5cm}{\bf node}$\ast$ queue\_\-get (
+\begin{DoxyParamCaption}
+\item[{{\bf queue} $\ast$}]{ myroot}
+\end{DoxyParamCaption}
+)}}
+\label{queue_8c_aaeb93fdc18868cbb811248f0f58e5f29}
+queue\_\-get
+
+Rimuove un nodo dalla coda 
+\begin{DoxyParams}{Parametri}
+\item[{\em myroot}]Coda da cui rimuovere il nodo \end{DoxyParams}
+\begin{DoxyReturn}{Restituisce}
+Puntatore al nodo rimosso 
+\end{DoxyReturn}
+\hypertarget{queue_8c_aca8dec1547e4309337e3a8aa90711d7b}{
+\index{queue.c@{queue.c}!queue\_\-init@{queue\_\-init}}
+\index{queue\_\-init@{queue\_\-init}!queue.c@{queue.c}}
+\subsubsection[{queue\_\-init}]{\setlength{\rightskip}{0pt plus 5cm}void queue\_\-init (
+\begin{DoxyParamCaption}
+\item[{{\bf queue} $\ast$}]{ myroot}
+\end{DoxyParamCaption}
+)}}
+\label{queue_8c_aca8dec1547e4309337e3a8aa90711d7b}
+queue\_\-init
+
+Inizializza testa e coda a NULL
+
+
+\begin{DoxyParams}{Parametri}
+\item[{\em myroot}]queue da inizializzare \end{DoxyParams}
+\hypertarget{queue_8c_a963114e8540b1790eeba813066b4ddf6}{
+\index{queue.c@{queue.c}!queue\_\-put@{queue\_\-put}}
+\index{queue\_\-put@{queue\_\-put}!queue.c@{queue.c}}
+\subsubsection[{queue\_\-put}]{\setlength{\rightskip}{0pt plus 5cm}void queue\_\-put (
+\begin{DoxyParamCaption}
+\item[{{\bf queue} $\ast$}]{ myroot, }
+\item[{{\bf node} $\ast$}]{ mynode}
+\end{DoxyParamCaption}
+)}}
+\label{queue_8c_a963114e8540b1790eeba813066b4ddf6}
+queue\_\-put
+
+Inserisce un nodo nella coda
+
+
+\begin{DoxyParams}{Parametri}
+\item[{\em myroot}]Coda a cui aggiungere il nodo \item[{\em mynode}]Nodo da aggiungere \end{DoxyParams}

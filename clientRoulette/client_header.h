@@ -9,6 +9,11 @@
 #ifndef CLIENT_HEADER_H
 #define	CLIENT_HEADER_H
 
+#define ENUMRANGE -1
+#define ECHARINV -2
+#define EBADSYNTAX -3
+#define NO_NUMBER -4
+
 /**
  * 
  * @param arg

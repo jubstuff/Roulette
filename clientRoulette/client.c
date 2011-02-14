@@ -2,7 +2,7 @@
  * @file   client.c
  * @Author Gruppo 7
  * @date   Gennaio 2011
- * @brief  Main function per il server della Roulette e lettore puntate
+ * @brief  Main function per il client della Roulette e lettore puntate
  *
  */
 

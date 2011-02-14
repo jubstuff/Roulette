@@ -1,8 +1,13 @@
+/**
+ * @file   queue.c
+ * @Author Gruppo 7
+ * @date   Gennaio 2011
+ * @brief  Include la definizione della struttura dati queue
+ *
+ */
 #include <stdio.h>
 #include "queue.h"
-/**
- * Queue init
- */
+
 void queue_init(queue *myroot) {
 	myroot->head = NULL;
 	myroot->tail = NULL;

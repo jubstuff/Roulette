@@ -1,4 +1,12 @@
 /**
+ * @file   common_header.h
+ * @Author Gruppo 7
+ * @date   Gennaio 2011
+ * @brief  Include tutte le definizioni comuni al progetto
+ *
+ */
+
+/**
  * @mainpage Roulette
  *
  * @authors Giustino Borzacchiello, Antonio Cifariello, Francesco Paolo Cimmino
@@ -8,13 +16,7 @@
  * Questa è la pagina iniziale del progetto Roulette
  */
 
-/**
- * @file   common_header.h
- * @Author Gruppo 7
- * @date   Gennaio 2011
- * @brief  Include tutte le definizioni comuni al progetto
- *
- */
+
 
 #ifndef _COMMON_HEADER_H
 #define _COMMON_HEADER_H

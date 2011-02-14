@@ -2,7 +2,7 @@
  * @file   croupier.c
  * @Author Gruppo 7
  * @date   Gennaio 2011
- * @brief  Procedure per il thread croupier
+ * @brief  Procedura per il thread croupier
  *
  */
 #include "../common/common_header.h"
