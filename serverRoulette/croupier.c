@@ -52,6 +52,9 @@ void *croupier(void *arg) {
              * sessione di puntata e avvisa che le puntate sono chiuse
              */
             Pthread_mutex_lock(&sessioneGiocoCorrente.mutex);
+            //TODO attenzione qui: il numero dei giocatori che puntano è uguale
+            //al numero dei giocatori connessi **all'inizio** della puntata, non
+            //in generale!!!
             sessioneGiocoCorrente.giocatoriChePuntano = sessioneGiocoCorrente.giocatoriConnessi;
             Pthread_mutex_unlock(&sessioneGiocoCorrente.mutex);
             

@@ -70,7 +70,7 @@ int main(int argc, char **argv) {
 
 
     status = getsockname(clientFd, (struct sockaddr *) &clientData, &clientAddrlen);
-    printf("Porta assegnata: %d", ntohs(clientData.sin_port));
+    printf("Porta assegnata: %d\n", ntohs(clientData.sin_port));
 
     /*
      * Creazione socket e connessione al server
@@ -150,7 +150,7 @@ int main(int argc, char **argv) {
                 //leggo numero di perdenti
                 Read(serverFd, &numeroPerdenti, sizeof (int));
 
-                printf("Ho vinto!!\n");
+                printf("\nHo vinto!!\n");
                 printf("Devo aspettarmi %d messaggi di congratulazioni\n", numeroPerdenti);
 
                 //deve accettare numPerdenti messaggi sul socket
@@ -183,7 +183,7 @@ int main(int argc, char **argv) {
 
                 //deve ricevere numvincitori
                 Read(serverFd, &numeroVincitori, sizeof (int));
-                printf("Ho perso!!!\n");
+                printf("\nHo perso!!!\n");
                 printf("Devo mandare %d messaggi di congratulazioni\n", numeroVincitori);
                 while (numeroVincitori > 0) {
                     //legge indirizzo IP e porta di ogni vincitore
