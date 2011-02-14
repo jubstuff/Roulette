@@ -150,13 +150,8 @@ void *croupier(void *arg) {
                 queue_put(&analisiSessionePuntata.elencoVincitori,
                     (node *) singoloVincitore);
                 Pthread_mutex_unlock(&analisiSessionePuntata.mutex);
-            } else if (tempPlayer->budgetAttuale == 0) {
-                //TODO
-                //stacca il nodo dalla lista
-                //manda un messaggio
-                //disconnetti
-                //pulisci la memoria
-                tempPlayer->vincitore = 0;
+            } else if (tempPlayer->budgetAttuale <= 0) {
+                tempPlayer->vincitore = 2;
                 contPerdenti++;
             } else {
             	tempPlayer->vincitore = 0;

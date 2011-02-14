@@ -146,14 +146,14 @@ void *player(void *arg) {
             //invia 1 per dire che ha vinto
             //flag = 1;
             //write(datiGiocatore->datiConnessioneClient->clientFd, &flag, sizeof (int)); //TODO check error
-            printf("\n[Player] Sto inviando il flag 1 al client\n");
+           
             Write(datiGiocatore->datiConnessioneClient->clientFd, &(datiGiocatore->vincitore), sizeof (int));
             //invia il numero di perdenti al client
 
             Pthread_mutex_lock(&analisiSessionePuntata.mutex);
             Write(datiGiocatore->datiConnessioneClient->clientFd, &analisiSessionePuntata.numeroPerdenti, sizeof (int));
             Pthread_mutex_unlock(&analisiSessionePuntata.mutex);
-        } else if (datiGiocatore->vincitore == 0) {
+        } else if (datiGiocatore->vincitore == 0 || datiGiocatore->vincitore == 2) {
             //invia 0 per dire che ha perso
             //flag = 0;
             //write(datiGiocatore->datiConnessioneClient->clientFd, &flag, sizeof (int));
@@ -179,8 +179,23 @@ void *player(void *arg) {
             }
             Pthread_mutex_unlock(&analisiSessionePuntata.mutex);
         }
-        Pthread_mutex_unlock(&sessioneGiocoCorrente.mutex);
 
+
+        if (datiGiocatore->vincitore == 2) {
+            //se ho perso tutti i soldi, eliminarmi dal gioco
+            //TODO
+            //stacca il nodo dalla lista
+            //disconnetti
+            //pulisci la memoria
+            //TODO controllare se funziona altrimenti eliminare
+            printf("[Player] Ho perso\n");
+            sessioneGiocoCorrente.giocatoriConnessi--;
+            queue_remove(&(sessioneGiocoCorrente.elencoGiocatori), (node *)datiGiocatore);
+            Pthread_mutex_unlock(&sessioneGiocoCorrente.mutex);
+            break;
+        }
+
+        Pthread_mutex_unlock(&sessioneGiocoCorrente.mutex);
     }
     free(datiGiocatore);
     free(argomentoGestorePuntate);

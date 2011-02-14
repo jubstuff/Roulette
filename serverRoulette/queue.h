@@ -18,7 +18,7 @@
  * @param next Puntatore al nodo successivo
  */
 typedef struct node_tag {
-    struct node *next;
+    struct node_tag *next;
 } node;
 
 /**
@@ -63,6 +63,7 @@ void queue_put(queue *myroot, node *mynode);
  */
 node *queue_get(queue *myroot);
 
+void queue_remove(queue *myroot, node *mynode);
 
 #endif	/* QUEUE_H */
 

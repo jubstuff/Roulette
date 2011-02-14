@@ -136,7 +136,7 @@ int main(int argc, char **argv) {
             Close(fd[1]);
             //riceve dal figlio tramite fd[0]
             if (flagFinePuntate == 1) {
-
+                //se ho vinto, ricevo i messaggi di congratulazioni
                 //buffer più grande
                 Read(fd[0], &lenBufRisultato, sizeof (size_t));
                 Read(fd[0], bufRisultato, lenBufRisultato);
@@ -186,7 +186,7 @@ int main(int argc, char **argv) {
                 bzero(&bufRisultato[0], sizeof (bufRisultato));
                 //-----------------------
 
-            } else if (flagFinePuntate == 0) {
+            } else if (flagFinePuntate == 0 || flagFinePuntate == 2) {
                 //ho perso
 
                 //deve ricevere numvincitori
@@ -225,7 +225,16 @@ int main(int argc, char **argv) {
                 }
                 //deve leggere tutti gli ip e le porte dei vincitori
                 //deve inviare numVincitori messaggi sui socket
-            } else {
+            }
+/*
+            else if(flagFinePuntate == 2) {
+                //ho finito i soldi
+                strcpy(bufRisultato, "Hai Perso\n");
+                Write(fd[1], &lenBufRisultato, sizeof (size_t));
+                Write(fd[1], bufRisultato, sizeof (bufRisultato));
+            }
+*/
+            else {
                 //non dovrebbe mai arrivare qui, nel caso, termina
                 abort();
             }
@@ -234,8 +243,9 @@ int main(int argc, char **argv) {
             exit(1);
         }//fine figlio
         //fine pipe
-
-        //qui finisce il figlio della Pipe
+        if(flagFinePuntate == 2){
+            break;
+        }
     }//while(1)
     Close(serverFd);
     pthread_exit(NULL);
