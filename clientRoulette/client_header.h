@@ -14,6 +14,8 @@
 #define EBADSYNTAX -3
 #define NO_NUMBER -4
 
+#define LIMITE_BUDGET 1000
+
 /**
  * 
  * @param arg

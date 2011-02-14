@@ -48,17 +48,21 @@ int main(int argc, char **argv) {
 
     /* indirizzo del server */
     strcpy(serverAddress, argv[1]);
-    printf("Indirizzo server: %s\n", serverAddress);
     /* porta del server */
     serverPort = atoi(argv[2]);
-    printf("Porta server: %d\n", serverPort);
     /* nickname utente */
     strcpy(nickname, argv[3]);
-    printf("Nickname: %s\n", nickname);
     /* somma di denaro allocata */
     budget = atoi(argv[4]);
-    printf("Denaro: %d\n", budget);
 
+    if(budget > LIMITE_BUDGET) {
+        err_abort(0, "Limite budget superato. Imposta un budget minore");
+    }
+
+    printf("Indirizzo server: %s\n", serverAddress);
+    printf("Porta server: %d\n", serverPort);
+    printf("Nickname: %s\n", nickname);
+    printf("Denaro: %d\n", budget);
     //TODO Controllo errori più forte
 
     /*
@@ -115,8 +119,11 @@ int main(int argc, char **argv) {
         Read(serverFd, &flagFinePuntate, sizeof (int));
         Pthread_cancel(tidLettorePuntate);
 
-        //creazione pipe
+        //azzero le stringhe
+        bzero(&bufRisultato[0], sizeof (bufRisultato));
+        bzero(&bufCongratulazioni[0], sizeof (bufCongratulazioni));
 
+        //creazione pipe
         if (pipe(fd) < 0) {
             perror("pipe");
             exit(1);
@@ -134,7 +141,7 @@ int main(int argc, char **argv) {
                 Read(fd[0], &lenBufRisultato, sizeof (size_t));
                 Read(fd[0], bufRisultato, lenBufRisultato);
                 //il padre stampa a video il messaggio di congratulazione
-                printf("%s\n", bufRisultato);
+                printf("%s", bufRisultato);
 
             }
             wait(NULL); //TODO check error
@@ -171,6 +178,7 @@ int main(int argc, char **argv) {
                 //non stampa più bufCongratulazioni ma lo manda al padre che lo stamperà
                 //-----------------------
                 //comunica al padre tramite pipe il messaggio di congratulazione
+                strcat(bufRisultato, "\0");
                 lenBufRisultato = sizeof (bufRisultato);
                 Write(fd[1], &lenBufRisultato, sizeof (size_t));
                 Write(fd[1], bufRisultato, sizeof (bufRisultato));

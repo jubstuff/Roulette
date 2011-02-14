@@ -12,8 +12,10 @@
  */
 const char messaggioPuntateAperte[] = "\n=Puntate aperte=\n";
 ssize_t lenMessaggioPuntateAperte = sizeof (messaggioPuntateAperte);
+/*
 const char messaggioPuntateChiuse[] = "\n=Puntate chiuse=\n";
 ssize_t lenMessaggioPuntateChiuse = sizeof (messaggioPuntateChiuse);
+*/
 
 int numeroMinimoGiocatori = 2;
 
@@ -27,7 +29,7 @@ int numeroMinimoGiocatori = 2;
  */
 
 void err_abort(int code, char *text) {
-    fprintf(stderr, "%s at %s:%d: %s\n", text, __FILE__, __LINE__, strerror(code));
+    fprintf(stderr, "%s => %s:%d: %s\n", text, __FILE__, __LINE__, strerror(code));
     abort();
 }
 
