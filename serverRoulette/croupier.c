@@ -115,6 +115,10 @@ void *croupier(void *arg) {
                  * Decrementa il budget della somma puntata. Il controllo della
                  * validità della puntata viene fatto nel client
                  */
+                if(puntata->sommaPuntata > tempPlayer->budgetAttuale){
+                    puntata->sommaPuntata = tempPlayer->budgetAttuale;
+                }
+                
                 tempPlayer->budgetAttuale =
                     tempPlayer->budgetAttuale - (puntata->sommaPuntata);
                 //gestione della puntata in base al suo tipo.

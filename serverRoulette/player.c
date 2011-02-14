@@ -214,7 +214,8 @@ void *gestorePuntateGiocatore(void *arg) {
 
     bzero(stringaPuntata, sizeof (stringaPuntata));
     while (1) {
-        /* riceve una stringa dal client del tipo "int tipo:int somma" dove:
+        /*
+         * riceve una stringa dal client del tipo "int tipo:int somma" dove:
          * tipo == -1 significa puntata sui dispari
          * tipo == -2 significa puntata sui pari
          * tipo >= 0 rappresenta il numero puntato

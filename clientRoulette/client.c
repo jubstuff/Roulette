@@ -247,7 +247,9 @@ int main(int argc, char **argv) {
             break;
         }
     }//while(1)
+    //chiudo i socket 
     Close(serverFd);
+    Close(clientFd);
     pthread_exit(NULL);
 }
 
