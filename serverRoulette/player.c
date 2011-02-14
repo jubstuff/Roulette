@@ -1,3 +1,10 @@
+/**
+ * @file   player.c
+ * @Author Gruppo 7
+ * @date   Gennaio 2011
+ * @brief  Procedure per il thread player e il gestore delle puntate
+ *
+ */
 #include "../common/common_header.h"
 #include "player.h"
 
@@ -10,7 +17,6 @@ void *player(void *arg) {
     pthread_t tidGestorePuntateGiocatore;
     queue listaPuntatePrivata;
     argomento_gestore_puntate_t *argomentoGestorePuntate;
-    ssize_t bytesRead;
     size_t nicknameLen;
     int flag = -1; //avvisa il client che le puntate sono chiuse
     int numeroVincitori;
@@ -30,16 +36,15 @@ void *player(void *arg) {
     datiGiocatore = (player_t *) Malloc(sizeof (player_t));
 
     datiGiocatore->datiConnessioneClient = (client_t *) arg;
-    //TODO Ma ci serve bytesRead?
-    bytesRead = Read(datiGiocatore->datiConnessioneClient->clientFd, &datiGiocatore->portaMessaggiCongratulazioni, sizeof (in_port_t));
-    bytesRead = Read(datiGiocatore->datiConnessioneClient->clientFd, &datiGiocatore->budgetAttuale, sizeof (int));
-    bytesRead = Read(datiGiocatore->datiConnessioneClient->clientFd, &nicknameLen, sizeof (size_t));
-    bytesRead = Read(datiGiocatore->datiConnessioneClient->clientFd, datiGiocatore->nickname, nicknameLen);
+    Read(datiGiocatore->datiConnessioneClient->clientFd, &datiGiocatore->portaMessaggiCongratulazioni, sizeof (in_port_t));
+    Read(datiGiocatore->datiConnessioneClient->clientFd, &datiGiocatore->budgetAttuale, sizeof (int));
+    Read(datiGiocatore->datiConnessioneClient->clientFd, &nicknameLen, sizeof (size_t));
+    Read(datiGiocatore->datiConnessioneClient->clientFd, datiGiocatore->nickname, nicknameLen);
 
     datiGiocatore->portaMessaggiCongratulazioni = ntohs(datiGiocatore->portaMessaggiCongratulazioni);
     datiGiocatore->budgetPrecedente = 0;
     datiGiocatore->vincitore = 0;
-    //TODO spostare queste stampe fuori dal lock?
+    
     printf("====Dati Giocatore====\n");
     printf("Nickname: %s\n", datiGiocatore->nickname);
     printf("Budget Iniziale: %d\n", datiGiocatore->budgetAttuale);
@@ -90,6 +95,7 @@ void *player(void *arg) {
         Pthread_mutex_unlock(&sessionePuntateCorrente.mutex);
 
         Pthread_cancel(tidGestorePuntateGiocatore);
+
 
         /*
          * collegare pacchetto di puntate alla lista del giocatore
@@ -174,7 +180,6 @@ void *player(void *arg) {
 
 void *gestorePuntateGiocatore(void *arg) {
     argomento_gestore_puntate_t *argomento = (argomento_gestore_puntate_t *) arg;
-    ssize_t bytes_read;
     char stringaPuntata[10];
     puntata_t *singolaPuntata;
     int tipoPuntata;
@@ -191,9 +196,8 @@ void *gestorePuntateGiocatore(void *arg) {
          * tipo >= 0 rappresenta il numero puntato
          * somma rappresenta la somma puntata
          */
-        //TODO ci serve bytes_read?
-        bytes_read = Read(argomento->clientFd, &tipoPuntata, sizeof (int));
-        bytes_read = Read(argomento->clientFd, &sommaPuntata, sizeof (int));
+        Read(argomento->clientFd, &tipoPuntata, sizeof (int));
+        Read(argomento->clientFd, &sommaPuntata, sizeof (int));
 
         singolaPuntata = (puntata_t *) Malloc(sizeof (puntata_t));
         singolaPuntata->next = NULL;
@@ -201,12 +205,11 @@ void *gestorePuntateGiocatore(void *arg) {
         singolaPuntata->sommaPuntata = sommaPuntata;
         singolaPuntata->numeroPuntato = tipoPuntata;
         /*
-			
-                        printf("Il tipo puntata è %d\n", singolaPuntata->tipoPuntata);
-                        printf("La somma puntata è %d\n", singolaPuntata->sommaPuntata);
-                        if(singolaPuntata->numeroPuntato >= 0) {
-                                printf("Il numero puntato è %d\n", singolaPuntata->numeroPuntato);
-                        }
+        printf("Il tipo puntata è %d\n", singolaPuntata->tipoPuntata);
+        printf("La somma puntata è %d\n", singolaPuntata->sommaPuntata);
+        if(singolaPuntata->numeroPuntato >= 0) {
+                printf("Il numero puntato è %d\n", singolaPuntata->numeroPuntato);
+        }
          */
 
         queue_put(argomento->listaPuntatePrivata, (node *) singolaPuntata);

@@ -1,3 +1,10 @@
+/**
+ * @file   croupier.c
+ * @Author Gruppo 7
+ * @date   Gennaio 2011
+ * @brief  Procedure per il thread croupier
+ *
+ */
 #include "../common/common_header.h"
 #include "queue.h"
 
@@ -20,7 +27,7 @@ void *croupier(void *arg) {
          */
         Pthread_mutex_lock(&sessioneGiocoCorrente.mutex);
         while (sessioneGiocoCorrente.giocatoriConnessi < numeroMinimoGiocatori) {
-            Pthread_cond_wait(&sessioneGiocoCorrente.attesaAlmenoUnGiocatore, &sessioneGiocoCorrente.mutex); //TODO check error
+            Pthread_cond_wait(&sessioneGiocoCorrente.attesaAlmenoUnGiocatore, &sessioneGiocoCorrente.mutex);
         }
         Pthread_mutex_unlock(&sessioneGiocoCorrente.mutex);
 
@@ -109,7 +116,7 @@ void *croupier(void *arg) {
                     gestisci_puntata_pari(numeroEstratto, puntata, tempPlayer);
                     
                 }
-                free(puntata); //TODO check error
+                free(puntata);
                 printf("[Croupier] Budget Attuale di %s: %d\n", tempPlayer->nickname, tempPlayer->budgetAttuale);
             }
             /*

@@ -1,15 +1,13 @@
-/* estrazione.c
+/**
+ * @file   server.c
+ * @Author Gruppo 7
+ * @date   Gennaio 2011
+ * @brief  Main function per il server della Roulette
  *
- * TODO inserire descrizione file
  */
-#define DEBUG 1
-
 
 #include "../common/common_header.h"
 #include "croupier.h"
-
-
-//TODO inserire descrizione funzione
 
 int main(int argc, char **argv) {
     //TODO fare il join dei thread al termine
@@ -19,7 +17,7 @@ int main(int argc, char **argv) {
     if (argc != 3) {
         printf("Utilizzo: %s <numero porta> <intervallo secondi>\n", argv[0]);
         exit(1);
-    } //TODO controllo errori più robusto
+    }
 
     int sockfd;
     int clientFd;

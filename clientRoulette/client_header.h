@@ -10,6 +10,12 @@
 #define	CLIENT_HEADER_H
 
 /**
+ * 
+ * @param arg
+ * @return
+ */
+void *lettorePuntate(void *arg);
+/**
  * parse_bet
  *
  * Analizza una puntata. Riconosce se è stata fatta una puntata di tipo

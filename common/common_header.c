@@ -1,6 +1,12 @@
+/**
+ * @file   common_header.c
+ * @Author Gruppo 7
+ * @date   Gennaio 2011
+ * @brief  Definizioni delle funzioni e delle costanti del programma
+ *
+ */
 #include "common_header.h"
 
-//int num_requests = 0;
 /**
  * Costanti
  */

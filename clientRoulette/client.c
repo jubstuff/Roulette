@@ -1,11 +1,13 @@
-//client.c *
+/**
+ * @file   client.c
+ * @Author Gruppo 7
+ * @date   Gennaio 2011
+ * @brief  Main function per il server della Roulette e lettore puntate
+ *
+ */
 
 #include "../common/common_header.h"
 #include "client_header.h"
-
-
-
-void *lettorePuntate(void *arg);
 
 int main(int argc, char **argv) {
     int serverFd;
@@ -65,7 +67,7 @@ int main(int argc, char **argv) {
     clientFd = Socket(AF_INET, SOCK_STREAM, 0);
     //non si esegue la bind per far assegnare una porta random
     Listen(clientFd, 5); //TODO quanti ce ne devono stare nella listen?
-   
+
 
     status = getsockname(clientFd, (struct sockaddr *) &clientData, &clientAddrlen);
     printf("Porta assegnata: %d", ntohs(clientData.sin_port));
@@ -90,14 +92,14 @@ int main(int argc, char **argv) {
     /* invio porta di congratulazioni al server */
     congratPort = htons(clientData.sin_port);
     Write(serverFd, &congratPort, sizeof (in_port_t));
-        
+
     /* invio budget al server */
     Write(serverFd, &budget, sizeof (int));
-        
+
     /* invio la lunghezza del nickname al server */
     nicknameLen = sizeof (nickname);
     Write(serverFd, (void *) (&nicknameLen), sizeof (size_t));
-        
+
     /* invio il nickname al server */
     Write(serverFd, nickname, sizeof (nickname));
 
@@ -127,13 +129,13 @@ int main(int argc, char **argv) {
             Close(fd[1]);
             //riceve dal figlio tramite fd[0]
             if (flagFinePuntate == 1) {
-                
+
                 //buffer più grande
                 Read(fd[0], &lenBufRisultato, sizeof (size_t));
                 Read(fd[0], bufRisultato, lenBufRisultato);
                 //il padre stampa a video il messaggio di congratulazione
                 printf("%s\n", bufRisultato);
-                
+
             }
             wait(NULL); //TODO check error
 
@@ -161,7 +163,7 @@ int main(int argc, char **argv) {
                     //concatenare in un buffer risultato tutti i messaggi
                     strcat(bufRisultato, bufCongratulazioni);
                     strcat(bufRisultato, "\n");
-                    //TODO riazzerare la stringa risultato
+
                     Close(perdenteFd);
                     numeroPerdenti--;
                 }
@@ -172,6 +174,8 @@ int main(int argc, char **argv) {
                 lenBufRisultato = sizeof (bufRisultato);
                 Write(fd[1], &lenBufRisultato, sizeof (size_t));
                 Write(fd[1], bufRisultato, sizeof (bufRisultato));
+                //TODO controllare se funziona il reset
+                bzero(&bufRisultato[0], sizeof (bufRisultato));
                 //-----------------------
 
             } else if (flagFinePuntate == 0) {
@@ -188,7 +192,7 @@ int main(int argc, char **argv) {
                     printf("%s:%d\n", buf, tempPort);
 
                     //apre socket
-                    vincitoreFd = Socket(AF_INET, SOCK_STREAM, 0); 
+                    vincitoreFd = Socket(AF_INET, SOCK_STREAM, 0);
                     //dati di connessione del vincitore
                     bzero(&vincitoreData, sizeof (vincitoreData));
                     vincitoreData.sin_family = AF_INET;
@@ -236,13 +240,15 @@ void *lettorePuntate(void *arg) {
     int tipoPuntata;
     int numeroPuntato;
     int serverFd = (int) arg;
-
+    char prompt[] = "Puntata?>";
+    Write(STDIN_FILENO, prompt, sizeof(prompt));
     while ((bytesRead = Read(STDIN_FILENO, puntata, MAXBUF)) > 0) {
         puntata[bytesRead - 1] = '\0';
         if ((strcmp(puntata, "exit") == 0)) {
             printf("Esco\n");
             exit(1);
         }
+        
         if (!parse_bet(puntata, &sommaPuntata, &tipoPuntata, &numeroPuntato)) {
             printf("Sono stati puntati %d€\n", sommaPuntata);
             printf("Il tipo puntata è %s\n", tipoPuntataTestuale(tipoPuntata));
@@ -251,10 +257,12 @@ void *lettorePuntate(void *arg) {
             }
 
             Write(serverFd, &tipoPuntata, sizeof (int));
-                
             Write(serverFd, &sommaPuntata, sizeof (int));
-                
+
+        } else {
+            printf("Puntata non valida, ritenta.\n");
         }
+        Write(STDIN_FILENO, prompt, sizeof(prompt));
     }
     pthread_exit(NULL);
 }
