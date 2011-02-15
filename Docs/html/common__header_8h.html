@@ -132,6 +132,8 @@ Funzioni</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="common__header_8h.html#ab3dd537c5f2e40656d2dfc37dec48aae">Pthread_cond_signal</a> (pthread_cond_t *cond)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">ssize_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="common__header_8h.html#a9428ea024e46af2e8a00c874c637ad01">Write</a> (int fd, const void *buf, size_t count)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">ssize_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="common__header_8h.html#aa126411f5821a2671133529b6e139560">Read</a> (int fd, void *buf, size_t count)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="common__header_8h.html#a1a8f67f3b5d641105a6c0875d5787090">Getsockname</a> (int sockfd, struct sockaddr *addr, socklen_t *addrlen)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="common__header_8h.html#afc9a0e4ce61df7dbe440914cbb7b060d">Pipe</a> (int fildes[2])</td></tr>
 <tr><td colspan="2"><h2><a name="var-members"></a>
 Variabili</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsessioneDiGioco.html">sessione_gioco_t</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="common__header_8h.html#aa2c81d3ffb928d2241675f5c9b94d1ae">sessioneGiocoCorrente</a></td></tr>
@@ -819,6 +821,49 @@ Variabili</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a1a8f67f3b5d641105a6c0875d5787090"></a><!-- doxytag: member="common_header.h::Getsockname" ref="a1a8f67f3b5d641105a6c0875d5787090" args="(int sockfd, struct sockaddr *addr, socklen_t *addrlen)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Getsockname </td>
+          <td>(</td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>sockfd</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">struct sockaddr *&nbsp;</td>
+          <td class="paramname"> <em>addr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">socklen_t *&nbsp;</td>
+          <td class="paramname"> <em>addrlen</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Getsockname</p>
+<p>Wrapper function per la system call Getsockname. Termina il programma se si verifica un errore</p>
+<dl><dt><b>Parametri:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>sockfd</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>addr</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>addrlen</em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a class="anchor" id="a20f952ce9b39d5727a35a96883cf4025"></a><!-- doxytag: member="common_header.h::Listen" ref="a20f952ce9b39d5727a35a96883cf4025" args="(int sockfd, int backlog)" -->
 <div class="memitem">
 <div class="memproto">
@@ -925,6 +970,32 @@ Variabili</h2></td></tr>
   </dd>
 </dl>
 <dl class="return"><dt><b>Restituisce:</b></dt><dd>il socket aperto </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="afc9a0e4ce61df7dbe440914cbb7b060d"></a><!-- doxytag: member="common_header.h::Pipe" ref="afc9a0e4ce61df7dbe440914cbb7b060d" args="(int fildes[2])" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Pipe </td>
+          <td>(</td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>fildes</em>[2]</td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Pipe</p>
+<p>Wrapper function per la system call Pipe. Termina il programma se si verifica un errore</p>
+<dl><dt><b>Parametri:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>fildes</em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -1525,7 +1596,7 @@ Variabili</h2></td></tr>
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generato il Mon Feb 14 2011 11:36:19 per Roulette da&nbsp;
+<hr class="footer"/><address class="footer"><small>Generato il Tue Feb 15 2011 13:22:28 per Roulette da&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.1 </small></address>
 </body>

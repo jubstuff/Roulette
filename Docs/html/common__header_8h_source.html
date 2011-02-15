@@ -155,9 +155,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Cerca');
 <a name="l00252"></a>00252 
 <a name="l00258"></a>00258 <span class="keyword">extern</span> ssize_t <a class="code" href="common__header_8c.html#a913cec2268e115e235392c9a230f26dc">lenMessaggioPuntateAperte</a>;
 <a name="l00259"></a>00259 
-<a name="l00266"></a>00266 <span class="keyword">extern</span> <span class="keyword">const</span> <span class="keywordtype">char</span> <a class="code" href="common__header_8c.html#aa5b737dbb18ee4c2d17428c361cfda70">messaggioPuntateChiuse</a>[];
+<a name="l00266"></a>00266 <span class="keyword">extern</span> <span class="keyword">const</span> <span class="keywordtype">char</span> <a class="code" href="common__header_8h.html#aa5b737dbb18ee4c2d17428c361cfda70">messaggioPuntateChiuse</a>[];
 <a name="l00267"></a>00267 
-<a name="l00273"></a>00273 <span class="keyword">extern</span> ssize_t <a class="code" href="common__header_8c.html#a0fa9bf008521409e9f4b07a9ec799d42">lenMessaggioPuntateChiuse</a>;
+<a name="l00273"></a>00273 <span class="keyword">extern</span> ssize_t <a class="code" href="common__header_8h.html#a0fa9bf008521409e9f4b07a9ec799d42">lenMessaggioPuntateChiuse</a>;
 <a name="l00274"></a>00274 
 <a name="l00281"></a>00281 <span class="keyword">extern</span> <span class="keywordtype">int</span> <a class="code" href="common__header_8c.html#a4b4098f6de6ae0fb92838070d8e512a8">numeroMinimoGiocatori</a>;
 <a name="l00282"></a>00282 
@@ -218,15 +218,14 @@ var searchBox = new SearchBox("searchBox", "search",false,'Cerca');
 <a name="l00563"></a>00563 
 <a name="l00576"></a>00576 ssize_t <a class="code" href="common__header_8c.html#aa126411f5821a2671133529b6e139560">Read</a>(<span class="keywordtype">int</span> fd, <span class="keywordtype">void</span> *buf, <span class="keywordtype">size_t</span> count);
 <a name="l00577"></a>00577 
-<a name="l00578"></a>00578 <span class="comment">//TODO getsockname</span>
-<a name="l00579"></a>00579 <span class="comment">//TODO inet_aton</span>
-<a name="l00580"></a>00580 <span class="comment">//TODO htons</span>
-<a name="l00581"></a>00581 <span class="comment">//TODO pipe</span>
-<a name="l00582"></a>00582 <span class="comment">//TODO fork</span>
-<a name="l00583"></a>00583 <span class="comment">//TODO wait</span>
-<a name="l00584"></a>00584 
-<a name="l00585"></a>00585 
-<a name="l00586"></a>00586 <span class="preprocessor">#endif </span><span class="comment">/* _COMMON_HEADER_H */</span>
+<a name="l00588"></a>00588 <span class="keywordtype">void</span> <a class="code" href="common__header_8c.html#a1a8f67f3b5d641105a6c0875d5787090">Getsockname</a>(<span class="keywordtype">int</span> sockfd, <span class="keyword">struct</span> sockaddr *addr, socklen_t *addrlen);
+<a name="l00589"></a>00589 
+<a name="l00598"></a>00598 <span class="keywordtype">void</span> <a class="code" href="common__header_8c.html#afc9a0e4ce61df7dbe440914cbb7b060d">Pipe</a>(<span class="keywordtype">int</span> fildes[2]);
+<a name="l00599"></a>00599 
+<a name="l00600"></a>00600 <span class="comment">//TODO wait</span>
+<a name="l00601"></a>00601 
+<a name="l00602"></a>00602 
+<a name="l00603"></a>00603 <span class="preprocessor">#endif </span><span class="comment">/* _COMMON_HEADER_H */</span>
 </pre></div></div>
 </div>
 <!--- window showing the filter options -->
@@ -243,7 +242,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Cerca');
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generato il Mon Feb 14 2011 11:36:18 per Roulette da&nbsp;
+<hr class="footer"/><address class="footer"><small>Generato il Tue Feb 15 2011 13:22:28 per Roulette da&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.1 </small></address>
 </body>

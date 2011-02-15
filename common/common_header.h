@@ -216,11 +216,7 @@ typedef struct analisiDiSessionePuntata {
 /*
  * Definizione variabili
  */
-//TODO eliminare queste variabili se sono inutili
-//extern int num_requests;
-//extern int stato_puntate;
-//extern int numero_di_vincitori_in_questa_mano;
-//extern int numero_di_perdenti_in_questa_mano;
+
 /**
  * sessioneGiocoCorrente
  *

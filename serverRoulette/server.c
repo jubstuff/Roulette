@@ -29,7 +29,7 @@ int main(int argc, char **argv) {
     size_t lenIndirizzoClient;
     pthread_t playerTid, croupierTid;
 
-    //TODO mettere queste inizializzazioni in una funzione
+
     /*
      * INIZIALIZZAZIONI
      */
@@ -55,6 +55,7 @@ int main(int argc, char **argv) {
     analisiSessionePuntata.numeroPerdenti = 0;
     analisiSessionePuntata.numeroVincitori = 0;
     analisiSessionePuntata.stato = 0;
+    
     //inizializzo la generazione random
     srand(time(NULL));
 

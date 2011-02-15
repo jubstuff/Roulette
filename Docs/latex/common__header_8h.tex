@@ -124,6 +124,10 @@ void \hyperlink{common__header_8h_ab3dd537c5f2e40656d2dfc37dec48aae}{Pthread\_\-
 ssize\_\-t \hyperlink{common__header_8h_a9428ea024e46af2e8a00c874c637ad01}{Write} (int fd, const void $\ast$buf, size\_\-t count)
 \item 
 ssize\_\-t \hyperlink{common__header_8h_aa126411f5821a2671133529b6e139560}{Read} (int fd, void $\ast$buf, size\_\-t count)
+\item 
+void \hyperlink{common__header_8h_a1a8f67f3b5d641105a6c0875d5787090}{Getsockname} (int sockfd, struct sockaddr $\ast$addr, socklen\_\-t $\ast$addrlen)
+\item 
+void \hyperlink{common__header_8h_afc9a0e4ce61df7dbe440914cbb7b060d}{Pipe} (int fildes\mbox{[}2\mbox{]})
 \end{DoxyCompactItemize}
 \subsection*{Variabili}
 \begin{DoxyCompactItemize}
@@ -453,6 +457,24 @@ Gestisce una puntata di tipo pari, aumentando il budget del giocatore nel caso i
 Controlla se una puntata del tipo P:$<$N$>$ è vincente 
 \begin{DoxyParams}{Parametri}
 \item[{\em estratto}]\item[{\em puntata}]\item[{\em player}]\end{DoxyParams}
+\hypertarget{common__header_8h_a1a8f67f3b5d641105a6c0875d5787090}{
+\index{common\_\-header.h@{common\_\-header.h}!Getsockname@{Getsockname}}
+\index{Getsockname@{Getsockname}!common_header.h@{common\_\-header.h}}
+\subsubsection[{Getsockname}]{\setlength{\rightskip}{0pt plus 5cm}void Getsockname (
+\begin{DoxyParamCaption}
+\item[{int}]{ sockfd, }
+\item[{struct sockaddr $\ast$}]{ addr, }
+\item[{socklen\_\-t $\ast$}]{ addrlen}
+\end{DoxyParamCaption}
+)}}
+\label{common__header_8h_a1a8f67f3b5d641105a6c0875d5787090}
+Getsockname
+
+Wrapper function per la system call Getsockname. Termina il programma se si verifica un errore
+
+
+\begin{DoxyParams}{Parametri}
+\item[{\em sockfd}]\item[{\em addr}]\item[{\em addrlen}]\end{DoxyParams}
 \hypertarget{common__header_8h_a20f952ce9b39d5727a35a96883cf4025}{
 \index{common\_\-header.h@{common\_\-header.h}!Listen@{Listen}}
 \index{Listen@{Listen}!common_header.h@{common\_\-header.h}}
@@ -509,6 +531,22 @@ Apre un socket, e si mette in ascolto su di esso
 \begin{DoxyReturn}{Restituisce}
 il socket aperto 
 \end{DoxyReturn}
+\hypertarget{common__header_8h_afc9a0e4ce61df7dbe440914cbb7b060d}{
+\index{common\_\-header.h@{common\_\-header.h}!Pipe@{Pipe}}
+\index{Pipe@{Pipe}!common_header.h@{common\_\-header.h}}
+\subsubsection[{Pipe}]{\setlength{\rightskip}{0pt plus 5cm}void Pipe (
+\begin{DoxyParamCaption}
+\item[{int}]{ fildes\mbox{[}2\mbox{]}}
+\end{DoxyParamCaption}
+)}}
+\label{common__header_8h_afc9a0e4ce61df7dbe440914cbb7b060d}
+Pipe
+
+Wrapper function per la system call Pipe. Termina il programma se si verifica un errore
+
+
+\begin{DoxyParams}{Parametri}
+\item[{\em fildes}]\end{DoxyParams}
 \hypertarget{common__header_8h_adc14ea283bd09460a3df69982fe20137}{
 \index{common\_\-header.h@{common\_\-header.h}!Pthread\_\-cancel@{Pthread\_\-cancel}}
 \index{Pthread\_\-cancel@{Pthread\_\-cancel}!common_header.h@{common\_\-header.h}}

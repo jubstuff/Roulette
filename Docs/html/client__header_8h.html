@@ -46,6 +46,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Cerca');
 </div>
 <div class="header">
   <div class="summary">
+<a href="#define-members">Definizioni</a> &#124;
 <a href="#func-members">Funzioni</a>  </div>
   <div class="headertitle">
 <h1>Riferimenti per il file clientRoulette/client_header.h</h1>  </div>
@@ -54,20 +55,180 @@ var searchBox = new SearchBox("searchBox", "search",false,'Cerca');
 
 <p>Include tutte le definizioni per il client della Roulette.  
 <a href="#_details">Continua...</a></p>
+<code>#include &quot;../common/common_header.h&quot;</code><br/>
 
 <p><a href="client__header_8h_source.html">Vai al codice sorgente di questo file.</a></p>
 <table class="memberdecls">
+<tr><td colspan="2"><h2><a name="define-members"></a>
+Definizioni</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="client__header_8h.html#adcb807d07c827e1dedb724c173448a1d">ENUMRANGE</a>&nbsp;&nbsp;&nbsp;-1</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="client__header_8h.html#a47d70c94869921b38ce33b0943dc6332">ECHARINV</a>&nbsp;&nbsp;&nbsp;-2</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="client__header_8h.html#aedbf20597fbc56fa9c9847882a26ebae">EBADSYNTAX</a>&nbsp;&nbsp;&nbsp;-3</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="client__header_8h.html#a5d53239c66d66243dbed7671c6f9e708">NO_NUMBER</a>&nbsp;&nbsp;&nbsp;-4</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="client__header_8h.html#aaaa60415aa7093ba6c0c068b0111e0e8">LIMITE_BUDGET</a>&nbsp;&nbsp;&nbsp;1000</td></tr>
 <tr><td colspan="2"><h2><a name="func-members"></a>
 Funzioni</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="client__header_8h.html#a3fce8f89676fa76a1ec8cdd04afbaf91">lettorePuntate</a> (void *arg)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="client__header_8h.html#ad34fbc512102348b43cef9fad9fa4d68">parse_bet</a> (char *puntataStr, int *sommaPuntata, int *tipoPuntata, int *numeroPuntato)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="client__header_8h.html#a3978dc9b388b3ccbabd77843aa74e9eb">tipoPuntataTestuale</a> (int tipo)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="client__header_8h.html#a050ab897563bee7cb8128b3befbab3de">gestisciMessaggiVittoria</a> (int serverFd, int clientFd, char *bufRisultato)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="client__header_8h.html#a7ed8f7f96644314f527c7055df91c7f2">gestisciMessaggiPerdita</a> (int serverFd, char *nickname)</td></tr>
 </table>
 <hr/><a name="_details"></a><h2>Descrizione dettagliata</h2>
 <p>Include tutte le definizioni per il client della Roulette. </p>
 <p>Gruppo 7 </p>
 <dl class="date"><dt><b>Data:</b></dt><dd>Gennaio 2011 </dd></dl>
+<hr/><h2>Documentazione delle definizioni</h2>
+<a class="anchor" id="aedbf20597fbc56fa9c9847882a26ebae"></a><!-- doxytag: member="client_header.h::EBADSYNTAX" ref="aedbf20597fbc56fa9c9847882a26ebae" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define EBADSYNTAX&nbsp;&nbsp;&nbsp;-3</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Errore di parse_bet: la sintassi di puntata non è corretta </p>
+
+</div>
+</div>
+<a class="anchor" id="a47d70c94869921b38ce33b0943dc6332"></a><!-- doxytag: member="client_header.h::ECHARINV" ref="a47d70c94869921b38ce33b0943dc6332" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define ECHARINV&nbsp;&nbsp;&nbsp;-2</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Errore di parse_bet: è stato inserito un tipo puntata non valido, ovvero diverso da P/D/&lt;N&gt; </p>
+
+</div>
+</div>
+<a class="anchor" id="adcb807d07c827e1dedb724c173448a1d"></a><!-- doxytag: member="client_header.h::ENUMRANGE" ref="adcb807d07c827e1dedb724c173448a1d" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define ENUMRANGE&nbsp;&nbsp;&nbsp;-1</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Errore di parse_bet: il numero è oltre il range corretto (0-36) </p>
+
+</div>
+</div>
+<a class="anchor" id="aaaa60415aa7093ba6c0c068b0111e0e8"></a><!-- doxytag: member="client_header.h::LIMITE_BUDGET" ref="aaaa60415aa7093ba6c0c068b0111e0e8" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LIMITE_BUDGET&nbsp;&nbsp;&nbsp;1000</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Limite massimo per il budget dei giocatori </p>
+
+</div>
+</div>
+<a class="anchor" id="a5d53239c66d66243dbed7671c6f9e708"></a><!-- doxytag: member="client_header.h::NO_NUMBER" ref="a5d53239c66d66243dbed7671c6f9e708" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define NO_NUMBER&nbsp;&nbsp;&nbsp;-4</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Placeholder per parse_bet, inizializza il numero a un valore esterno al range, per precauzione </p>
+
+</div>
+</div>
 <hr/><h2>Documentazione delle funzioni</h2>
+<a class="anchor" id="a7ed8f7f96644314f527c7055df91c7f2"></a><!-- doxytag: member="client_header.h::gestisciMessaggiPerdita" ref="a7ed8f7f96644314f527c7055df91c7f2" args="(int serverFd, char *nickname)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void gestisciMessaggiPerdita </td>
+          <td>(</td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>serverFd</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char *&nbsp;</td>
+          <td class="paramname"> <em>nickname</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>gestisciMessaggiPerdita</p>
+<p>Invia i messaggi di congratulazione a tutti i giocatori che hanno vinto</p>
+<dl><dt><b>Parametri:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>serverFd</em>&nbsp;</td><td>Socket di comunicazione con il server </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>nickname</em>&nbsp;</td><td>Nickname del giocatore corrente </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a050ab897563bee7cb8128b3befbab3de"></a><!-- doxytag: member="client_header.h::gestisciMessaggiVittoria" ref="a050ab897563bee7cb8128b3befbab3de" args="(int serverFd, int clientFd, char *bufRisultato)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void gestisciMessaggiVittoria </td>
+          <td>(</td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>serverFd</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>clientFd</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char *&nbsp;</td>
+          <td class="paramname"> <em>bufRisultato</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>gestisciMessaggiVittoria</p>
+<p>Riceve tutti i messaggi di congratulazione dai giocatori che hanno perso e li salva in bufRisultato</p>
+<dl><dt><b>Parametri:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>serverFd</em>&nbsp;</td><td>Socket di comunicazione con il server </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>clientFd</em>&nbsp;</td><td>Socket su cui il client è in ascolto per i messaggi di congratulazione </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>bufRisultato</em>&nbsp;</td><td>Stringa contenente tutti i messaggi di congratulazione </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a class="anchor" id="a3fce8f89676fa76a1ec8cdd04afbaf91"></a><!-- doxytag: member="client_header.h::lettorePuntate" ref="a3fce8f89676fa76a1ec8cdd04afbaf91" args="(void *arg)" -->
 <div class="memitem">
 <div class="memproto">
@@ -83,9 +244,11 @@ Funzioni</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
+<p>lettorePuntate</p>
+<p>Routine per il thread lettorePuntate </p>
 <dl><dt><b>Parametri:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>arg</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>arg</em>&nbsp;</td><td>Argomento del player thread. //TODO inserire cosa ci sta </td></tr>
   </table>
   </dd>
 </dl>
@@ -147,8 +310,6 @@ Funzioni</h2></td></tr>
   </dd>
 </dl>
 <dl class="return"><dt><b>Restituisce:</b></dt><dd></dd></dl>
-<p>parse_bet</p>
-<p>Analizza una puntata. Riconosce se è stata fatta una puntata di tipo Pari/Dispari oppure su un numero </p>
 
 </div>
 </div>
@@ -200,7 +361,7 @@ Funzioni</h2></td></tr>
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generato il Mon Feb 14 2011 11:36:18 per Roulette da&nbsp;
+<hr class="footer"/><address class="footer"><small>Generato il Tue Feb 15 2011 13:22:28 per Roulette da&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.1 </small></address>
 </body>

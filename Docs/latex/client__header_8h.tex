@@ -7,6 +7,20 @@
 Include tutte le definizioni per il client della Roulette.  
 
 
+{\ttfamily \#include \char`\"{}../common/common\_\-header.h\char`\"{}}\par
+\subsection*{Definizioni}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{client__header_8h_adcb807d07c827e1dedb724c173448a1d}{ENUMRANGE}~-\/1
+\item 
+\#define \hyperlink{client__header_8h_a47d70c94869921b38ce33b0943dc6332}{ECHARINV}~-\/2
+\item 
+\#define \hyperlink{client__header_8h_aedbf20597fbc56fa9c9847882a26ebae}{EBADSYNTAX}~-\/3
+\item 
+\#define \hyperlink{client__header_8h_a5d53239c66d66243dbed7671c6f9e708}{NO\_\-NUMBER}~-\/4
+\item 
+\#define \hyperlink{client__header_8h_aaaa60415aa7093ba6c0c068b0111e0e8}{LIMITE\_\-BUDGET}~1000
+\end{DoxyCompactItemize}
 \subsection*{Funzioni}
 \begin{DoxyCompactItemize}
 \item 
@@ -15,6 +29,10 @@ void $\ast$ \hyperlink{client__header_8h_a3fce8f89676fa76a1ec8cdd04afbaf91}{lett
 int \hyperlink{client__header_8h_ad34fbc512102348b43cef9fad9fa4d68}{parse\_\-bet} (char $\ast$puntataStr, int $\ast$sommaPuntata, int $\ast$tipoPuntata, int $\ast$numeroPuntato)
 \item 
 char $\ast$ \hyperlink{client__header_8h_a3978dc9b388b3ccbabd77843aa74e9eb}{tipoPuntataTestuale} (int tipo)
+\item 
+void \hyperlink{client__header_8h_a050ab897563bee7cb8128b3befbab3de}{gestisciMessaggiVittoria} (int serverFd, int clientFd, char $\ast$bufRisultato)
+\item 
+void \hyperlink{client__header_8h_a7ed8f7f96644314f527c7055df91c7f2}{gestisciMessaggiPerdita} (int serverFd, char $\ast$nickname)
 \end{DoxyCompactItemize}
 
 
@@ -24,7 +42,70 @@ Gennaio 2011
 \end{DoxyDate}
 
 
+\subsection{Documentazione delle definizioni}
+\hypertarget{client__header_8h_aedbf20597fbc56fa9c9847882a26ebae}{
+\index{client\_\-header.h@{client\_\-header.h}!EBADSYNTAX@{EBADSYNTAX}}
+\index{EBADSYNTAX@{EBADSYNTAX}!client_header.h@{client\_\-header.h}}
+\subsubsection[{EBADSYNTAX}]{\setlength{\rightskip}{0pt plus 5cm}\#define EBADSYNTAX~-\/3}}
+\label{client__header_8h_aedbf20597fbc56fa9c9847882a26ebae}
+Errore di parse\_\-bet: la sintassi di puntata non è corretta \hypertarget{client__header_8h_a47d70c94869921b38ce33b0943dc6332}{
+\index{client\_\-header.h@{client\_\-header.h}!ECHARINV@{ECHARINV}}
+\index{ECHARINV@{ECHARINV}!client_header.h@{client\_\-header.h}}
+\subsubsection[{ECHARINV}]{\setlength{\rightskip}{0pt plus 5cm}\#define ECHARINV~-\/2}}
+\label{client__header_8h_a47d70c94869921b38ce33b0943dc6332}
+Errore di parse\_\-bet: è stato inserito un tipo puntata non valido, ovvero diverso da P/D/$<$N$>$ \hypertarget{client__header_8h_adcb807d07c827e1dedb724c173448a1d}{
+\index{client\_\-header.h@{client\_\-header.h}!ENUMRANGE@{ENUMRANGE}}
+\index{ENUMRANGE@{ENUMRANGE}!client_header.h@{client\_\-header.h}}
+\subsubsection[{ENUMRANGE}]{\setlength{\rightskip}{0pt plus 5cm}\#define ENUMRANGE~-\/1}}
+\label{client__header_8h_adcb807d07c827e1dedb724c173448a1d}
+Errore di parse\_\-bet: il numero è oltre il range corretto (0-\/36) \hypertarget{client__header_8h_aaaa60415aa7093ba6c0c068b0111e0e8}{
+\index{client\_\-header.h@{client\_\-header.h}!LIMITE\_\-BUDGET@{LIMITE\_\-BUDGET}}
+\index{LIMITE\_\-BUDGET@{LIMITE\_\-BUDGET}!client_header.h@{client\_\-header.h}}
+\subsubsection[{LIMITE\_\-BUDGET}]{\setlength{\rightskip}{0pt plus 5cm}\#define LIMITE\_\-BUDGET~1000}}
+\label{client__header_8h_aaaa60415aa7093ba6c0c068b0111e0e8}
+Limite massimo per il budget dei giocatori \hypertarget{client__header_8h_a5d53239c66d66243dbed7671c6f9e708}{
+\index{client\_\-header.h@{client\_\-header.h}!NO\_\-NUMBER@{NO\_\-NUMBER}}
+\index{NO\_\-NUMBER@{NO\_\-NUMBER}!client_header.h@{client\_\-header.h}}
+\subsubsection[{NO\_\-NUMBER}]{\setlength{\rightskip}{0pt plus 5cm}\#define NO\_\-NUMBER~-\/4}}
+\label{client__header_8h_a5d53239c66d66243dbed7671c6f9e708}
+Placeholder per parse\_\-bet, inizializza il numero a un valore esterno al range, per precauzione 
+
 \subsection{Documentazione delle funzioni}
+\hypertarget{client__header_8h_a7ed8f7f96644314f527c7055df91c7f2}{
+\index{client\_\-header.h@{client\_\-header.h}!gestisciMessaggiPerdita@{gestisciMessaggiPerdita}}
+\index{gestisciMessaggiPerdita@{gestisciMessaggiPerdita}!client_header.h@{client\_\-header.h}}
+\subsubsection[{gestisciMessaggiPerdita}]{\setlength{\rightskip}{0pt plus 5cm}void gestisciMessaggiPerdita (
+\begin{DoxyParamCaption}
+\item[{int}]{ serverFd, }
+\item[{char $\ast$}]{ nickname}
+\end{DoxyParamCaption}
+)}}
+\label{client__header_8h_a7ed8f7f96644314f527c7055df91c7f2}
+gestisciMessaggiPerdita
+
+Invia i messaggi di congratulazione a tutti i giocatori che hanno vinto
+
+
+\begin{DoxyParams}{Parametri}
+\item[{\em serverFd}]Socket di comunicazione con il server \item[{\em nickname}]Nickname del giocatore corrente \end{DoxyParams}
+\hypertarget{client__header_8h_a050ab897563bee7cb8128b3befbab3de}{
+\index{client\_\-header.h@{client\_\-header.h}!gestisciMessaggiVittoria@{gestisciMessaggiVittoria}}
+\index{gestisciMessaggiVittoria@{gestisciMessaggiVittoria}!client_header.h@{client\_\-header.h}}
+\subsubsection[{gestisciMessaggiVittoria}]{\setlength{\rightskip}{0pt plus 5cm}void gestisciMessaggiVittoria (
+\begin{DoxyParamCaption}
+\item[{int}]{ serverFd, }
+\item[{int}]{ clientFd, }
+\item[{char $\ast$}]{ bufRisultato}
+\end{DoxyParamCaption}
+)}}
+\label{client__header_8h_a050ab897563bee7cb8128b3befbab3de}
+gestisciMessaggiVittoria
+
+Riceve tutti i messaggi di congratulazione dai giocatori che hanno perso e li salva in bufRisultato
+
+
+\begin{DoxyParams}{Parametri}
+\item[{\em serverFd}]Socket di comunicazione con il server \item[{\em clientFd}]Socket su cui il client è in ascolto per i messaggi di congratulazione \item[{\em bufRisultato}]Stringa contenente tutti i messaggi di congratulazione \end{DoxyParams}
 \hypertarget{client__header_8h_a3fce8f89676fa76a1ec8cdd04afbaf91}{
 \index{client\_\-header.h@{client\_\-header.h}!lettorePuntate@{lettorePuntate}}
 \index{lettorePuntate@{lettorePuntate}!client_header.h@{client\_\-header.h}}
@@ -34,9 +115,11 @@ Gennaio 2011
 \end{DoxyParamCaption}
 )}}
 \label{client__header_8h_a3fce8f89676fa76a1ec8cdd04afbaf91}
+lettorePuntate
 
+Routine per il thread lettorePuntate 
 \begin{DoxyParams}{Parametri}
-\item[{\em arg}]\end{DoxyParams}
+\item[{\em arg}]Argomento del player thread. //TODO inserire cosa ci sta \end{DoxyParams}
 \begin{DoxyReturn}{Restituisce}
 
 \end{DoxyReturn}
@@ -67,9 +150,7 @@ Analizza una puntata. Riconosce se è stata fatta una puntata di tipo Pari/Dispa
 \begin{DoxyReturn}{Restituisce}
 
 \end{DoxyReturn}
-parse\_\-bet
-
-Analizza una puntata. Riconosce se è stata fatta una puntata di tipo Pari/Dispari oppure su un numero \hypertarget{client__header_8h_a3978dc9b388b3ccbabd77843aa74e9eb}{
+\hypertarget{client__header_8h_a3978dc9b388b3ccbabd77843aa74e9eb}{
 \index{client\_\-header.h@{client\_\-header.h}!tipoPuntataTestuale@{tipoPuntataTestuale}}
 \index{tipoPuntataTestuale@{tipoPuntataTestuale}!client_header.h@{client\_\-header.h}}
 \subsubsection[{tipoPuntataTestuale}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ tipoPuntataTestuale (

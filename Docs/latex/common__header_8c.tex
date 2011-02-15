@@ -62,6 +62,10 @@ void \hyperlink{common__header_8c_ab3dd537c5f2e40656d2dfc37dec48aae}{Pthread\_\-
 ssize\_\-t \hyperlink{common__header_8c_a9428ea024e46af2e8a00c874c637ad01}{Write} (int fd, const void $\ast$buf, size\_\-t count)
 \item 
 ssize\_\-t \hyperlink{common__header_8c_aa126411f5821a2671133529b6e139560}{Read} (int fd, void $\ast$buf, size\_\-t count)
+\item 
+void \hyperlink{common__header_8c_a1a8f67f3b5d641105a6c0875d5787090}{Getsockname} (int sockfd, struct sockaddr $\ast$addr, socklen\_\-t $\ast$addrlen)
+\item 
+void \hyperlink{common__header_8c_afc9a0e4ce61df7dbe440914cbb7b060d}{Pipe} (int fildes\mbox{[}2\mbox{]})
 \end{DoxyCompactItemize}
 \subsection*{Variabili}
 \begin{DoxyCompactItemize}
@@ -69,10 +73,6 @@ ssize\_\-t \hyperlink{common__header_8c_aa126411f5821a2671133529b6e139560}{Read}
 const char \hyperlink{common__header_8c_af38d3e64aae10f2f4f617376d4fc5411}{messaggioPuntateAperte} \mbox{[}$\,$\mbox{]} = \char`\"{}$\backslash$n=Puntate aperte=$\backslash$n\char`\"{}
 \item 
 ssize\_\-t \hyperlink{common__header_8c_a913cec2268e115e235392c9a230f26dc}{lenMessaggioPuntateAperte} = sizeof (\hyperlink{common__header_8h_af38d3e64aae10f2f4f617376d4fc5411}{messaggioPuntateAperte})
-\item 
-const char \hyperlink{common__header_8c_aa5b737dbb18ee4c2d17428c361cfda70}{messaggioPuntateChiuse} \mbox{[}$\,$\mbox{]} = \char`\"{}$\backslash$n=Puntate chiuse=$\backslash$n\char`\"{}
-\item 
-ssize\_\-t \hyperlink{common__header_8c_a0fa9bf008521409e9f4b07a9ec799d42}{lenMessaggioPuntateChiuse} = sizeof (\hyperlink{common__header_8h_aa5b737dbb18ee4c2d17428c361cfda70}{messaggioPuntateChiuse})
 \item 
 int \hyperlink{common__header_8c_a4b4098f6de6ae0fb92838070d8e512a8}{numeroMinimoGiocatori} = 2
 \end{DoxyCompactItemize}
@@ -241,6 +241,24 @@ Controlla se una puntata del tipo $<$N$>$:$<$M$>$ è vincente
 Controlla se una puntata del tipo P:$<$N$>$ è vincente 
 \begin{DoxyParams}{Parametri}
 \item[{\em estratto}]\item[{\em puntata}]\item[{\em player}]\end{DoxyParams}
+\hypertarget{common__header_8c_a1a8f67f3b5d641105a6c0875d5787090}{
+\index{common\_\-header.c@{common\_\-header.c}!Getsockname@{Getsockname}}
+\index{Getsockname@{Getsockname}!common_header.c@{common\_\-header.c}}
+\subsubsection[{Getsockname}]{\setlength{\rightskip}{0pt plus 5cm}void Getsockname (
+\begin{DoxyParamCaption}
+\item[{int}]{ sockfd, }
+\item[{struct sockaddr $\ast$}]{ addr, }
+\item[{socklen\_\-t $\ast$}]{ addrlen}
+\end{DoxyParamCaption}
+)}}
+\label{common__header_8c_a1a8f67f3b5d641105a6c0875d5787090}
+Getsockname
+
+Wrapper function per la system call Getsockname. Termina il programma se si verifica un errore
+
+
+\begin{DoxyParams}{Parametri}
+\item[{\em sockfd}]\item[{\em addr}]\item[{\em addrlen}]\end{DoxyParams}
 \hypertarget{common__header_8c_a20f952ce9b39d5727a35a96883cf4025}{
 \index{common\_\-header.c@{common\_\-header.c}!Listen@{Listen}}
 \index{Listen@{Listen}!common_header.c@{common\_\-header.c}}
@@ -290,6 +308,22 @@ Apre un socket, e si mette in ascolto su di esso
 \begin{DoxyReturn}{Restituisce}
 il socket aperto 
 \end{DoxyReturn}
+\hypertarget{common__header_8c_afc9a0e4ce61df7dbe440914cbb7b060d}{
+\index{common\_\-header.c@{common\_\-header.c}!Pipe@{Pipe}}
+\index{Pipe@{Pipe}!common_header.c@{common\_\-header.c}}
+\subsubsection[{Pipe}]{\setlength{\rightskip}{0pt plus 5cm}void Pipe (
+\begin{DoxyParamCaption}
+\item[{int}]{ fildes\mbox{[}2\mbox{]}}
+\end{DoxyParamCaption}
+)}}
+\label{common__header_8c_afc9a0e4ce61df7dbe440914cbb7b060d}
+Pipe
+
+Wrapper function per la system call Pipe. Termina il programma se si verifica un errore
+
+
+\begin{DoxyParams}{Parametri}
+\item[{\em fildes}]\end{DoxyParams}
 \hypertarget{common__header_8c_adc14ea283bd09460a3df69982fe20137}{
 \index{common\_\-header.c@{common\_\-header.c}!Pthread\_\-cancel@{Pthread\_\-cancel}}
 \index{Pthread\_\-cancel@{Pthread\_\-cancel}!common_header.c@{common\_\-header.c}}
@@ -531,26 +565,12 @@ Wrapper function per la system call write. Termina il programma se si verifica u
 \label{common__header_8c_a913cec2268e115e235392c9a230f26dc}
 lenMessaggioPuntateAperte
 
-Dimensione del messaggio di puntate aperte \hypertarget{common__header_8c_a0fa9bf008521409e9f4b07a9ec799d42}{
-\index{common\_\-header.c@{common\_\-header.c}!lenMessaggioPuntateChiuse@{lenMessaggioPuntateChiuse}}
-\index{lenMessaggioPuntateChiuse@{lenMessaggioPuntateChiuse}!common_header.c@{common\_\-header.c}}
-\subsubsection[{lenMessaggioPuntateChiuse}]{\setlength{\rightskip}{0pt plus 5cm}ssize\_\-t {\bf lenMessaggioPuntateChiuse} = sizeof ({\bf messaggioPuntateChiuse})}}
-\label{common__header_8c_a0fa9bf008521409e9f4b07a9ec799d42}
-lenMessaggioPuntateChiuse
-
-Dimensione del messaggio di puntate chiuse \hypertarget{common__header_8c_af38d3e64aae10f2f4f617376d4fc5411}{
+Dimensione del messaggio di puntate aperte \hypertarget{common__header_8c_af38d3e64aae10f2f4f617376d4fc5411}{
 \index{common\_\-header.c@{common\_\-header.c}!messaggioPuntateAperte@{messaggioPuntateAperte}}
 \index{messaggioPuntateAperte@{messaggioPuntateAperte}!common_header.c@{common\_\-header.c}}
 \subsubsection[{messaggioPuntateAperte}]{\setlength{\rightskip}{0pt plus 5cm}const char {\bf messaggioPuntateAperte}\mbox{[}$\,$\mbox{]} = \char`\"{}$\backslash$n=Puntate aperte=$\backslash$n\char`\"{}}}
 \label{common__header_8c_af38d3e64aae10f2f4f617376d4fc5411}
-Costanti \hypertarget{common__header_8c_aa5b737dbb18ee4c2d17428c361cfda70}{
-\index{common\_\-header.c@{common\_\-header.c}!messaggioPuntateChiuse@{messaggioPuntateChiuse}}
-\index{messaggioPuntateChiuse@{messaggioPuntateChiuse}!common_header.c@{common\_\-header.c}}
-\subsubsection[{messaggioPuntateChiuse}]{\setlength{\rightskip}{0pt plus 5cm}const char {\bf messaggioPuntateChiuse}\mbox{[}$\,$\mbox{]} = \char`\"{}$\backslash$n=Puntate chiuse=$\backslash$n\char`\"{}}}
-\label{common__header_8c_aa5b737dbb18ee4c2d17428c361cfda70}
-messaggioPuntateChiuse
-
-Messaggio che il thread player invia al client per indicare la chiusura delle puntate \hypertarget{common__header_8c_a4b4098f6de6ae0fb92838070d8e512a8}{
+Costanti \hypertarget{common__header_8c_a4b4098f6de6ae0fb92838070d8e512a8}{
 \index{common\_\-header.c@{common\_\-header.c}!numeroMinimoGiocatori@{numeroMinimoGiocatori}}
 \index{numeroMinimoGiocatori@{numeroMinimoGiocatori}!common_header.c@{common\_\-header.c}}
 \subsubsection[{numeroMinimoGiocatori}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf numeroMinimoGiocatori} = 2}}

@@ -17,6 +17,8 @@ void \hyperlink{queue_8c_aca8dec1547e4309337e3a8aa90711d7b}{queue\_\-init} (\hyp
 void \hyperlink{queue_8c_a963114e8540b1790eeba813066b4ddf6}{queue\_\-put} (\hyperlink{structqueue}{queue} $\ast$myroot, \hyperlink{structnode__tag}{node} $\ast$mynode)
 \item 
 \hyperlink{structnode__tag}{node} $\ast$ \hyperlink{queue_8c_aaeb93fdc18868cbb811248f0f58e5f29}{queue\_\-get} (\hyperlink{structqueue}{queue} $\ast$myroot)
+\item 
+void \hyperlink{queue_8c_af17ef4b6ba0d442a589661a45d86143b}{queue\_\-remove} (\hyperlink{structqueue}{queue} $\ast$myroot, \hyperlink{structnode__tag}{node} $\ast$mynode)
 \end{DoxyCompactItemize}
 
 
@@ -38,7 +40,7 @@ Gennaio 2011
 \label{queue_8c_aaeb93fdc18868cbb811248f0f58e5f29}
 queue\_\-get
 
-Rimuove un nodo dalla coda 
+Rimuove un nodo dalla testa della coda 
 \begin{DoxyParams}{Parametri}
 \item[{\em myroot}]Coda da cui rimuovere il nodo \end{DoxyParams}
 \begin{DoxyReturn}{Restituisce}
@@ -77,3 +79,20 @@ Inserisce un nodo nella coda
 
 \begin{DoxyParams}{Parametri}
 \item[{\em myroot}]Coda a cui aggiungere il nodo \item[{\em mynode}]Nodo da aggiungere \end{DoxyParams}
+\hypertarget{queue_8c_af17ef4b6ba0d442a589661a45d86143b}{
+\index{queue.c@{queue.c}!queue\_\-remove@{queue\_\-remove}}
+\index{queue\_\-remove@{queue\_\-remove}!queue.c@{queue.c}}
+\subsubsection[{queue\_\-remove}]{\setlength{\rightskip}{0pt plus 5cm}void queue\_\-remove (
+\begin{DoxyParamCaption}
+\item[{{\bf queue} $\ast$}]{ myroot, }
+\item[{{\bf node} $\ast$}]{ mynode}
+\end{DoxyParamCaption}
+)}}
+\label{queue_8c_af17ef4b6ba0d442a589661a45d86143b}
+queue\_\-remove
+
+Estrae un nodo dalla lista, dato il puntatore a quel nodo
+
+
+\begin{DoxyParams}{Parametri}
+\item[{\em myroot}]Coda da cui rimuovere il nodo \item[{\em mynode}]Nodo da rimuovere \end{DoxyParams}

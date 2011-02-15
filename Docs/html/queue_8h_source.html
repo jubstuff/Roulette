@@ -53,7 +53,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Cerca');
 <a name="l00010"></a>00010 <span class="preprocessor"></span><span class="preprocessor">#define QUEUE_H</span>
 <a name="l00011"></a>00011 <span class="preprocessor"></span>
 <a name="l00020"></a><a class="code" href="structnode__tag.html">00020</a> <span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="structnode__tag.html">node_tag</a> {
-<a name="l00021"></a>00021     <span class="keyword">struct </span><a class="code" href="structnode__tag.html">node</a> *next;
+<a name="l00021"></a>00021     <span class="keyword">struct </span><a class="code" href="structnode__tag.html">node_tag</a> *next;
 <a name="l00022"></a>00022 } <a class="code" href="structnode__tag.html">node</a>;
 <a name="l00023"></a>00023 
 <a name="l00033"></a><a class="code" href="structqueue.html">00033</a> <span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="structqueue.html">queue</a> {
@@ -67,9 +67,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Cerca');
 <a name="l00056"></a>00056 
 <a name="l00064"></a>00064 <a class="code" href="structnode__tag.html">node</a> *<a class="code" href="queue_8c.html#aaeb93fdc18868cbb811248f0f58e5f29">queue_get</a>(<a class="code" href="structqueue.html">queue</a> *myroot);
 <a name="l00065"></a>00065 
-<a name="l00066"></a>00066 
-<a name="l00067"></a>00067 <span class="preprocessor">#endif  </span><span class="comment">/* QUEUE_H */</span>
-<a name="l00068"></a>00068 
+<a name="l00074"></a>00074 <span class="keywordtype">void</span> <a class="code" href="queue_8c.html#af17ef4b6ba0d442a589661a45d86143b">queue_remove</a>(<a class="code" href="structqueue.html">queue</a> *myroot, <a class="code" href="structnode__tag.html">node</a> *mynode);
+<a name="l00075"></a>00075 
+<a name="l00076"></a>00076 <span class="preprocessor">#endif  </span><span class="comment">/* QUEUE_H */</span>
+<a name="l00077"></a>00077 
 </pre></div></div>
 </div>
 <!--- window showing the filter options -->
@@ -86,7 +87,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Cerca');
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generato il Mon Feb 14 2011 11:36:18 per Roulette da&nbsp;
+<hr class="footer"/><address class="footer"><small>Generato il Tue Feb 15 2011 13:22:28 per Roulette da&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.1 </small></address>
 </body>

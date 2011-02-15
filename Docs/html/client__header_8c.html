@@ -46,7 +46,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Cerca');
 </div>
 <div class="header">
   <div class="summary">
-<a href="#define-members">Definizioni</a> &#124;
 <a href="#func-members">Funzioni</a>  </div>
   <div class="headertitle">
 <h1>Riferimenti per il file clientRoulette/client_header.c</h1>  </div>
@@ -59,26 +58,125 @@ var searchBox = new SearchBox("searchBox", "search",false,'Cerca');
 <code>#include &lt;stdio.h&gt;</code><br/>
 <code>#include &lt;ctype.h&gt;</code><br/>
 <table class="memberdecls">
-<tr><td colspan="2"><h2><a name="define-members"></a>
-Definizioni</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="adcb807d07c827e1dedb724c173448a1d"></a><!-- doxytag: member="client_header.c::ENUMRANGE" ref="adcb807d07c827e1dedb724c173448a1d" args="" -->
-#define&nbsp;</td><td class="memItemRight" valign="bottom"><b>ENUMRANGE</b>&nbsp;&nbsp;&nbsp;-1</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a47d70c94869921b38ce33b0943dc6332"></a><!-- doxytag: member="client_header.c::ECHARINV" ref="a47d70c94869921b38ce33b0943dc6332" args="" -->
-#define&nbsp;</td><td class="memItemRight" valign="bottom"><b>ECHARINV</b>&nbsp;&nbsp;&nbsp;-2</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aedbf20597fbc56fa9c9847882a26ebae"></a><!-- doxytag: member="client_header.c::EBADSYNTAX" ref="aedbf20597fbc56fa9c9847882a26ebae" args="" -->
-#define&nbsp;</td><td class="memItemRight" valign="bottom"><b>EBADSYNTAX</b>&nbsp;&nbsp;&nbsp;-3</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5d53239c66d66243dbed7671c6f9e708"></a><!-- doxytag: member="client_header.c::NO_NUMBER" ref="a5d53239c66d66243dbed7671c6f9e708" args="" -->
-#define&nbsp;</td><td class="memItemRight" valign="bottom"><b>NO_NUMBER</b>&nbsp;&nbsp;&nbsp;-4</td></tr>
 <tr><td colspan="2"><h2><a name="func-members"></a>
 Funzioni</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="client__header_8c.html#ad98f8ca6b7ffe682fd74da13e36ab9c2">lettorePuntate</a> (void *arg)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="client__header_8c.html#ad34fbc512102348b43cef9fad9fa4d68">parse_bet</a> (char *puntataStr, int *sommaPuntata, int *tipoPuntata, int *numeroPuntato)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="client__header_8c.html#a3978dc9b388b3ccbabd77843aa74e9eb">tipoPuntataTestuale</a> (int tipo)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="client__header_8c.html#a050ab897563bee7cb8128b3befbab3de">gestisciMessaggiVittoria</a> (int serverFd, int clientFd, char *bufRisultato)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="client__header_8c.html#a7ed8f7f96644314f527c7055df91c7f2">gestisciMessaggiPerdita</a> (int serverFd, char *nickname)</td></tr>
 </table>
 <hr/><a name="_details"></a><h2>Descrizione dettagliata</h2>
 <p>Include tutte le definizioni per il client della Roulette. </p>
 <p>Gruppo 7 </p>
 <dl class="date"><dt><b>Data:</b></dt><dd>Gennaio 2011 </dd></dl>
 <hr/><h2>Documentazione delle funzioni</h2>
+<a class="anchor" id="a7ed8f7f96644314f527c7055df91c7f2"></a><!-- doxytag: member="client_header.c::gestisciMessaggiPerdita" ref="a7ed8f7f96644314f527c7055df91c7f2" args="(int serverFd, char *nickname)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void gestisciMessaggiPerdita </td>
+          <td>(</td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>serverFd</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char *&nbsp;</td>
+          <td class="paramname"> <em>nickname</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>gestisciMessaggiPerdita</p>
+<p>Invia i messaggi di congratulazione a tutti i giocatori che hanno vinto</p>
+<dl><dt><b>Parametri:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>serverFd</em>&nbsp;</td><td>Socket di comunicazione con il server </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>nickname</em>&nbsp;</td><td>Nickname del giocatore corrente </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a050ab897563bee7cb8128b3befbab3de"></a><!-- doxytag: member="client_header.c::gestisciMessaggiVittoria" ref="a050ab897563bee7cb8128b3befbab3de" args="(int serverFd, int clientFd, char *bufRisultato)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void gestisciMessaggiVittoria </td>
+          <td>(</td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>serverFd</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>clientFd</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char *&nbsp;</td>
+          <td class="paramname"> <em>bufRisultato</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>gestisciMessaggiVittoria</p>
+<p>Riceve tutti i messaggi di congratulazione dai giocatori che hanno perso e li salva in bufRisultato</p>
+<dl><dt><b>Parametri:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>serverFd</em>&nbsp;</td><td>Socket di comunicazione con il server </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>clientFd</em>&nbsp;</td><td>Socket su cui il client è in ascolto per i messaggi di congratulazione </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>bufRisultato</em>&nbsp;</td><td>Stringa contenente tutti i messaggi di congratulazione </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="ad98f8ca6b7ffe682fd74da13e36ab9c2"></a><!-- doxytag: member="client_header.c::lettorePuntate" ref="ad98f8ca6b7ffe682fd74da13e36ab9c2" args="(void *arg)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void * lettorePuntate </td>
+          <td>(</td>
+          <td class="paramtype">void *&nbsp;</td>
+          <td class="paramname"> <em>arg</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>lettorePuntate</p>
+<p>Routine per il thread lettorePuntate </p>
+<dl><dt><b>Parametri:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>arg</em>&nbsp;</td><td>Argomento del player thread. //TODO inserire cosa ci sta </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Restituisce:</b></dt><dd></dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="ad34fbc512102348b43cef9fad9fa4d68"></a><!-- doxytag: member="client_header.c::parse_bet" ref="ad34fbc512102348b43cef9fad9fa4d68" args="(char *puntataStr, int *sommaPuntata, int *tipoPuntata, int *numeroPuntato)" -->
 <div class="memitem">
 <div class="memproto">
@@ -116,7 +214,23 @@ Funzioni</h2></td></tr>
 </div>
 <div class="memdoc">
 <p>parse_bet</p>
-<p>Analizza una puntata. Riconosce se è stata fatta una puntata di tipo Pari/Dispari oppure su un numero </p>
+<p>Analizza una puntata. Riconosce se è stata fatta una puntata di tipo Pari/Dispari oppure su un numero</p>
+<dl><dt><b>Parametri:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>puntataStr</em>&nbsp;</td><td>L'input dell'utente da linea di comando. Deve essere uno di questi tre tipi:</p>
+<ul>
+<li>D:&lt;X&gt;;</li>
+<li>P:&lt;X&gt;;</li>
+<li>&lt;X&gt;:&lt;Y&gt; </li>
+</ul>
+</td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>sommaPuntata</em>&nbsp;</td><td>[out] Somma puntata dal giocatore </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>tipoPuntata</em>&nbsp;</td><td>[out] Tipo di puntata effettuata </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>numeroPuntato</em>&nbsp;</td><td>[out] Numero puntato dal giocatore </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Restituisce:</b></dt><dd></dd></dl>
 
 </div>
 </div>
@@ -168,7 +282,7 @@ Funzioni</h2></td></tr>
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generato il Mon Feb 14 2011 11:36:18 per Roulette da&nbsp;
+<hr class="footer"/><address class="footer"><small>Generato il Tue Feb 15 2011 13:22:28 per Roulette da&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.1 </small></address>
 </body>

@@ -62,6 +62,7 @@ Funzioni</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="queue_8c.html#aca8dec1547e4309337e3a8aa90711d7b">queue_init</a> (<a class="el" href="structqueue.html">queue</a> *myroot)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="queue_8c.html#a963114e8540b1790eeba813066b4ddf6">queue_put</a> (<a class="el" href="structqueue.html">queue</a> *myroot, <a class="el" href="structnode__tag.html">node</a> *mynode)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="structnode__tag.html">node</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="queue_8c.html#aaeb93fdc18868cbb811248f0f58e5f29">queue_get</a> (<a class="el" href="structqueue.html">queue</a> *myroot)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="queue_8c.html#af17ef4b6ba0d442a589661a45d86143b">queue_remove</a> (<a class="el" href="structqueue.html">queue</a> *myroot, <a class="el" href="structnode__tag.html">node</a> *mynode)</td></tr>
 </table>
 <hr/><a name="_details"></a><h2>Descrizione dettagliata</h2>
 <p>Include la definizione della struttura dati queue. </p>
@@ -84,7 +85,7 @@ Funzioni</h2></td></tr>
 </div>
 <div class="memdoc">
 <p>queue_get</p>
-<p>Rimuove un nodo dalla coda </p>
+<p>Rimuove un nodo dalla testa della coda </p>
 <dl><dt><b>Parametri:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>myroot</em>&nbsp;</td><td>Coda da cui rimuovere il nodo </td></tr>
@@ -157,6 +158,42 @@ Funzioni</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="af17ef4b6ba0d442a589661a45d86143b"></a><!-- doxytag: member="queue.c::queue_remove" ref="af17ef4b6ba0d442a589661a45d86143b" args="(queue *myroot, node *mynode)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void queue_remove </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structqueue.html">queue</a> *&nbsp;</td>
+          <td class="paramname"> <em>myroot</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structnode__tag.html">node</a> *&nbsp;</td>
+          <td class="paramname"> <em>mynode</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>queue_remove</p>
+<p>Estrae un nodo dalla lista, dato il puntatore a quel nodo</p>
+<dl><dt><b>Parametri:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>myroot</em>&nbsp;</td><td>Coda da cui rimuovere il nodo </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>mynode</em>&nbsp;</td><td>Nodo da rimuovere </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 </div>
 <!--- window showing the filter options -->
 <div id="MSearchSelectWindow"
@@ -172,7 +209,7 @@ Funzioni</h2></td></tr>
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generato il Mon Feb 14 2011 11:36:19 per Roulette da&nbsp;
+<hr class="footer"/><address class="footer"><small>Generato il Tue Feb 15 2011 13:22:28 per Roulette da&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.1 </small></address>
 </body>
