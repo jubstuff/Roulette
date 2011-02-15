@@ -57,5 +57,7 @@ char *tipoPuntataTestuale(int tipo);
 
 
 void gestisciMessaggiVittoria(int serverFd, int clientFd, int *numeroPerdenti, char *bufRisultato);
+
+void gestisciMessaggiPerdita(int serverFd, int *numeroVincitori, char *nickname);
 #endif	/* CLIENT_HEADER_H */
 

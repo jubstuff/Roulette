@@ -83,5 +83,53 @@ void gestisciMessaggiVittoria(int serverFd, int clientFd, int *numeroPerdenti, c
         Close(perdenteFd);
         (*numeroPerdenti)--;
     }
+
+}
+
+void gestisciMessaggiPerdita(int serverFd, int *numeroVincitori, char *nickname) {
+    //ho perso
+    int vincitoreFd;
+    struct sockaddr_in vincitoreData;
+    in_port_t tempPort;
+    char buf[100];
+    size_t lenBufCongratulazioni;
+    char bufCongratulazioni[100];
     
+    //deve ricevere numvincitori
+    Read(serverFd, numeroVincitori, sizeof (int));
+    printf("\nHo perso!!!\n");
+    printf("Devo mandare %d messaggi di congratulazioni\n", *numeroVincitori);
+    while (*numeroVincitori > 0) {
+        //legge indirizzo IP e porta di ogni vincitore
+        Read(serverFd, buf, IP_ADDRESS_LENGTH);
+        Read(serverFd, &tempPort, sizeof (in_port_t));
+        printf("%s:%d\n", buf, tempPort);
+
+        //apre socket
+        vincitoreFd = Socket(AF_INET, SOCK_STREAM, 0);
+        //dati di connessione del vincitore
+        bzero(&vincitoreData, sizeof (vincitoreData));
+        vincitoreData.sin_family = AF_INET;
+        vincitoreData.sin_port = htons(tempPort);
+        inet_aton(buf, &vincitoreData.sin_addr);
+
+
+        Connect(vincitoreFd, (struct sockaddr *) &vincitoreData,
+                sizeof (vincitoreData));
+        //scrive sul socket
+        bzero(&bufCongratulazioni[0], sizeof (bufCongratulazioni));
+        strcpy(bufCongratulazioni, nickname);
+        strcat(bufCongratulazioni, " si congratula.");
+        lenBufCongratulazioni = sizeof (bufCongratulazioni);
+
+        Write(vincitoreFd, &lenBufCongratulazioni, sizeof (size_t));
+        Write(vincitoreFd, bufCongratulazioni, sizeof (bufCongratulazioni));
+        //chiude socket
+        Close(vincitoreFd);
+
+
+        (*numeroVincitori)--;
+    }
+    //deve leggere tutti gli ip e le porte dei vincitori
+    //deve inviare numVincitori messaggi sui socket
 }
