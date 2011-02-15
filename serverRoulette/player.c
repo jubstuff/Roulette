@@ -18,7 +18,6 @@ void *player(void *arg) {
     queue listaPuntatePrivata;
     argomento_gestore_puntate_t *argomentoGestorePuntate;
     size_t nicknameLen;
-    int flag = -1; //avvisa il client che le puntate sono chiuse
     int numeroVincitori;
     /*
      * Quando è già in atto una puntata, non si possono connettere nuovi giocatori
@@ -26,10 +25,11 @@ void *player(void *arg) {
      */
     Pthread_mutex_lock(&sessionePuntateCorrente.mutex);
     while (sessionePuntateCorrente.stato == 1) {
-        Pthread_cond_wait(&sessionePuntateCorrente.chiuse, &sessionePuntateCorrente.mutex);
+        Pthread_cond_wait(&sessionePuntateCorrente.chiuse,
+            &sessionePuntateCorrente.mutex);
     }
     Pthread_mutex_unlock(&sessionePuntateCorrente.mutex);
-    
+
 
     /*
      * Recupera dati dal client e inserisci un nuovo giocatore nella lista
@@ -37,27 +37,25 @@ void *player(void *arg) {
     datiGiocatore = (player_t *) Malloc(sizeof (player_t));
 
     datiGiocatore->datiConnessioneClient = (client_t *) arg;
-    Read(datiGiocatore->datiConnessioneClient->clientFd, &datiGiocatore->portaMessaggiCongratulazioni, sizeof (in_port_t));
-    Read(datiGiocatore->datiConnessioneClient->clientFd, &datiGiocatore->budgetAttuale, sizeof (int));
-    Read(datiGiocatore->datiConnessioneClient->clientFd, &nicknameLen, sizeof (size_t));
-    Read(datiGiocatore->datiConnessioneClient->clientFd, datiGiocatore->nickname, nicknameLen);
+    Read(datiGiocatore->datiConnessioneClient->clientFd,
+            &datiGiocatore->portaMessaggiCongratulazioni, sizeof (in_port_t));
+    Read(datiGiocatore->datiConnessioneClient->clientFd,
+            &datiGiocatore->budgetAttuale, sizeof (int));
+    Read(datiGiocatore->datiConnessioneClient->clientFd,
+            &nicknameLen, sizeof (size_t));
+    Read(datiGiocatore->datiConnessioneClient->clientFd,
+            datiGiocatore->nickname, nicknameLen);
 
-    datiGiocatore->portaMessaggiCongratulazioni = ntohs(datiGiocatore->portaMessaggiCongratulazioni);
+    datiGiocatore->portaMessaggiCongratulazioni =
+            ntohs(datiGiocatore->portaMessaggiCongratulazioni);
     datiGiocatore->budgetPrecedente = 0;
     datiGiocatore->vincitore = 0;
 
     printf("====Dati Giocatore====\n");
     printf("Nickname: %s\n", datiGiocatore->nickname);
     printf("Budget Iniziale: %d\n", datiGiocatore->budgetAttuale);
-    printf("Porta Congratulazioni: %d\n\n", htons(datiGiocatore->portaMessaggiCongratulazioni));
-
-
-    /*
-     * Se le puntate sono chiuse, ma è in atto l'analisi della puntate, non
-     * devo ancora connettermi
-     * TODO controllare che funzioni, altrimenti eliminare
-     */
-
+    printf("Porta Congratulazioni: %d\n\n",
+            htons(datiGiocatore->portaMessaggiCongratulazioni));
 
     Pthread_mutex_lock(&sessioneGiocoCorrente.mutex);
     queue_put(&sessioneGiocoCorrente.elencoGiocatori, (node *) datiGiocatore);
@@ -74,32 +72,35 @@ void *player(void *arg) {
     /*
      * Prepara l'argomento da passare al thread gestore delle puntate
      */
-    argomentoGestorePuntate = (argomento_gestore_puntate_t *) Malloc(sizeof (argomento_gestore_puntate_t));
+    argomentoGestorePuntate =
+        (argomento_gestore_puntate_t *) Malloc(sizeof (argomento_gestore_puntate_t));
     queue_init(&listaPuntatePrivata);
     argomentoGestorePuntate->listaPuntatePrivata = &listaPuntatePrivata;
     argomentoGestorePuntate->clientFd = datiGiocatore->datiConnessioneClient->clientFd;
 
     while (1) {
-        flag = -1; //TODO rimuovere??
         /*
          * Aspetta che il croupier apra le puntate
          */
         printf("[Player] Aspetto l'apertura delle puntate\n");
         Pthread_mutex_lock(&sessionePuntateCorrente.mutex);
         while (sessionePuntateCorrente.stato == 0) {
-            Pthread_cond_wait(&sessionePuntateCorrente.aperte, &sessionePuntateCorrente.mutex);
+            Pthread_cond_wait(&sessionePuntateCorrente.aperte,
+                    &sessionePuntateCorrente.mutex);
         }
         Pthread_mutex_unlock(&sessionePuntateCorrente.mutex);
 
         printf("[Player] Creo il gestore delle puntate\n");
-        Pthread_create(&tidGestorePuntateGiocatore, NULL, gestorePuntateGiocatore, (void *) argomentoGestorePuntate);
+        Pthread_create(&tidGestorePuntateGiocatore, NULL,
+                gestorePuntateGiocatore, (void *) argomentoGestorePuntate);
 
         /*
          * Aspetta che il croupier chiuda le puntate
          */
         Pthread_mutex_lock(&sessionePuntateCorrente.mutex);
         while (sessionePuntateCorrente.stato == 1) {
-            Pthread_cond_wait(&sessionePuntateCorrente.chiuse, &sessionePuntateCorrente.mutex);
+            Pthread_cond_wait(&sessionePuntateCorrente.chiuse,
+                    &sessionePuntateCorrente.mutex);
         }
         Pthread_mutex_unlock(&sessionePuntateCorrente.mutex);
 
@@ -132,49 +133,47 @@ void *player(void *arg) {
         Pthread_mutex_lock(&analisiSessionePuntata.mutex);
         while (analisiSessionePuntata.stato == 0) {
             printf("[player] Aspetto che termini la gestione delle puntaten\n");
-            Pthread_cond_wait(&analisiSessionePuntata.attesaMessaggi, &analisiSessionePuntata.mutex);
+            Pthread_cond_wait(&analisiSessionePuntata.attesaMessaggi,
+                    &analisiSessionePuntata.mutex);
         }
         Pthread_mutex_unlock(&analisiSessionePuntata.mutex);
 
         //=gestione messaggi tra client
 
-        //connetterci al socket del client e inviare messaggio di chiusura puntate
-
         Pthread_mutex_lock(&sessioneGiocoCorrente.mutex);
 
         if (datiGiocatore->vincitore == 1) {
-            //invia 1 per dire che ha vinto
-            //flag = 1;
-            //write(datiGiocatore->datiConnessioneClient->clientFd, &flag, sizeof (int)); //TODO check error
-           
-            Write(datiGiocatore->datiConnessioneClient->clientFd, &(datiGiocatore->vincitore), sizeof (int));
+            //vinto
+            Write(datiGiocatore->datiConnessioneClient->clientFd,
+                    &(datiGiocatore->vincitore), sizeof (int));
             //invia il numero di perdenti al client
-
             Pthread_mutex_lock(&analisiSessionePuntata.mutex);
-            Write(datiGiocatore->datiConnessioneClient->clientFd, &analisiSessionePuntata.numeroPerdenti, sizeof (int));
+            Write(datiGiocatore->datiConnessioneClient->clientFd,
+                    &analisiSessionePuntata.numeroPerdenti, sizeof (int));
             Pthread_mutex_unlock(&analisiSessionePuntata.mutex);
         } else if (datiGiocatore->vincitore == 0 || datiGiocatore->vincitore == 2) {
-            //invia 0 per dire che ha perso
-            //flag = 0;
-            //write(datiGiocatore->datiConnessioneClient->clientFd, &flag, sizeof (int));
-            Write(datiGiocatore->datiConnessioneClient->clientFd, &(datiGiocatore->vincitore), sizeof (int));
+            //perso
+            Write(datiGiocatore->datiConnessioneClient->clientFd,
+                    &(datiGiocatore->vincitore), sizeof (int));
             //invia il numero dei vincitori
             Pthread_mutex_lock(&analisiSessionePuntata.mutex);
             numeroVincitori = analisiSessionePuntata.numeroVincitori;
             Pthread_mutex_unlock(&analisiSessionePuntata.mutex);
-            Write(datiGiocatore->datiConnessioneClient->clientFd, &numeroVincitori, sizeof (int));
-
+            Write(datiGiocatore->datiConnessioneClient->clientFd,
+                    &numeroVincitori, sizeof (int));
 
             //per ogni vincitore, invia indirizzo IP e porta congratulazioni al client
             Pthread_mutex_lock(&analisiSessionePuntata.mutex);
             vincitore_t *temp = (vincitore_t *) analisiSessionePuntata.elencoVincitori.head;
             while (temp != NULL) {
                 //scrivere indirizzo ip giocatore[i]
-                write(datiGiocatore->datiConnessioneClient->clientFd, inet_ntoa(temp->indirizzoIp.sin_addr), IP_ADDRESS_LENGTH);
+                write(datiGiocatore->datiConnessioneClient->clientFd,
+                        inet_ntoa(temp->indirizzoIp.sin_addr), IP_ADDRESS_LENGTH);
                 //scrivere porta giocatore[i]
                 int tempPort = htons(temp->portaMessaggiCongratulazioni);
-                write(datiGiocatore->datiConnessioneClient->clientFd, &tempPort, sizeof (in_port_t));
-                //printf("Porta Congratulazioni: %d\n\n", temp->portaMessaggiCongratulazioni);
+                write(datiGiocatore->datiConnessioneClient->clientFd,
+                        &tempPort, sizeof (in_port_t));
+                
                 temp = (vincitore_t *) temp->next;
             }
             Pthread_mutex_unlock(&analisiSessionePuntata.mutex);
@@ -183,18 +182,14 @@ void *player(void *arg) {
 
         if (datiGiocatore->vincitore == 2) {
             //se ho perso tutti i soldi, eliminarmi dal gioco
-            //TODO
-            //stacca il nodo dalla lista
-            //disconnetti
-            //pulisci la memoria
             //TODO controllare se funziona altrimenti eliminare
             printf("[Player] Ho perso\n");
             sessioneGiocoCorrente.giocatoriConnessi--;
-            queue_remove(&(sessioneGiocoCorrente.elencoGiocatori), (node *)datiGiocatore);
+            queue_remove(&(sessioneGiocoCorrente.elencoGiocatori),
+                    (node *) datiGiocatore);
             Pthread_mutex_unlock(&sessioneGiocoCorrente.mutex);
             break;
         }
-
         Pthread_mutex_unlock(&sessioneGiocoCorrente.mutex);
     }
     free(datiGiocatore);
@@ -229,13 +224,6 @@ void *gestorePuntateGiocatore(void *arg) {
         singolaPuntata->tipoPuntata = tipoPuntata;
         singolaPuntata->sommaPuntata = sommaPuntata;
         singolaPuntata->numeroPuntato = tipoPuntata;
-        /*
-        printf("Il tipo puntata è %d\n", singolaPuntata->tipoPuntata);
-        printf("La somma puntata è %d\n", singolaPuntata->sommaPuntata);
-        if(singolaPuntata->numeroPuntato >= 0) {
-                printf("Il numero puntato è %d\n", singolaPuntata->numeroPuntato);
-        }
-         */
 
         queue_put(argomento->listaPuntatePrivata, (node *) singolaPuntata);
         singolaPuntata = NULL;

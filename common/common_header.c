@@ -286,3 +286,19 @@ ssize_t Read(int fd, void *buf, size_t count) {
     }
     return bytes_read;
 }
+
+void Getsockname(int sockfd, struct sockaddr *addr, socklen_t *addrlen) {
+    int status;
+    status = getsockname(sockfd, addr, addrlen);
+    if(status != 0) {
+        err_abort(errno, "Errore nella getsockname");
+    }
+}
+
+void Pipe(int fildes[2]) {
+    int status;
+    status = pipe(fildes);
+    if(status != 0){
+        err_abort(errno, "Errore nella pipe");
+    }
+}

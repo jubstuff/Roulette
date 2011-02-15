@@ -57,12 +57,20 @@ void queue_put(queue *myroot, node *mynode);
 /**
  * queue_get
  *
- * Rimuove un nodo dalla coda
+ * Rimuove un nodo dalla testa della coda
  * @param myroot Coda da cui rimuovere il nodo
  * @return Puntatore al nodo rimosso
  */
 node *queue_get(queue *myroot);
 
+/**
+ * queue_remove
+ *
+ * Estrae un nodo dalla lista, dato il puntatore a quel nodo
+ *
+ * @param myroot Coda da cui rimuovere il nodo
+ * @param mynode Nodo da rimuovere
+ */
 void queue_remove(queue *myroot, node *mynode);
 
 #endif	/* QUEUE_H */

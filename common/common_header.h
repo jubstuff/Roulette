@@ -575,9 +575,28 @@ ssize_t Write(int fd, const void *buf, size_t count);
  */
 ssize_t Read(int fd, void *buf, size_t count);
 
-//TODO getsockname
-//TODO pipe
-//TODO fork
+/**
+ * Getsockname
+ *
+ * Wrapper function per la system call Getsockname. Termina il programma se si
+ * verifica un errore
+ * 
+ * @param sockfd
+ * @param addr
+ * @param addrlen
+ */
+void Getsockname(int sockfd, struct sockaddr *addr, socklen_t *addrlen);
+
+/**
+ * Pipe
+ *
+ * Wrapper function per la system call Pipe. Termina il programma se si verifica
+ * un errore
+ * 
+ * @param fildes
+ */
+void Pipe(int fildes[2]);
+
 //TODO wait
 
 

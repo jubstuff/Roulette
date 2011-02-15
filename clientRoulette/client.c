@@ -55,7 +55,7 @@ int main(int argc, char **argv) {
     /* somma di denaro allocata */
     budget = atoi(argv[4]);
 
-    if(budget > LIMITE_BUDGET) {
+    if (budget > LIMITE_BUDGET) {
         err_abort(0, "Limite budget superato. Imposta un budget minore");
     }
 
@@ -73,7 +73,7 @@ int main(int argc, char **argv) {
     Listen(clientFd, 5); //TODO quanti ce ne devono stare nella listen?
 
 
-    status = getsockname(clientFd, (struct sockaddr *) &clientData, &clientAddrlen);
+    Getsockname(clientFd, (struct sockaddr *) &clientData, &clientAddrlen);
     printf("Porta assegnata: %d\n", ntohs(clientData.sin_port));
 
     /*
@@ -124,13 +124,10 @@ int main(int argc, char **argv) {
         bzero(&bufCongratulazioni[0], sizeof (bufCongratulazioni));
 
         //creazione pipe
-        if (pipe(fd) < 0) {
-            perror("pipe");
-            exit(1);
-        }
+        Pipe(fd);
+        
         if ((pid = fork()) < 0) {
-            perror("fork");
-            exit(1);
+            err_abort(errno, "Errore nella fork");
         } else if (pid > 0) {
             //padre
             Close(fd[1]);
@@ -208,7 +205,8 @@ int main(int argc, char **argv) {
                     inet_aton(buf, &vincitoreData.sin_addr);
 
 
-                    Connect(vincitoreFd, (struct sockaddr *) &vincitoreData, sizeof (vincitoreData));
+                    Connect(vincitoreFd, (struct sockaddr *) &vincitoreData,
+                            sizeof (vincitoreData));
                     //scrive sul socket
                     bzero(&bufCongratulazioni[0], sizeof (bufCongratulazioni));
                     strcpy(bufCongratulazioni, nickname);
@@ -225,25 +223,15 @@ int main(int argc, char **argv) {
                 }
                 //deve leggere tutti gli ip e le porte dei vincitori
                 //deve inviare numVincitori messaggi sui socket
-            }
-/*
-            else if(flagFinePuntate == 2) {
-                //ho finito i soldi
-                strcpy(bufRisultato, "Hai Perso\n");
-                Write(fd[1], &lenBufRisultato, sizeof (size_t));
-                Write(fd[1], bufRisultato, sizeof (bufRisultato));
-            }
-*/
-            else {
+            } else {
                 //non dovrebbe mai arrivare qui, nel caso, termina
                 abort();
             }
-            //gestisci messaggi
-
             exit(1);
         }//fine figlio
         //fine pipe
-        if(flagFinePuntate == 2){
+        if (flagFinePuntate == 2) {
+            //se ho finito i soldi, termina
             break;
         }
     }//while(1)
@@ -261,14 +249,16 @@ void *lettorePuntate(void *arg) {
     int numeroPuntato;
     int serverFd = (int) arg;
     char prompt[] = "Puntata?>";
-    Write(STDIN_FILENO, prompt, sizeof(prompt));
+
+    Write(STDIN_FILENO, prompt, sizeof (prompt));
     while ((bytesRead = Read(STDIN_FILENO, puntata, MAXBUF)) > 0) {
         puntata[bytesRead - 1] = '\0';
         if ((strcmp(puntata, "exit") == 0)) {
+            //TODO rimuovere?
             printf("Esco\n");
             exit(1);
         }
-        
+
         if (!parse_bet(puntata, &sommaPuntata, &tipoPuntata, &numeroPuntato)) {
             printf("Sono stati puntati %d€\n", sommaPuntata);
             printf("Il tipo puntata è %s\n", tipoPuntataTestuale(tipoPuntata));
@@ -282,7 +272,7 @@ void *lettorePuntate(void *arg) {
         } else {
             printf("Puntata non valida, ritenta.\n");
         }
-        Write(STDIN_FILENO, prompt, sizeof(prompt));
+        Write(STDIN_FILENO, prompt, sizeof (prompt));
     }
     pthread_exit(NULL);
 }
