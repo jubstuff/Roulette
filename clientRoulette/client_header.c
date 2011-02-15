@@ -9,6 +9,42 @@
 #include <stdio.h>
 #include <ctype.h>
 
+void *lettorePuntate(void *arg) {
+    ssize_t bytesRead;
+    char puntata[20];
+    int sommaPuntata;
+    int tipoPuntata;
+    int numeroPuntato;
+    int serverFd = (int) arg;
+    char prompt[] = "Puntata?>";
+
+    Write(STDIN_FILENO, prompt, sizeof (prompt));
+    while ((bytesRead = Read(STDIN_FILENO, puntata, MAXBUF)) > 0) {
+        puntata[bytesRead - 1] = '\0';
+        if ((strcmp(puntata, "exit") == 0)) {
+            //TODO rimuovere?
+            printf("Esco\n");
+            exit(1);
+        }
+
+        if (!parse_bet(puntata, &sommaPuntata, &tipoPuntata, &numeroPuntato)) {
+            printf("Sono stati puntati %d€\n", sommaPuntata);
+            printf("Il tipo puntata è %s\n", tipoPuntataTestuale(tipoPuntata));
+            if (tipoPuntata >= 0) {
+                printf("È stato puntato il numero %d\n", numeroPuntato);
+            }
+
+            Write(serverFd, &tipoPuntata, sizeof (int));
+            Write(serverFd, &sommaPuntata, sizeof (int));
+
+        } else {
+            printf("Puntata non valida, ritenta.\n");
+        }
+        Write(STDIN_FILENO, prompt, sizeof (prompt));
+    }
+    pthread_exit(NULL);
+}
+
 int parse_bet(char *puntataStr, int *sommaPuntata, int *tipoPuntata, int *numeroPuntato) {
     /* FIXME non c'è controllo sull'overflow dell'int dei soldi.
      * Non dovrebbe essere un grosso problema in ogni caso, perché
@@ -60,17 +96,19 @@ char *tipoPuntataTestuale(int tipo) {
     }
 }
 
-void gestisciMessaggiVittoria(int serverFd, int clientFd, int *numeroPerdenti, char *bufRisultato) {
+void gestisciMessaggiVittoria(int serverFd, int clientFd, char *bufRisultato) {
     int perdenteFd;
     size_t lenBufCongratulazioni;
     char bufCongratulazioni[100];
-    Read(serverFd, numeroPerdenti, sizeof (int));
+    int numeroPerdenti;
+
+    Read(serverFd, &numeroPerdenti, sizeof (int));
 
     printf("\nHo vinto!!\n");
-    printf("Devo aspettarmi %d messaggi di congratulazioni\n", *numeroPerdenti);
+    printf("Devo aspettarmi %d messaggi di congratulazioni\n", numeroPerdenti);
 
     //deve accettare numPerdenti messaggi sul socket
-    while (*numeroPerdenti > 0) {
+    while (numeroPerdenti > 0) {
         //accept
         perdenteFd = Accept(clientFd, NULL, NULL);
         //read(sul clientFd,"nickname si congratula");
@@ -81,12 +119,12 @@ void gestisciMessaggiVittoria(int serverFd, int clientFd, int *numeroPerdenti, c
         strcat(bufRisultato, "\n");
 
         Close(perdenteFd);
-        (*numeroPerdenti)--;
+        (numeroPerdenti)--;
     }
 
 }
 
-void gestisciMessaggiPerdita(int serverFd, int *numeroVincitori, char *nickname) {
+void gestisciMessaggiPerdita(int serverFd, char *nickname) {
     //ho perso
     int vincitoreFd;
     struct sockaddr_in vincitoreData;
@@ -94,12 +132,13 @@ void gestisciMessaggiPerdita(int serverFd, int *numeroVincitori, char *nickname)
     char buf[100];
     size_t lenBufCongratulazioni;
     char bufCongratulazioni[100];
-    
+    int numeroVincitori;
+
     //deve ricevere numvincitori
-    Read(serverFd, numeroVincitori, sizeof (int));
+    Read(serverFd, &numeroVincitori, sizeof (int));
     printf("\nHo perso!!!\n");
-    printf("Devo mandare %d messaggi di congratulazioni\n", *numeroVincitori);
-    while (*numeroVincitori > 0) {
+    printf("Devo mandare %d messaggi di congratulazioni\n", numeroVincitori);
+    while (numeroVincitori > 0) {
         //legge indirizzo IP e porta di ogni vincitore
         Read(serverFd, buf, IP_ADDRESS_LENGTH);
         Read(serverFd, &tempPort, sizeof (in_port_t));
@@ -127,9 +166,6 @@ void gestisciMessaggiPerdita(int serverFd, int *numeroVincitori, char *nickname)
         //chiude socket
         Close(vincitoreFd);
 
-
-        (*numeroVincitori)--;
+        (numeroVincitori)--;
     }
-    //deve leggere tutti gli ip e le porte dei vincitori
-    //deve inviare numVincitori messaggi sui socket
 }

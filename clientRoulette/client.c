@@ -13,15 +13,6 @@ int main(int argc, char **argv) {
     int serverFd;
     int clientFd;
 
-    int vincitoreFd;
-    int perdenteFd;
-    int status;
-    struct sockaddr_in vincitoreData;
-    in_port_t tempPort;
-
-    char bufCongratulazioni[100];
-    size_t lenBufCongratulazioni;
-
     char bufRisultato[MAXBUF];
     size_t lenBufRisultato;
 
@@ -37,8 +28,7 @@ int main(int argc, char **argv) {
     pthread_t tidLettorePuntate;
     char buf[100];
     int flagFinePuntate = -1;
-    int numeroPerdenti; //numero richieste da accettare
-    int numeroVincitori; //numero di messaggi da inviare
+
     int fd[2];
     int pid;
 
@@ -124,7 +114,6 @@ int main(int argc, char **argv) {
 
         //azzero le stringhe
         bzero(&bufRisultato[0], sizeof (bufRisultato));
-        bzero(&bufCongratulazioni[0], sizeof (bufCongratulazioni));
 
         //creazione pipe
         Pipe(fd);
@@ -137,7 +126,6 @@ int main(int argc, char **argv) {
             //riceve dal figlio tramite fd[0]
             if (flagFinePuntate == 1) {
                 //se ho vinto, ricevo i messaggi di congratulazioni
-                //buffer più grande
                 Read(fd[0], &lenBufRisultato, sizeof (size_t));
                 Read(fd[0], bufRisultato, lenBufRisultato);
                 //il padre stampa a video il messaggio di congratulazione
@@ -149,73 +137,31 @@ int main(int argc, char **argv) {
         } else {
             //figlio
             Close(fd[0]);
-            //manda al padre tramite fd[1]
-
-            //(pipe) da qua già nel figlio...
             if (flagFinePuntate == 1) {
-
-                gestisciMessaggiVittoria(serverFd, clientFd, &numeroPerdenti, bufRisultato);
-
+                //ho vinto
+                gestisciMessaggiVittoria(serverFd, clientFd, bufRisultato);
+                //invio il risultato al padre, tramite fd[1]
                 strcat(bufRisultato, "\0");
                 lenBufRisultato = sizeof (bufRisultato);
                 Write(fd[1], &lenBufRisultato, sizeof (size_t));
                 Write(fd[1], bufRisultato, sizeof (bufRisultato));
-                //TODO controllare se funziona il reset
-                bzero(&bufRisultato[0], sizeof (bufRisultato));
-                //-----------------------
-
             } else if (flagFinePuntate == 0 || flagFinePuntate == 2) {
-                gestisciMessaggiPerdita(serverFd, &numeroVincitori, nickname);
+                //ho perso
+                gestisciMessaggiPerdita(serverFd, nickname);
             } else {
                 //non dovrebbe mai arrivare qui, nel caso, termina
                 abort();
             }
             exit(1);
         }//fine figlio
-        //fine pipe
         if (flagFinePuntate == 2) {
             //se ho finito i soldi, termina
             break;
         }
     }//while(1)
+    
     //chiudo i socket 
     Close(serverFd);
     Close(clientFd);
-    pthread_exit(NULL);
-}
-
-void *lettorePuntate(void *arg) {
-    ssize_t bytesRead;
-    char puntata[20];
-    int sommaPuntata;
-    int tipoPuntata;
-    int numeroPuntato;
-    int serverFd = (int) arg;
-    char prompt[] = "Puntata?>";
-
-    Write(STDIN_FILENO, prompt, sizeof (prompt));
-    while ((bytesRead = Read(STDIN_FILENO, puntata, MAXBUF)) > 0) {
-        puntata[bytesRead - 1] = '\0';
-        if ((strcmp(puntata, "exit") == 0)) {
-            //TODO rimuovere?
-            printf("Esco\n");
-            exit(1);
-        }
-
-        if (!parse_bet(puntata, &sommaPuntata, &tipoPuntata, &numeroPuntato)) {
-            printf("Sono stati puntati %d€\n", sommaPuntata);
-            printf("Il tipo puntata è %s\n", tipoPuntataTestuale(tipoPuntata));
-            if (tipoPuntata >= 0) {
-                printf("È stato puntato il numero %d\n", numeroPuntato);
-            }
-
-            Write(serverFd, &tipoPuntata, sizeof (int));
-            Write(serverFd, &sommaPuntata, sizeof (int));
-
-        } else {
-            printf("Puntata non valida, ritenta.\n");
-        }
-        Write(STDIN_FILENO, prompt, sizeof (prompt));
-    }
     pthread_exit(NULL);
 }

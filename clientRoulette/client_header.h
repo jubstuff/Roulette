@@ -56,8 +56,8 @@ int parse_bet(char *puntataStr, int *sommaPuntata, int *tipoPuntata, int *numero
 char *tipoPuntataTestuale(int tipo);
 
 
-void gestisciMessaggiVittoria(int serverFd, int clientFd, int *numeroPerdenti, char *bufRisultato);
+void gestisciMessaggiVittoria(int serverFd, int clientFd, char *bufRisultato);
 
-void gestisciMessaggiPerdita(int serverFd, int *numeroVincitori, char *nickname);
+void gestisciMessaggiPerdita(int serverFd, char *nickname);
 #endif	/* CLIENT_HEADER_H */
 
