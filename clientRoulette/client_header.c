@@ -9,7 +9,6 @@
 #include <stdio.h>
 #include <ctype.h>
 
-
 int parse_bet(char *puntataStr, int *sommaPuntata, int *tipoPuntata, int *numeroPuntato) {
     /* FIXME non c'è controllo sull'overflow dell'int dei soldi.
      * Non dovrebbe essere un grosso problema in ogni caso, perché
@@ -59,4 +58,30 @@ char *tipoPuntataTestuale(int tipo) {
     } else {
         return "Puntata non valida";
     }
+}
+
+void gestisciMessaggiVittoria(int serverFd, int clientFd, int *numeroPerdenti, char *bufRisultato) {
+    int perdenteFd;
+    size_t lenBufCongratulazioni;
+    char bufCongratulazioni[100];
+    Read(serverFd, numeroPerdenti, sizeof (int));
+
+    printf("\nHo vinto!!\n");
+    printf("Devo aspettarmi %d messaggi di congratulazioni\n", *numeroPerdenti);
+
+    //deve accettare numPerdenti messaggi sul socket
+    while (*numeroPerdenti > 0) {
+        //accept
+        perdenteFd = Accept(clientFd, NULL, NULL);
+        //read(sul clientFd,"nickname si congratula");
+        Read(perdenteFd, &lenBufCongratulazioni, sizeof (size_t));
+        Read(perdenteFd, bufCongratulazioni, lenBufCongratulazioni);
+        //concatenare in un buffer risultato tutti i messaggi
+        strcat(bufRisultato, bufCongratulazioni);
+        strcat(bufRisultato, "\n");
+
+        Close(perdenteFd);
+        (*numeroPerdenti)--;
+    }
+    
 }

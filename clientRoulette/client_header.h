@@ -9,6 +9,8 @@
 #ifndef CLIENT_HEADER_H
 #define	CLIENT_HEADER_H
 
+#include "../common/common_header.h"
+
 #define ENUMRANGE -1
 #define ECHARINV -2
 #define EBADSYNTAX -3
@@ -52,5 +54,8 @@ int parse_bet(char *puntataStr, int *sommaPuntata, int *tipoPuntata, int *numero
  * @return La stringa corrispondente al tipo di puntata
  */
 char *tipoPuntataTestuale(int tipo);
+
+
+void gestisciMessaggiVittoria(int serverFd, int clientFd, int *numeroPerdenti, char *bufRisultato);
 #endif	/* CLIENT_HEADER_H */
 

@@ -15,7 +15,10 @@ int main(int argc, char **argv) {
     int perdenteFd;
     int vincitoreFd;
     int status;
+
+    char bufCongratulazioni[100];
     size_t lenBufCongratulazioni;
+    
     char bufRisultato[MAXBUF];
     size_t lenBufRisultato;
 
@@ -31,7 +34,6 @@ int main(int argc, char **argv) {
     int budget;
     pthread_t tidLettorePuntate;
     char buf[100];
-    char bufCongratulazioni[100];
     in_port_t tempPort;
     int flagFinePuntate = -1;
     int numeroPerdenti; //numero richieste da accettare
@@ -150,6 +152,7 @@ int main(int argc, char **argv) {
 
             //(pipe) da qua già nel figlio...
             if (flagFinePuntate == 1) {
+/*
                 //ho vinto
                 //leggo numero di perdenti
                 Read(serverFd, &numeroPerdenti, sizeof (int));
@@ -171,6 +174,8 @@ int main(int argc, char **argv) {
                     Close(perdenteFd);
                     numeroPerdenti--;
                 }
+*/
+                gestisciMessaggiVittoria(serverFd, clientFd, &numeroPerdenti, bufRisultato);
                 //printf("%s\n", bufCongratulazioni);
                 //non stampa più bufCongratulazioni ma lo manda al padre che lo stamperà
                 //-----------------------
