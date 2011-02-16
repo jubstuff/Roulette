@@ -37,7 +37,7 @@
  * lettorePuntate
  *
  * Routine per il thread lettorePuntate
- * @param arg Argomento del player thread. //TODO inserire cosa ci sta
+ * @param arg Argomento del player thread.
  * @return
  */
 void *lettorePuntate(void *arg);

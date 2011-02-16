@@ -35,7 +35,6 @@ node *queue_get(queue* myroot) {
     }
     return mynode;
 }
-//TODO controllare se funziona
 
 void queue_remove(queue *myroot, node *mynode) {
     node *prev = myroot->head;
@@ -46,7 +45,5 @@ void queue_remove(queue *myroot, node *mynode) {
             prev = prev->next;
         }
         prev->next = (prev->next)->next;
-        
-
     }
 }

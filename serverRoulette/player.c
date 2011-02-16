@@ -182,7 +182,7 @@ void *player(void *arg) {
 
         if (datiGiocatore->vincitore == 2) {
             //se ho perso tutti i soldi, eliminarmi dal gioco
-            //TODO controllare se funziona altrimenti eliminare
+
             printf("[Player] Ho perso\n");
             sessioneGiocoCorrente.giocatoriConnessi--;
             queue_remove(&(sessioneGiocoCorrente.elencoGiocatori),

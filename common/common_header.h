@@ -222,21 +222,23 @@ typedef struct analisiDiSessionePuntata {
  *
  * Gestisce la sessione di gioco corrente
  */
-sessione_gioco_t sessioneGiocoCorrente;
+extern sessione_gioco_t sessioneGiocoCorrente;
+
 
 /**
  * sessionePuntateCorrente
  * 
  * Gestisce la sessione di puntate corrente
  */
-sessione_puntate_t sessionePuntateCorrente;
+extern sessione_puntate_t sessionePuntateCorrente;
+
 
 /**
  * analisiSessionePuntata
  *
  * Gestisce l'analisi della sessione di puntate corrente
  */
-analisi_puntata_t analisiSessionePuntata;
+extern analisi_puntata_t analisiSessionePuntata;
 
 /**
  * messaggioPuntateAperte

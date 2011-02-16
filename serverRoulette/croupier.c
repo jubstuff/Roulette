@@ -10,7 +10,7 @@
 
 void *croupier(void *arg) {
     struct timespec intervalloGiocate;
-    int intervalloInSecondi = (int) arg; //questo viene passato dal main
+    int intervalloInSecondi = (int) arg;
     int status;
     int numeroEstratto;
     int contVincitori = 0;
@@ -25,7 +25,6 @@ void *croupier(void *arg) {
     while (1) {
         /*
          * Se non ci sono giocatori connessi, aspettane almeno numMinimo
-         * ASK ma anche se non ci sono puntate?
          */
         Pthread_mutex_lock(&sessioneGiocoCorrente.mutex);
         while (sessioneGiocoCorrente.giocatoriConnessi < numeroMinimoGiocatori) {
@@ -40,8 +39,6 @@ void *croupier(void *arg) {
          * Apri le puntate e risveglia tutti i giocatori in attesa di puntare
          */
         printf("\n\n[Croupier] Apro le puntate\n");
-
-
         Pthread_mutex_lock(&sessionePuntateCorrente.mutex);
         sessionePuntateCorrente.stato = 1;
         Pthread_cond_broadcast(&sessionePuntateCorrente.aperte);
@@ -64,11 +61,12 @@ void *croupier(void *arg) {
             partecipantiAllaPuntata = sessioneGiocoCorrente.giocatoriConnessi;
             Pthread_mutex_unlock(&sessioneGiocoCorrente.mutex);
 
-            //=============AGGIUNTO PER PROVA===================================
+            
             Pthread_mutex_lock(&analisiSessionePuntata.mutex);
+            //imposto lo stato dell'analisi a 'non iniziata'
             analisiSessionePuntata.stato = 0;
             Pthread_mutex_unlock(&analisiSessionePuntata.mutex);
-            //=============FINE AGGIUNTO PER PROVA==============================
+            
 
             Pthread_cond_broadcast(&sessionePuntateCorrente.chiuse);
         }
@@ -85,21 +83,15 @@ void *croupier(void *arg) {
         }
         Pthread_mutex_unlock(&sessioneGiocoCorrente.mutex);
 
-
-
-
-        //numeroEstratto = rand() % 37;
-        //TODO rimettere generazione casuale
-        //Just:rendo il numero statico, per provare vittorie e perdite
-        numeroEstratto = 33;
+        numeroEstratto = rand() % 37;
+        //DEBUG:rendo il numero statico, per provare vittorie e perdite
+        //numeroEstratto = 33;
         printf("[Croupier] È stato estratto il numero %d\n", numeroEstratto);
-        //qui stava analisiSessione.stato = 0
         /*
          * processare la lista delle puntate
          */
         Pthread_mutex_lock(&analisiSessionePuntata.mutex);
         queue_init(&(analisiSessionePuntata.elencoVincitori));
-        //        analisiSessionePuntata.stato = 0;
         analisiSessionePuntata.numeroVincitori = 0;
         analisiSessionePuntata.numeroPerdenti = 0;
         Pthread_mutex_unlock(&analisiSessionePuntata.mutex);
@@ -142,7 +134,7 @@ void *croupier(void *arg) {
                 contVincitori++;
                 tempPlayer->vincitore = 1;
                 singoloVincitore = (vincitore_t *) malloc(sizeof (vincitore_t));
-                //TODO controllare se mettere solo in una sockaddr
+
                 singoloVincitore->indirizzoIp.sin_addr =
                         tempPlayer->datiConnessioneClient->clientData.sin_addr;
                 singoloVincitore->indirizzoIp.sin_port =

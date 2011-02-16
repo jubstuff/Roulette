@@ -7,15 +7,40 @@
  */
 #include "common_header.h"
 
+//inizializzo la sessione di gioco corrente
+sessione_gioco_t sessioneGiocoCorrente = {
+    {NULL, NULL},
+    PTHREAD_MUTEX_INITIALIZER,
+    PTHREAD_COND_INITIALIZER,
+    PTHREAD_COND_INITIALIZER,
+    0,
+    0
+};
+//inizializzo la sessione di puntate
+sessione_puntate_t sessionePuntateCorrente = {
+    PTHREAD_MUTEX_INITIALIZER,
+    PTHREAD_COND_INITIALIZER,
+    PTHREAD_COND_INITIALIZER,
+    PTHREAD_COND_INITIALIZER,
+    0
+};
+//inizializzo l'analisi della sessione
+analisi_puntata_t analisiSessionePuntata = {
+    {NULL, NULL},
+    0,
+    0,
+    0,
+    PTHREAD_MUTEX_INITIALIZER,
+    PTHREAD_COND_INITIALIZER,
+};
+
+
 /**
  * Costanti
  */
 const char messaggioPuntateAperte[] = "\n=Puntate aperte=\n";
 ssize_t lenMessaggioPuntateAperte = sizeof (messaggioPuntateAperte);
-/*
-const char messaggioPuntateChiuse[] = "\n=Puntate chiuse=\n";
-ssize_t lenMessaggioPuntateChiuse = sizeof (messaggioPuntateChiuse);
-*/
+
 
 int numeroMinimoGiocatori = 2;
 
@@ -32,7 +57,6 @@ void err_abort(int code, char *text) {
     fprintf(stderr, "%s => %s:%d: %s\n", text, __FILE__, __LINE__, strerror(code));
     abort();
 }
-
 
 /**
  * Apre un socket, e si mette in ascolto su di esso
@@ -166,36 +190,37 @@ void Connect(int sockfd, const struct sockaddr *addr, socklen_t addrlen) {
     }
 }
 
-void Close(int fildes){
+void Close(int fildes) {
     int status;
     status = close(fildes);
-    if(status < 0){
+    if (status < 0) {
         err_abort(errno, "Errore nella close");
     }
 }
 
 //TODO controllare questa
-void *Malloc(size_t size){
+
+void *Malloc(size_t size) {
     void * ptr;
     ptr = malloc(size);
-    if(ptr == NULL){
+    if (ptr == NULL) {
         err_abort(errno, "Errore nella malloc");
     }
     return ptr;
 }
 
-void Pthread_mutex_init(pthread_mutex_t *mutex, const pthread_mutexattr_t *attr){
+void Pthread_mutex_init(pthread_mutex_t *mutex, const pthread_mutexattr_t *attr) {
     int status;
     status = pthread_mutex_init(mutex, attr);
-    if(status != 0){
+    if (status != 0) {
         err_abort(status, "Errore inizializzazione mutex");
     }
 }
 
-void Pthread_cond_init(pthread_cond_t *cond, const pthread_condattr_t *attr){
+void Pthread_cond_init(pthread_cond_t *cond, const pthread_condattr_t *attr) {
     int status;
     status = pthread_cond_init(cond, attr);
-    if(status != 0){
+    if (status != 0) {
         err_abort(status, "Errore inizializzazione condition variable");
     }
 }
@@ -204,45 +229,45 @@ void Pthread_create(pthread_t *thread, const pthread_attr_t *attr,
         void *(*start_routine)(void*), void *arg) {
     int status;
     status = pthread_create(thread, attr, start_routine, arg);
-    if(status != 0){
+    if (status != 0) {
         err_abort(status, "Errore nella pthread_create");
     }
 }
 
-void Pthread_cancel(pthread_t thread){
+void Pthread_cancel(pthread_t thread) {
     int status;
     status = pthread_cancel(thread);
-    if(status != 0){
+    if (status != 0) {
         err_abort(status, "Errore nella pthread_cancel");
     }
 }
 
-void Pthread_mutex_lock(pthread_mutex_t *mutex){
+void Pthread_mutex_lock(pthread_mutex_t *mutex) {
     int status;
     status = pthread_mutex_lock(mutex);
-    if(status != 0){
+    if (status != 0) {
         err_abort(status, "Errore nella pthread_mutex_lock");
     }
 }
 
-void Pthread_mutex_unlock(pthread_mutex_t *mutex){
+void Pthread_mutex_unlock(pthread_mutex_t *mutex) {
     int status;
     status = pthread_mutex_unlock(mutex);
-    if(status != 0){
+    if (status != 0) {
         err_abort(status, "Errore nella pthread_mutex_unlock");
     }
 }
 
-void Pthread_cond_wait(pthread_cond_t *cond, pthread_mutex_t *mutex){
+void Pthread_cond_wait(pthread_cond_t *cond, pthread_mutex_t *mutex) {
     int status;
     status = pthread_cond_wait(cond, mutex);
-    if(status != 0){
+    if (status != 0) {
         err_abort(status, "Errore nella pthread_cond_wait");
     }
 }
 
 int Pthread_cond_timedwait(pthread_cond_t *cond, pthread_mutex_t *mutex,
-        const struct timespec *abstime){
+        const struct timespec *abstime) {
     int status;
     status = Pthread_cond_timedwait(cond, mutex, abstime);
     if (status == ETIMEDOUT) {
@@ -256,15 +281,15 @@ int Pthread_cond_timedwait(pthread_cond_t *cond, pthread_mutex_t *mutex,
 void Pthread_cond_broadcast(pthread_cond_t *cond) {
     int status;
     status = pthread_cond_broadcast(cond);
-    if(status != 0){
+    if (status != 0) {
         err_abort(status, "Errore nella pthread_cond_broadcast");
     }
 }
 
-void Pthread_cond_signal(pthread_cond_t *cond){
+void Pthread_cond_signal(pthread_cond_t *cond) {
     int status;
     status = pthread_cond_signal(cond);
-    if(status != 0){
+    if (status != 0) {
         err_abort(status, "Errore nella pthread_cond_signal");
     }
 }
@@ -272,7 +297,7 @@ void Pthread_cond_signal(pthread_cond_t *cond){
 ssize_t Write(int fd, const void *buf, size_t count) {
     ssize_t bytes_written;
     bytes_written = write(fd, buf, count);
-    if(bytes_written < 0) {
+    if (bytes_written < 0) {
         err_abort(errno, "Errore nella write");
     }
     return bytes_written;
@@ -281,7 +306,7 @@ ssize_t Write(int fd, const void *buf, size_t count) {
 ssize_t Read(int fd, void *buf, size_t count) {
     ssize_t bytes_read;
     bytes_read = read(fd, buf, count);
-    if(bytes_read < 0){
+    if (bytes_read < 0) {
         err_abort(errno, "Errore nella read");
     }
     return bytes_read;
@@ -290,7 +315,7 @@ ssize_t Read(int fd, void *buf, size_t count) {
 void Getsockname(int sockfd, struct sockaddr *addr, socklen_t *addrlen) {
     int status;
     status = getsockname(sockfd, addr, addrlen);
-    if(status != 0) {
+    if (status != 0) {
         err_abort(errno, "Errore nella getsockname");
     }
 }
@@ -298,7 +323,7 @@ void Getsockname(int sockfd, struct sockaddr *addr, socklen_t *addrlen) {
 void Pipe(int fildes[2]) {
     int status;
     status = pipe(fildes);
-    if(status != 0){
+    if (status != 0) {
         err_abort(errno, "Errore nella pipe");
     }
 }

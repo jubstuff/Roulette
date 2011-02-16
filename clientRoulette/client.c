@@ -18,13 +18,17 @@ int main(int argc, char **argv) {
 
     struct sockaddr_in serverData;
     struct sockaddr_in clientData;
-    socklen_t clientAddrlen = sizeof (clientData); //importante per il corretto funzionamento della getsockaddrname
+    //importante per il corretto funzionamento della getsockaddrname
+    socklen_t clientAddrlen = sizeof (clientData);
+
     char serverAddress[IP_ADDRESS_LENGTH];
     in_port_t serverPort;
     in_port_t congratPort;
+
     char nickname[NICK_LENGTH];
     size_t nicknameLen;
     int budget;
+
     pthread_t tidLettorePuntate;
     char buf[100];
     int flagFinePuntate = -1;
@@ -35,7 +39,8 @@ int main(int argc, char **argv) {
 
     /* controllo numero di argomenti */
     if (argc != 5) {
-        printf("Utilizzo: %s <indirizzo server> <numero porta> <nickname> <somma allocata>\n", argv[0]);
+        printf("Utilizzo: %s <indirizzo server> <numero porta> <nickname> <somma allocata>\n",
+                argv[0]);
         exit(1);
     }
 
@@ -56,23 +61,19 @@ int main(int argc, char **argv) {
     printf("Porta server: %d\n", serverPort);
     printf("Nickname: %s\n", nickname);
     printf("Denaro: %d\n", budget);
-    //TODO Controllo errori più forte
 
     /*
      * apro il socket di ascolto del client
      */
     clientFd = Socket(AF_INET, SOCK_STREAM, 0);
     //non si esegue la bind per far assegnare una porta random
-    Listen(clientFd, 5); //TODO quanti ce ne devono stare nella listen?
-
-
+    Listen(clientFd, 5);
     Getsockname(clientFd, (struct sockaddr *) &clientData, &clientAddrlen);
     printf("Porta assegnata: %d\n", ntohs(clientData.sin_port));
 
     /*
      * Creazione socket e connessione al server
      */
-    /* creo il socket */
     serverFd = Socket(AF_INET, SOCK_STREAM, 0);
 
 

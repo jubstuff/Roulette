@@ -12,7 +12,7 @@
  * croupier
  *
  * Routine per il thread croupier
- * @param arg Argomento del croupier thread. //TODO inserire cosa ci sta
+ * @param arg Argomento del croupier thread.
  * @return
  */
 void *croupier(void *arg);

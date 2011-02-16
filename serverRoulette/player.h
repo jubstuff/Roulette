@@ -30,7 +30,7 @@ typedef struct argomento {
  * player
  *
  * Routine per il thread player
- * @param arg Argomento del player thread. //TODO inserire cosa ci sta
+ * @param arg Argomento del player thread.
  * @return
  */
 void *player(void *arg);
