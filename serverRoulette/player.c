@@ -146,6 +146,8 @@ void *player(void *arg) {
             //vinto
             Write(datiGiocatore->datiConnessioneClient->clientFd,
                     &(datiGiocatore->vincitore), sizeof (int));
+            Write(datiGiocatore->datiConnessioneClient->clientFd,
+                    &(datiGiocatore->budgetAttuale), sizeof (int));
             //invia il numero di perdenti al client
             Pthread_mutex_lock(&analisiSessionePuntata.mutex);
             Write(datiGiocatore->datiConnessioneClient->clientFd,
@@ -155,6 +157,8 @@ void *player(void *arg) {
             //perso
             Write(datiGiocatore->datiConnessioneClient->clientFd,
                     &(datiGiocatore->vincitore), sizeof (int));
+            Write(datiGiocatore->datiConnessioneClient->clientFd,
+                    &(datiGiocatore->budgetAttuale), sizeof (int));
             //invia il numero dei vincitori
             Pthread_mutex_lock(&analisiSessionePuntata.mutex);
             numeroVincitori = analisiSessionePuntata.numeroVincitori;

@@ -112,7 +112,11 @@ int main(int argc, char **argv) {
         //ricevi la segnalazione che le puntate sono chiuse
         Read(serverFd, &flagFinePuntate, sizeof (int));
         Pthread_cancel(tidLettorePuntate);
-
+        //=TODO AGGIUNTE DOPO CHECK FINALE
+        //Read(serverFd, &numeroEstratto, sizeof (int));
+        Read(serverFd, &budget, sizeof (int));
+        
+        //=FINE AGGIUNTE DOPO CHECK FINALE
         //azzero le stringhe
         bzero(&bufRisultato[0], sizeof (bufRisultato));
 
@@ -141,6 +145,7 @@ int main(int argc, char **argv) {
             if (flagFinePuntate == 1) {
                 //ho vinto
                 gestisciMessaggiVittoria(serverFd, clientFd, bufRisultato);
+                printf("Budget Attuale: %d\n", budget);
                 //invio il risultato al padre, tramite fd[1]
                 strcat(bufRisultato, "\0");
                 lenBufRisultato = sizeof (bufRisultato);
@@ -149,6 +154,7 @@ int main(int argc, char **argv) {
             } else if (flagFinePuntate == 0 || flagFinePuntate == 2) {
                 //ho perso
                 gestisciMessaggiPerdita(serverFd, nickname);
+                printf("Budget Attuale: %d\n", budget);
             } else {
                 //non dovrebbe mai arrivare qui, nel caso, termina
                 abort();
