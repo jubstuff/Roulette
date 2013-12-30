@@ -1,1 +1,3 @@
-Giustino
+# A simple Roulette Game
+
+A client-server roulette Game developed in C, using POSIX threads
